@@ -4,63 +4,182 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alice Moist Daily - สินค้า</title>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/navbar-footer-style.css">
 </head>
 <body>
   <div id="navbar"></div>
+  
   <main class="container">
-    <div id="productDetail">
-      <div style="text-align:center; color:#888;">กำลังโหลดข้อมูลสินค้า...</div>
-    </div>
+    <!-- Header Section -->
+    <section style="text-align:center;padding:40px 0;background:linear-gradient(135deg, #f8fafd 0%, #e8f4fd 100%);border-radius:16px;margin-bottom:40px;">
+      <h1 style="font-family:'Kanit',sans-serif;font-size:2.5rem;font-weight:700;color:#183a7a;margin-bottom:16px;">
+        <span style='color:#183a7a;'>Alice</span> <span style='color:#00c300;'>MOIST</span> Daily
+      </h1>
+      <p style="font-size:1.2rem;color:#666;max-width:600px;margin:0 auto;">เลือกสินค้าคุณภาพสูงสำหรับดวงตาของคุณ</p>
+    </section>
+
+    <!-- Products Grid -->
+    <section id="productsGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:30px;margin-bottom:40px;">
+      <div style="text-align:center;color:#888;grid-column:1/-1;">กำลังโหลดข้อมูลสินค้า...</div>
+    </section>
+
+    <!-- Product Info Section -->
+    <section class="product-info">
+      <h2>ทำไมต้องเลือก Alice MOIST Daily?</h2>
+      <p>เลนส์สัมผัสที่ออกแบบมาเพื่อให้ความสะดวกสบายและความชัดเจนในการมองเห็นตลอดวัน</p>
+      <div class="info-boxes">
+        <div class="whats-included">
+          <h3><i class="fas fa-box-open"></i> สิ่งที่ได้รับ</h3>
+          <ul>
+            <li>เลนส์สัมผัสรายวัน 30 ชิ้น</li>
+            <li>คู่มือการใช้งานภาษาไทย</li>
+            <li>กล่องเก็บเลนส์แบบพกพา</li>
+            <li>บริการสื่อสารกับผู้เชี่ยวชาญ</li>
+          </ul>
+        </div>
+        <div class="how-to-use">
+          <h3><i class="fas fa-clipboard-list"></i> วิธีการสั่งซื้อ</h3>
+          <ol>
+            <li>เลือกสินค้าที่ต้องการ</li>
+            <li>ระบุค่าสายตาตาขวาและตาซ้าย</li>
+            <li>เลือกจำนวนที่ต้องการ</li>
+            <li>เพิ่มในตะกร้าและชำระเงิน</li>
+            <li>รอรับสินค้าที่บ้าน</li>
+          </ol>
+        </div>
+      </div>
+    </section>
   </main>
+  
   <div id="footer"></div>
   <script src="js/navbar-footer.js"></script>
   <script>
-    // ดึง id จาก query string เช่น buyer-product.html?id=123
-    function getProductIdFromQuery() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('id');
-    }
-    const productId = getProductIdFromQuery();
-    const productDetailDiv = document.getElementById('productDetail');
-    if (!productId) {
-      productDetailDiv.innerHTML = '<div style="color:#e74c3c; text-align:center;">ไม่พบรหัสสินค้า</div>';
-    } else {
-      fetch(`/api/products/${productId}`)
-        .then(res => res.json())
-        .then(product => {
-          if (!product || !product.id) {
-            productDetailDiv.innerHTML = '<div style="color:#e74c3c; text-align:center;">ไม่พบข้อมูลสินค้า</div>';
-            return;
-          }
-          productDetailDiv.innerHTML = `
-            <div class="product-item" style="max-width:420px;margin:0 auto;text-align:center;">
-              <img src="${product.image || '/images/product1.png'}" alt="${product.name || ''}" style="max-width:220px;">
-              <h2>${product.name || '-'}</h2>
-              <p>${product.description || ''}</p>
-              <div style="font-size:1.2rem;color:#183a7a;margin:10px 0;">${product.price ? product.price.toLocaleString() + ' บาท' : ''}</div>
-              <label>จำนวน: <input type="number" id="qtyInput" min="1" value="1" style="width:60px;"></label>
-              <button class="btn" id="addToCartBtn" style="margin-left:10px;">เพิ่มในตะกร้า</button>
+    // ข้อมูลสินค้าตัวอย่าง
+    const products = [
+      {
+        id: 1,
+        name: "Alice MOIST Daily",
+        description: "เลนส์สัมผัสชนิดนิ่ม อลิซมอยส์เดลี่ เป็นคอนแทคเลนส์ใสรายวันที่ใช้ GMMA เป็นตัวรักษาความชุ่มชื้น",
+        price: 700,
+        originalPrice: null,
+        image: "../images/product1.png",
+        quantity: 30,
+        discount: null,
+        shipping: "ส่งฟรี!"
+      },
+      {
+        id: 2,
+        name: "Alice MOIST Daily (2 ชุด)",
+        description: "เลนส์สัมผัสชนิดนิ่ม 2 ชุด ประหยัดกว่าซื้อแยก พร้อมบริการจัดส่งฟรี",
+        price: 1300,
+        originalPrice: 1400,
+        image: "../images/product1.png",
+        quantity: 60,
+        discount: "ประหยัด 7.14%",
+        shipping: "ส่งฟรี!"
+      },
+      {
+        id: 3,
+        name: "Alice MOIST Daily (4 ชุด)",
+        description: "เลนส์สัมผัสชนิดนิ่ม 4 ชุด ประหยัดสุด เหมาะสำหรับใช้งานระยะยาว",
+        price: 2400,
+        originalPrice: 2800,
+        image: "../images/product1.png",
+        quantity: 120,
+        discount: "ประหยัด 14.28%",
+        shipping: "ส่งฟรี!"
+      }
+    ];
+
+    // แสดงสินค้า
+    function displayProducts() {
+      const productsGrid = document.getElementById('productsGrid');
+      
+      if (products.length === 0) {
+        productsGrid.innerHTML = '<div style="text-align:center;color:#888;grid-column:1/-1;">ไม่พบสินค้า</div>';
+        return;
+      }
+
+      productsGrid.innerHTML = products.map(product => `
+        <div class="product-card" style="background:#fff;border-radius:18px;box-shadow:0 2px 16px rgba(0,0,0,0.09);padding:24px;transition:all 0.3s ease;border:1px solid #f0f0f0;">
+          <div style="text-align:center;margin-bottom:20px;">
+            <img src="${product.image}" alt="${product.name}" style="max-width:280px;width:100%;height:auto;border-radius:12px;object-fit:contain;">
+          </div>
+          
+          <div style="padding:0 8px;">
+            <h3 style="font-family:'Kanit',sans-serif;font-size:1.4rem;font-weight:700;color:#183a7a;margin-bottom:12px;line-height:1.3;">
+              ${product.name}
+            </h3>
+            
+            <p style="color:#666;font-size:1rem;line-height:1.5;margin-bottom:16px;">
+              ${product.description}
+            </p>
+            
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <span style="font-size:1.4rem;font-weight:800;color:#00c300;">${product.price.toLocaleString()} บาท</span>
+              ${product.originalPrice ? `<span style="font-size:1.1rem;color:#bbb;text-decoration:line-through;">${product.originalPrice.toLocaleString()} บาท</span>` : ''}
             </div>
-          `;
-          document.getElementById('addToCartBtn').onclick = function() {
-            const qty = parseInt(document.getElementById('qtyInput').value) || 1;
-            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            // ถ้ามีสินค้า id นี้ใน cart แล้ว ให้บวกจำนวน
-            const idx = cart.findIndex(item => item.id === product.id);
-            if (idx !== -1) {
-              cart[idx].quantity += qty;
-            } else {
-              cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, quantity: qty });
-            }
-            localStorage.setItem('cart', JSON.stringify(cart));
-            alert('เพิ่มสินค้าในตะกร้าเรียบร้อย');
-          };
-        })
-        .catch(() => {
-          productDetailDiv.innerHTML = '<div style="color:#e74c3c; text-align:center;">เกิดข้อผิดพลาดในการโหลดข้อมูลสินค้า</div>';
+            
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
+              <span style="background:#e8f4fd;color:#183a7a;font-size:0.9rem;padding:4px 12px;border-radius:12px;font-weight:600;">
+                ${product.quantity} เลนส์
+              </span>
+              ${product.discount ? `<span style="background:#fff3cd;color:#856404;font-size:0.9rem;padding:4px 12px;border-radius:12px;font-weight:600;">${product.discount}</span>` : ''}
+              ${product.shipping ? `<span style="background:#d4edda;color:#155724;font-size:0.9rem;padding:4px 12px;border-radius:12px;font-weight:600;">${product.shipping}</span>` : ''}
+            </div>
+            
+            <button onclick="goToProductDetail(${product.id})" 
+                    style="width:100%;background:#183a7a;color:white;border:none;border-radius:12px;padding:14px 20px;font-size:1.1rem;font-weight:600;cursor:pointer;transition:all 0.3s ease;font-family:'Kanit',sans-serif;"
+                    onmouseover="this.style.background='#0f2344'" 
+                    onmouseout="this.style.background='#183a7a'">
+              <i class="fas fa-shopping-cart" style="margin-right:8px;"></i>
+              เลือกซื้อสินค้า
+            </button>
+          </div>
+        </div>
+      `).join('');
+      
+      // เพิ่ม hover effect
+      const cards = document.querySelectorAll('.product-card');
+      cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          card.style.transform = 'translateY(-4px)';
+          card.style.boxShadow = '0 8px 32px rgba(0,0,0,0.12)';
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'translateY(0)';
+          card.style.boxShadow = '0 2px 16px rgba(0,0,0,0.09)';
+        });
+      });
+    }
+
+    // ไปหน้ารายละเอียดสินค้า
+    function goToProductDetail(productId) {
+      // ในอนาคตอาจมี API หรือ database จริง
+      // ตอนนี้จะไปหน้า buyer-dashboard.html โดยตรง
+      window.location.href = 'buyer-dashboard.html';
+    }
+
+    // เรียกใช้เมื่อหน้าเว็บโหลดเสร็จ
+    document.addEventListener('DOMContentLoaded', function() {
+      displayProducts();
+    });
+
+    // ดึงข้อมูล user จาก API และแสดงชื่อผู้ใช้
+    const API_BASE_URL = 'http://localhost:5500';
+    const buyerEmail = localStorage.getItem('buyer_email');
+    if (buyerEmail) {
+      fetch(`${API_BASE_URL}/api/user?email=${encodeURIComponent(buyerEmail)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.user_name) {
+            const userInfoDiv = document.createElement('div');
+            userInfoDiv.style = 'width:100%;text-align:right;padding:8px 0 0 0;font-size:1.08rem;color:#183a7a;font-weight:500;';
+            userInfoDiv.innerHTML = `<i class='fas fa-user' style='margin-right:6px;color:#00c300;'></i> สวัสดี, ${data.user_name}`;
+            document.body.insertBefore(userInfoDiv, document.body.firstChild.nextSibling);
+          }
         });
     }
   </script>
