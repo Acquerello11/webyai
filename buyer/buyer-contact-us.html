@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ติดต่อเรา - Alice Moist Daily</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/navbar-footer-style.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
+      min-height: 100vh;
+      color: #2c3e50;
+      font-family: 'Kanit', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto 0 auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(52, 152, 219, 0.13);
+      padding: 2.5rem 2rem 2rem 2rem;
+      position: relative;
+    }
+    .contact-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .contact-header h1 {
+      font-size: 2.3rem;
+      color: #2980b9;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .contact-header p {
+      color: #7f8c8d;
+      font-size: 1.1rem;
+    }
+    .contact-info {
+      margin-bottom: 2.5rem;
+      background: #f8faff;
+      border-radius: 12px;
+      padding: 1.5rem 1.2rem;
+      box-shadow: 0 2px 8px rgba(52, 152, 219, 0.07);
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+    .contact-info-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 1.1rem;
+      color: #2c3e50;
+    }
+    .contact-info-item i {
+      color: #3498db;
+      font-size: 1.5rem;
+      min-width: 32px;
+      text-align: center;
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .contact-form label {
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      color: #2980b9;
+    }
+    .contact-form input, .contact-form textarea {
+      padding: 0.7rem 1rem;
+      border: 1px solid #d6e4ff;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: 'Kanit', sans-serif;
+      background: #f8faff;
+      transition: border 0.2s;
+    }
+    .contact-form input:focus, .contact-form textarea:focus {
+      border: 1.5px solid #3498db;
+      outline: none;
+    }
+    .contact-form textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    .contact-form button {
+      background: linear-gradient(90deg, #3498db, #2ecc71);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.9rem 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+    .contact-form button:hover {
+      background: linear-gradient(90deg, #2980b9, #27ae60);
+    }
+    @media (max-width: 700px) {
+      .container {
+        padding: 1.5rem 0.5rem;
+      }
+      .contact-header h1 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar"></div>
+  <main class="container">
+    <div class="contact-header">
+      <h1><i class="fas fa-envelope" style="margin-right: 10px;"></i>ติดต่อเรา</h1>
+      <p>หากมีข้อสงสัยหรือปัญหาเกี่ยวกับสินค้าและบริการ สามารถติดต่อเราได้ตามช่องทางด้านล่าง หรือกรอกแบบฟอร์มเพื่อส่งข้อความถึงทีมงาน</p>
+    </div>
+    <div class="contact-info">
+      <div class="contact-info-item"><i class="fas fa-phone"></i> โทร: 099-999-9999</div>
+      <div class="contact-info-item"><i class="fas fa-envelope"></i> อีเมล: support@alicemoist.com</div>
+      <div class="contact-info-item"><i class="fab fa-facebook"></i> Facebook: <a href="https://facebook.com/alicemoist" target="_blank" style="color:#2980b9; text-decoration:underline;">facebook.com/alicemoist</a></div>
+      <div class="contact-info-item"><i class="fab fa-line"></i> Line: @alicemoist</div>
+      <div class="contact-info-item"><i class="fas fa-map-marker-alt"></i> ที่อยู่: 123 ถนนสุขใจ แขวงสุขสันต์ เขตสุขุม กรุงเทพฯ 10200</div>
+    </div>
+    <form class="contact-form" onsubmit="event.preventDefault(); alert('ขอบคุณสำหรับข้อความ ทีมงานจะติดต่อกลับโดยเร็วที่สุด'); this.reset();">
+      <label for="name">ชื่อของคุณ</label>
+      <input type="text" id="name" name="name" required>
+      <label for="email">อีเมล</label>
+      <input type="email" id="email" name="email" required>
+      <label for="message">ข้อความ</label>
+      <textarea id="message" name="message" required></textarea>
+      <button type="submit"><i class="fas fa-paper-plane"></i> ส่งข้อความ</button>
+    </form>
+  </main>
+  <div id="footer"></div>
+  <script src="js/navbar-footer.js"></script>
+</body>
+</html>
