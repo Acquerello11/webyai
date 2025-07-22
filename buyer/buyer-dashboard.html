@@ -329,25 +329,7 @@
     // ไม่ตั้งค่าเริ่มต้น - ให้แสดง "-- บาท" จนกว่าจะเลือกค่าสายตา
   });
 
-  // ฟังก์ชัน addToCart (ตัวอย่าง)
-  function addToCart() {
-    const rightEye = document.getElementById('rightEyeSelect').value;
-    const leftEye = document.getElementById('leftEyeSelect').value;
-    const quantity = parseInt(document.getElementById('selectedQuantityText').getAttribute('data-value'));
-    
-    if (!rightEye) {
-      alert('กรุณาเลือกค่าสายตาตาขวา');
-      return;
-    }
-
-    const data = packageData[quantity];
-    
-    alert(`เพิ่มสินค้าในตะกร้าแล้ว!\n` +
-          `จำนวน: ${quantity} ชุด\n` +
-          `ตาขวา: ${rightEye}\n` +
-          `ตาซ้าย: ${leftEye || 'ไม่ระบุ'}\n` +
-          `ราคา: ${data.price.toLocaleString()}.00 บาท`);
-  }
+  // ...ลบฟังก์ชัน addToCart ใน dashboard เพื่อใช้ของ navbar-footer.js เท่านั้น...
 
   // ดึงข้อมูล user จาก API และแสดงชื่อผู้ใช้บน dashboard
   const API_BASE_URL = 'http://localhost:5500';

@@ -139,20 +139,12 @@ function openCartModal() {
         margin-left: auto;
         margin-right: auto;
       `;
-      // เงื่อนไข: ถ้ามีค่าสายตาทั้งสองข้าง (ขวาและซ้าย) ไม่อนุญาต 1 กล่อง
-      let qtyOptions = '';
-      if (item.rightEye && item.leftEye) {
-        qtyOptions = `
-          <option value="2" ${item.quantity==2?'selected':''}>2 ชุด (60 เลนส์)</option>
-          <option value="4" ${item.quantity==4?'selected':''}>4 ชุด (120 เลนส์)</option>
-        `;
-      } else {
-        qtyOptions = `
-          <option value="1" ${item.quantity==1?'selected':''}>1 ชุด (30 เลนส์)</option>
-          <option value="2" ${item.quantity==2?'selected':''}>2 ชุด (60 เลนส์)</option>
-          <option value="4" ${item.quantity==4?'selected':''}>4 ชุด (120 เลนส์)</option>
-        `;
-      }
+      // อนุญาตให้เลือก 1, 2, 4 กล่อง ได้ทุกกรณี (ไม่จำกัดสายตา)
+      let qtyOptions = `
+        <option value="1" ${item.quantity==1?'selected':''}>1 ชุด (30 เลนส์)</option>
+        <option value="2" ${item.quantity==2?'selected':''}>2 ชุด (60 เลนส์)</option>
+        <option value="4" ${item.quantity==4?'selected':''}>4 ชุด (120 เลนส์)</option>
+      `;
       cartItem.innerHTML = `
         <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
           <img src="${getImage(item.image)}" alt="${item.name}" style="width: 80px; height: 80px; border-radius: 12px; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.09); object-fit: contain; margin-bottom: 6px;">
@@ -200,8 +192,6 @@ function openCartModal() {
     } else {
       cartTotalPrice.textContent = `${total.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})} บาท`;
     }
-    // ไม่ต้องแสดง loginAlert อีกต่อไป
-    loginAlert.style.display = 'none';
   }
   cartModal.classList.add('show');
   const overlay = document.querySelector('.cart-modal-overlay');
@@ -269,30 +259,20 @@ function handleEyeSelection() {
         // แสดงส่วนเลือกจำนวนกล่องเมื่อมีการเลือกค่าสายตา
         if (rightEyeValue || leftEyeValue) {
             quantitySelection.style.display = 'block';
-            // ถ้าเลือกสองข้าง (ขวาและซ้าย) ไม่อนุญาต 1 กล่อง
-            if (rightEyeValue && leftEyeValue) {
-                quantitySelect.innerHTML = `
-                    <option value="2">2 กล่อง (60 เลนส์) - ประหยัด 7.14%</option>
-                    <option value="4">4 กล่อง (120 เลนส์) - ประหยัด 14.28%</option>
-                `;
-                if (!["2","4"].includes(quantitySelect.value)) {
-                    quantitySelect.value = "2";
-                }
-            } else {
-                quantitySelect.innerHTML = `
-                    <option value="1">1 กล่อง (30 เลนส์)</option>
-                    <option value="2">2 กล่อง (60 เลนส์) - ประหยัด 7.14%</option>
-                    <option value="4">4 กล่อง (120 เลนส์) - ประหยัด 14.28%</option>
-                `;
-                const allowed = ["1","2","4"];
-                if (!allowed.includes(quantitySelect.value)) {
-                    quantitySelect.value = "1";
-                }
+            // อนุญาตให้เลือก 1, 2, 4 กล่อง ได้ทุกกรณี
+            quantitySelect.innerHTML = `
+                <option value="1">1 กล่อง (30 เลนส์)</option>
+                <option value="2">2 กล่อง (60 เลนส์) - ประหยัด 7.14%</option>
+                <option value="4">4 กล่อง (120 เลนส์) - ประหยัด 14.28%</option>
+            `;
+            const allowed = ["1","2","4"];
+            if (!allowed.includes(quantitySelect.value)) {
+                quantitySelect.value = "1";
             }
         } else {
             quantitySelection.style.display = 'none';
         }
-        
+
         updateQuantityDetails();
         updateTotalPrice();
     }
@@ -373,28 +353,36 @@ function addToCart() {
     console.log('[addToCart] เรียกใช้งาน, localStorage.cart =', localStorage.getItem('cart'));
     cart = JSON.parse(localStorage.getItem('cart')) || [];
     console.log('[addToCart] cart (หลัง sync) =', cart);
-    const rightEyeValue = document.getElementById('rightEyeSelect').value;
-    const leftEyeValue = document.getElementById('leftEyeSelect').value;
-    const quantitySelect = document.getElementById('quantitySelect');
+    const rightEyeValue = document.getElementById('rightEyeSelect')?.value;
+    const leftEyeValue = document.getElementById('leftEyeSelect')?.value;
+    // รองรับทั้ง select แบบเดิมและ custom dropdown (dashboard)
+    let quantity = null;
+    let quantityText = null;
+    let quantitySelect = document.getElementById('quantitySelect');
+    if (quantitySelect && quantitySelect.value) {
+        quantity = parseInt(quantitySelect.value);
+    } else {
+        // custom dropdown (dashboard)
+        const selectedQuantityText = document.getElementById('selectedQuantityText');
+        if (selectedQuantityText && selectedQuantityText.dataset.value) {
+            quantity = parseInt(selectedQuantityText.dataset.value);
+            quantityText = selectedQuantityText.textContent;
+        }
+    }
     // ต้องเลือกค่าสายตาอย่างน้อย 1 ข้าง
     if (!rightEyeValue && !leftEyeValue) {
         if (typeof showNotification === 'function') {
             showNotification('กรุณาเลือกค่าสายตาอย่างน้อย 1 ข้างก่อน', 'error');
-        } else {
-            // fallback
         }
         return;
     }
-    if (!quantitySelect.value) {
+    if (!quantity) {
         if (typeof showNotification === 'function') {
             showNotification('กรุณาเลือกจำนวนกล่อง', 'error');
-        } else {
-            // fallback
         }
         return;
     }
 
-    const quantity = parseInt(quantitySelect.value);
     const lensCount = quantity * 30;
     let orderDetails = '';
 
@@ -440,12 +428,21 @@ function addToCart() {
     };
     // sync cart กับ localStorage ทุกครั้งก่อนเช็ค
     cart = JSON.parse(localStorage.getItem('cart')) || [];
-    if (cart.length > 0) {
-        showCartLimitModal();
-        return false;
+    // ตรวจสอบว่ามีสินค้า prescription/quantity เดียวกันในตะกร้าหรือไม่
+    const sameItemIndex = cart.findIndex(item =>
+        item.rightEye === newProduct.rightEye &&
+        item.leftEye === newProduct.leftEye &&
+        item.quantity === newProduct.quantity
+    );
+    if (sameItemIndex !== -1) {
+        // ถ้ามีอยู่แล้ว ให้เพิ่มจำนวน (เช่น 1+1 = 2, 2+2 = 4, สูงสุด 4)
+        let newQty = cart[sameItemIndex].quantity + newProduct.quantity;
+        if (newQty > 4) newQty = 4;
+        cart[sameItemIndex].quantity = newQty;
+        cart[sameItemIndex].timestamp = new Date().toISOString();
+    } else {
+        cart.push(newProduct);
     }
-
-    cart.push(newProduct);
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartBadge();
     if (typeof showNotification === 'function') {
