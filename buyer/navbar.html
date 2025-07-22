@@ -4,10 +4,10 @@
     <span><img src="logo.png" style="background-color: #ffffff;height: 100px; width: auto;border-radius: 35px;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);"></span>
   </div>
   <div class="nav-links">
-    <a href="#" class="nav-item" onclick="goHome()">หน้าแรก</a>
-    <a href="buyer-product.html" class="nav-item">สินค้า</a>
-    <a href="buyer-howtouse.html" class="nav-item">วิธีใช้งาน</a>
+    <a href="buyer-dashboard.html" class="nav-item">หน้าแรก</a>
+    <a href="buyer-product.html" class="nav-item">ผลิตภัณฑ์</a>
     <a href="buyer-about.html" class="nav-item">เกี่ยวกับเรา</a>
+    <a href="buyer-contact-us.html" class="nav-item">ติดต่อเรา</a>
   </div>
   <div class="nav-buttons">
     <div class="profile">
@@ -39,11 +39,11 @@
     </div>
   </div>
 </div>
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#" class="nav-item" onclick="goHome()">หน้าแรก</a>
-  <a href="buyer-product.html" class="nav-item">สินค้า</a>
-  <a href="buyer-howtouse.html" class="nav-item">วิธีใช้งาน</a>
+  <div class="mobile-menu" id="mobileMenu">
+  <a href="buyer-dashboard.html" class="nav-item">หน้าแรก</a>
+  <a href="buyer-product.html" class="nav-item">ผลิตภัณฑ์</a>
   <a href="buyer-about.html" class="nav-item">เกี่ยวกับเรา</a>
+  <a href="buyer-contact-us.html" class="nav-item">ติดต่อเรา</a>
 </div>
 
 <!-- Cart/Order Modal (Sidepanel) -->
@@ -73,51 +73,5 @@
 </div>
 <!-- Cart Sidepanel Overlay (คลิกปิด) -->
 <div class="cart-modal-overlay" onclick="closeCartModal()"></div>
-
-<div id="orderHistoryModal" class="modal">
-  <div class="modal-content order-history-modal" style="position:relative;">
-    <span class="close-btn" onclick="closeOrderHistoryModal()" title="ปิดหน้าต่าง">&times;</span>
-    <div class="order-history-header">
-      <h2 class="order-history-title">
-        <i class="fas fa-history"></i> ประวัติการสั่งซื้อ
-      </h2>
-    </div>
-    <div class="order-history-controls">
-      <div class="filter-group">
-        <label for="statusFilter"><i class="fas fa-filter"></i> กรองตามสถานะ</label>
-        <select id="statusFilter" class="filter-select" onchange="filterOrders()">
-          <option value="all">ทั้งหมด</option>
-          <option value="pending">รอดำเนินการ</option>
-          <option value="processing">กำลังเตรียมสินค้า</option>
-          <option value="shipped">จัดส่งแล้ว</option>
-          <option value="delivered">จัดส่งสำเร็จ</option>
-          <option value="cancelled">ยกเลิก</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label for="sortOrder"><i class="fas fa-sort"></i> เรียงตาม</label>
-        <select id="sortOrder" class="filter-select" onchange="sortOrders()">
-          <option value="newest">ใหม่ล่าสุด</option>
-          <option value="oldest">เก่าที่สุด</option>
-          <option value="price-high">ราคาสูงสุด</option>
-          <option value="price-low">ราคาต่ำสุด</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label for="orderSearch"><i class="fas fa-search"></i> ค้นหาคำสั่งซื้อ</label>
-        <div class="search-input">
-          <input type="text" id="orderSearch" placeholder="ค้นหาด้วยรหัสคำสั่งซื้อ...">
-          <button onclick="searchOrders()"><i class="fas fa-search"></i></button>
-        </div>
-      </div>
-    </div>
-    <div id="orderHistoryContainer" class="order-history-container">
-      <!-- รายการประวัติการสั่งซื้อจะแสดงที่นี่ -->
-    </div>
-    <div class="pagination" id="pagination">
-      <!-- ปุ่ม pagination จะถูกสร้างโดย JavaScript -->
-    </div>
-  </div>
-</div>
 
 <script src="js/navbar-footer.js"></script>

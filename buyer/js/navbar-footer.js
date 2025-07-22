@@ -487,7 +487,6 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 
 // ฟังก์ชัน navbar/footer ที่ต้องใช้ทุกหน้า (copy จาก dashboard)
-function goHome() { window.location.href = "buyer-dashboard.html"; }
 function setAccount() { window.location.href = "buyer-setting.html"; }
 function openOrderHistoryModal() {
   var modal = document.getElementById('orderHistoryModal');
@@ -568,7 +567,7 @@ function updateUserUI() {
         dropdownEmail.textContent = user.email;
         if (dropdown) dropdown.classList.remove('show');
       } else {
-        usernameDisplay.textContent = 'ล็อกอิน';
+        usernameDisplay.textContent = 'สมาชิก ล็อกอิน';
         dropdownUsername.textContent = 'ผู้ใช้งาน';
         dropdownEmail.textContent = 'example@email.com';
         if (dropdown) dropdown.classList.remove('show');
