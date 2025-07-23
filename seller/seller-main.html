@@ -301,31 +301,34 @@
         <!-- Dashboard Stats -->
         <div class="row mb-4" style="margin-bottom: 30px !important;">
             <div class="col-lg-3 col-md-6 mb-4">
-                <div class="stat-card sales">
-                    <h3>฿1,200</h3>
-                    <p>ยอดขายวันนี้</p>
-                    <small><i class="fas fa-arrow-up"></i> +100% จากเมื่อวาน</small>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
                 <div class="stat-card orders">
-                    <h3>1</h3>
+                    <h3 id="stat-new">1</h3>
                     <p>คำสั่งซื้อใหม่</p>
                     <small><i class="fas fa-clock"></i> รอดำเนินการ</small>
+                    <div onclick="filterOrdersByStatus('new')" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;cursor:pointer;"></div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="stat-card shipping">
-                    <h3>0</h3>
-                    <p>รายการที่ต้องจัดส่ง</p>
-                    <small><i class="fas fa-truck"></i> พร้อมส่ง</small>
+                    <h3 id="stat-processing">0</h3>
+                    <p>รอจัดส่ง</p>
+                    <small><i class="fas fa-box"></i> รอจัดส่ง</small>
+                    <div id="stat-card-processing" onclick="filterOrdersByStatus('processing')" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;cursor:pointer;"></div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card shipping" style="position:relative;">
+                    <h3 id="stat-shipped">0</h3>
+                    <p>กำลังจัดส่ง</p>
+                    <small><i class="fas fa-truck"></i> กำลังจัดส่ง</small>
+                    <div id="stat-card-shipped" onclick="filterOrdersByStatus('shipped')" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;cursor:pointer;"></div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="stat-card stock">
-                    <h3>0</h3>
-                    <p>สินค้าใกล้หมด</p>
-                    <small><i class="fas fa-exclamation-triangle"></i> ต้องเติมสต็อก</small>
+                    <h3 id="stat-success">0</h3>
+                    <p>จัดส่งเรียบร้อย</p>
+                    <small><i class="fas fa-check-circle"></i> สำเร็จ</small>
                 </div>
             </div>
         </div>
@@ -352,7 +355,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr id="order-ORD-001">
                                     <td><strong>ORD-001</strong></td>
                                     <td>
                                         <div>
@@ -362,17 +365,20 @@
                                     </td>
                                     <td>2 ชิ้น</td>
                                     <td><strong>฿1,200</strong></td>
-                                    <td>
+                                    <td id="status-ORD-001">
                                         <span class="badge badge-status badge-new">
-                                            <i class="fas fa-clock"></i> รอดำเนินการ
+                                            <i class="fas fa-clock"></i> คำสั่งซื้อใหม่
                                         </span>
                                     </td>
-                                    <td>
+                                    <td id="actions-ORD-001">
                                         <button class="btn btn-primary btn-action" onclick="viewOrder('ORD-001')">
                                             <i class="fas fa-eye"></i> ดู
                                         </button>
-                                        <button class="btn btn-success btn-action" onclick="processOrder('ORD-001')">
-                                            <i class="fas fa-check"></i> รับ
+                                        <button class="btn btn-success btn-action" onclick="updateOrderStatus('ORD-001', 2)">
+                                            <i class="fas fa-check"></i> ยืนยันรับออเดอร์
+                                        </button>
+                                        <button class="btn btn-danger btn-action" onclick="updateOrderStatus('ORD-001', 5)">
+                                            <i class="fas fa-times"></i> ยกเลิก
                                         </button>
                                     </td>
                                 </tr>
@@ -471,6 +477,34 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
+        // ฟังก์ชันกรองออเดอร์ใน dashboard-card ให้โชว์เฉพาะสถานะใหม่ (mockup สำหรับ 1 ออเดอร์)
+        function filterOrdersByStatus(status) {
+            const orderRow = document.getElementById('order-ORD-001');
+            const statusCell = document.getElementById('status-ORD-001');
+            if (status === 'new') {
+                if (statusCell && statusCell.innerText.includes('คำสั่งซื้อใหม่')) {
+                    orderRow.style.display = '';
+                } else {
+                    orderRow.style.display = 'none';
+                }
+            } else if (status === 'processing') {
+                // Filter for 'รอจัดส่ง' (processing)
+                if (statusCell && statusCell.innerText.includes('รอจัดส่ง')) {
+                    orderRow.style.display = '';
+                } else {
+                    orderRow.style.display = 'none';
+                }
+            } else if (status === 'shipped') {
+                // Filter for 'กำลังจัดส่ง' (shipped)
+                if (statusCell && statusCell.innerText.includes('กำลังจัดส่ง')) {
+                    orderRow.style.display = '';
+                } else {
+                    orderRow.style.display = 'none';
+                }
+            } else {
+                orderRow.style.display = '';
+            }
+        }
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('show');
@@ -480,11 +514,48 @@
             alert(`ดูรายละเอียดคำสั่งซื้อ: ${orderId}\n\nสินค้า: คอนแทคเลนส์แบบใส\nค่าสายตา: -2.50 (ซ้าย), -3.00 (ขวา)\nจำนวน: 2 ชิ้น (1 คู่)\nราคา: ฿1,200\nลูกค้า: นางสาวอันนา สมิท\nที่อยู่จัดส่ง: 123 ถนนสุขุมวิท กรุงเทพฯ 10110`);
         }
 
-        function processOrder(orderId) {
-            if (confirm(`ต้องการรับคำสั่งซื้อ ${orderId} หรือไม่?`)) {
-                alert(`รับคำสั่งซื้อ ${orderId} เรียบร้อยแล้ว\nกรุณาเตรียมสินค้าและจัดส่งให้ลูกค้า`);
-                // Here you would typically update the order status
-                location.reload(); // Refresh to show updated status
+        // สถานะ: 1=ใหม่, 2=รอจัดส่ง, 3=กำลังจัดส่ง, 4=จัดส่งเรียบร้อย, 5=ยกเลิก
+        function updateOrderStatus(orderId, nextStatus) {
+            const statusCell = document.getElementById('status-' + orderId);
+            const actionsCell = document.getElementById('actions-' + orderId);
+            let statusHtml = '';
+            let actionsHtml = '';
+            // Update status cell and actions cell
+            if (nextStatus === 2) {
+                statusHtml = `<span class="badge badge-status badge-processing"><i class='fas fa-box'></i> รอจัดส่ง</span>`;
+                actionsHtml = `<button class='btn btn-info btn-action' onclick=\"updateOrderStatus('${orderId}',3)\"><i class='fas fa-truck'></i> กำลังจัดส่ง</button> ` +
+                              `<button class='btn btn-danger btn-action' onclick=\"updateOrderStatus('${orderId}',5)\"><i class='fas fa-times'></i> ยกเลิก</button>`;
+            } else if (nextStatus === 3) {
+                statusHtml = `<span class="badge badge-status badge-shipped"><i class='fas fa-truck'></i> กำลังจัดส่ง</span>`;
+                actionsHtml = `<button class='btn btn-success btn-action' onclick=\"updateOrderStatus('${orderId}',4)\"><i class='fas fa-check-double'></i> จัดส่งเรียบร้อย</button>`;
+            } else if (nextStatus === 4) {
+                statusHtml = `<span class="badge bg-success"><i class='fas fa-check-circle'></i> จัดส่งเรียบร้อย</span>`;
+                actionsHtml = `<span class='text-success'>เสร็จสิ้น</span>`;
+            } else if (nextStatus === 5) {
+                statusHtml = `<span class="badge bg-danger"><i class='fas fa-times'></i> ยกเลิก</span>`;
+                actionsHtml = `<span class='text-danger'>ออเดอร์ถูกยกเลิก</span>`;
+            }
+            statusCell.innerHTML = statusHtml;
+            actionsCell.innerHTML = actionsHtml;
+            // Update stats
+            updateStats(nextStatus);
+        }
+
+        // ฟังก์ชันอัปเดตตัวเลขสถิติ (mockup สำหรับ 1 ออเดอร์)
+        function updateStats(currentStatus) {
+            // Reset all
+            document.getElementById('stat-new').innerText = '0';
+            document.getElementById('stat-processing').innerText = '0';
+            document.getElementById('stat-shipped').innerText = '0';
+            document.getElementById('stat-success').innerText = '0';
+            if (currentStatus === 1) {
+                document.getElementById('stat-new').innerText = '1';
+            } else if (currentStatus === 2) {
+                document.getElementById('stat-processing').innerText = '1';
+            } else if (currentStatus === 3) {
+                document.getElementById('stat-shipped').innerText = '1';
+            } else if (currentStatus === 4) {
+                document.getElementById('stat-success').innerText = '1';
             }
         }
 
@@ -492,7 +563,6 @@
         document.addEventListener('click', function(event) {
             const sidebar = document.getElementById('sidebar');
             const toggleBtn = document.querySelector('.mobile-toggle');
-            
             if (window.innerWidth <= 768 && 
                 !sidebar.contains(event.target) && 
                 !toggleBtn.contains(event.target) && 
@@ -506,6 +576,9 @@
             // Here you would typically make an AJAX call to refresh the data
             console.log('Refreshing dashboard data...');
         }, 30000);
+
+        // ตั้งค่าเริ่มต้นให้สถิติแสดง "คำสั่งซื้อใหม่" 1 รายการ
+        updateStats(1);
     </script>
 </body>
 </html>
