@@ -8,15 +8,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/navbar-footer-style.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Kanit', sans-serif;
-    }
-    
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
     body {
-      background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
+      background: linear-gradient(135deg, #f7fafd 60%, #e6f7ff 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -24,104 +18,140 @@
       padding: 20px;
     }
     .container {
-      max-width: 1200px;
+      max-width: 1100px;
       width: 100%;
       display: flex;
-      background: white;
-      border-radius: 20px;
+      background: #fff;
+      border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
-      /* แก้ไข bug: ไม่ควรมี top/transform/margin: auto ที่ทำให้ container ลอยผิดตำแหน่ง */
+      box-shadow: 0 2px 16px rgba(24,58,122,0.09);
       position: static;
-      top: unset;
-      transform: unset;
       margin: 0 auto;
     }
-    
     .illustration {
       flex: 1;
-      background: linear-gradient(135deg, #3498db, #2980b9);
+      background: linear-gradient(135deg, #183a7a 70%, #3a5ca8 100%);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 40px;
+      padding: 40px 24px;
       color: white;
       text-align: center;
       position: relative;
       overflow: hidden;
+      min-width: 320px;
+      max-width: 420px;
     }
-    
-    .illustration::before {
-      content: "";
-      position: absolute;
-      top: -50px;
-      left: -50px;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-    }
-    
-    .illustration::after {
-      content: "";
-      position: absolute;
-      bottom: -80px;
-      right: -80px;
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-    }
-    
     .illustration img {
-      max-width: 300px;
-      margin-bottom: 30px;
-      z-index: 1;
+      max-width: 120px;
+      margin-bottom: 18px;
+      border-radius: 35px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      background: #fff;
     }
-    
     .illustration h1 {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      z-index: 1;
+      font-size: 2.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #183a7a;
+      background: #fff;
+      border-radius: 12px;
+      padding: 6px 0;
+      width: 100%;
+      box-shadow: 0 2px 8px rgba(24,58,122,0.07);
     }
-    
     .illustration p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      max-width: 500px;
+      font-size: 1.05rem;
+      opacity: 0.95;
+      max-width: 340px;
       line-height: 1.6;
       z-index: 1;
+      color: #183a7a;
+      background: #f7fafd;
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin-bottom: 0;
+      box-shadow: 0 1px 6px rgba(24,58,122,0.06);
     }
-    
+    .nav-quick-btns {
+      position: absolute;
+      top: 30px;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+    .quick-nav-btn {
+      background: linear-gradient(135deg, #fff 60%, #f7fafd 100%);
+      border: 2px solid #183a7a;
+      color: #183a7a;
+      font-size: 1.08rem;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 10px 26px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgba(24,58,122,0.08);
+      transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s, transform 0.2s;
+      outline: none;
+      min-width: 120px;
+      justify-content: center;
+      font-weight: 700;
+      font-family: 'Kanit', sans-serif;
+    }
+    .quick-nav-btn:hover, .quick-nav-btn:focus {
+      background: linear-gradient(135deg, #183a7a 60%, #3a5ca8 100%);
+      color: #fff;
+      border-color: #3a5ca8;
+      box-shadow: 0 4px 16px rgba(24,58,122,0.18);
+      transform: translateY(-2px) scale(1.04);
+    }
+    .quick-nav-btn i {
+      font-size: 1.1em;
+      margin-right: 2px;
+    }
     .form-container {
       flex: 1;
-      padding: 50px;
+      padding: 40px 32px;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 12px rgba(24,58,122,0.07);
+      min-width: 320px;
+      max-width: 480px;
     }
-    
     .tabs {
       display: flex;
       margin-bottom: 30px;
       border-bottom: 2px solid #f0f0f0;
     }
-    
     .tab {
       padding: 15px 30px;
       cursor: pointer;
       font-size: 1.2rem;
-      font-weight: 500;
-      color: #888;
+      font-weight: 600;
+      color: #183a7a;
       transition: all 0.3s ease;
       position: relative;
+      background: #f7fafd;
+      border-radius: 10px 10px 0 0;
+      margin-right: 8px;
     }
-    
     .tab.active {
-      color: #3498db;
+      color: #3a5ca8;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(24,58,122,0.07);
     }
-    
     .tab.active::after {
       content: "";
       position: absolute;
@@ -129,50 +159,43 @@
       left: 0;
       width: 100%;
       height: 3px;
-      background: #3498db;
+      background: #3a5ca8;
       border-radius: 3px;
     }
-    
     .form-section {
       display: none;
     }
-    
     .form-section.active {
       display: block;
       animation: fadeIn 0.5s ease;
     }
-    
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    
     .form-title {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       margin-bottom: 10px;
-      color: #2c3e50;
+      color: #183a7a;
+      font-weight: 700;
     }
-    
     .form-subtitle {
-      color: #7f8c8d;
-      margin-bottom: 30px;
+      color: #3a5ca8;
+      margin-bottom: 24px;
+      font-weight: 600;
     }
-    
     .form-group {
       margin-bottom: 20px;
     }
-    
     .form-group label {
       display: block;
       margin-bottom: 8px;
       font-weight: 500;
       color: #2c3e50;
     }
-    
     .input-icon {
       position: relative;
     }
-    
     .input-icon i {
       position: absolute;
       left: 15px;
@@ -180,31 +203,29 @@
       transform: translateY(-50%);
       color: #95a5a6;
     }
-    
     .form-control {
       width: 100%;
       padding: 15px 15px 15px 45px;
-      border: 2px solid #ecf0f1;
+      border: 2px solid #b5d6e6;
       border-radius: 10px;
       font-size: 1rem;
       transition: all 0.3s ease;
+      background: #f7fafd;
+      font-weight: 600;
+      color: #183a7a;
     }
-    
     .form-control:focus {
-      border-color: #3498db;
+      border-color: #00c300;
       outline: none;
-      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+      box-shadow: 0 0 0 3px rgba(0,195,0,0.13);
     }
-    
     .form-row {
       display: flex;
       gap: 15px;
     }
-    
     .form-row .form-group {
       flex: 1;
     }
-    
     .password-toggle {
       position: absolute;
       right: 15px;
@@ -213,44 +234,44 @@
       cursor: pointer;
       color: #95a5a6;
     }
-    
     .btn {
       width: 100%;
       padding: 15px;
-      background: linear-gradient(135deg, #3498db, #2980b9);
+      background: linear-gradient(135deg, #3a5ca8 60%, #183a7a 100%);
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 1.1rem;
-      font-weight: 500;
+      font-weight: 700;
       cursor: pointer;
       transition: all 0.3s ease;
       margin-top: 10px;
+      box-shadow: 0 2px 8px rgba(24,58,122,0.07);
+      font-family: 'Kanit', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-    
     .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(19, 20, 21, 0.3);
-      filter: none !important;
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 4px 16px rgba(24,58,122,0.18);
+      background: linear-gradient(135deg, #183a7a 60%, #3a5ca8 100%);
       opacity: 1 !important;
     }
-    
     .form-footer {
       text-align: center;
       margin-top: 25px;
       color: #7f8c8d;
     }
-    
     .form-footer a {
       color: #3498db;
       text-decoration: none;
       font-weight: 500;
     }
-    
     .form-footer a:hover {
       text-decoration: underline;
     }
-    
     .progress-bar {
       height: 5px;
       background: #ecf0f1;
@@ -258,26 +279,22 @@
       margin-bottom: 30px;
       overflow: hidden;
     }
-    
     .progress {
       height: 100%;
       width: 33.33%;
       background: #3498db;
       transition: width 0.5s ease;
     }
-    
     .step-indicator {
       display: flex;
       justify-content: space-between;
       margin-bottom: 20px;
     }
-    
     .step {
       text-align: center;
       flex: 1;
       position: relative;
     }
-    
     .step-number {
       width: 30px;
       height: 30px;
@@ -292,22 +309,18 @@
       z-index: 2;
       position: relative;
     }
-    
     .step.active .step-number {
       background: #3498db;
       color: white;
     }
-    
     .step-title {
       font-size: 0.9rem;
       color: #7f8c8d;
     }
-    
     .step.active .step-title {
       color: #3498db;
       font-weight: 500;
     }
-    
     .step:not(:last-child)::after {
       content: "";
       position: absolute;
@@ -318,11 +331,9 @@
       background: #ecf0f1;
       z-index: 1;
     }
-    
     .step.active:not(:last-child)::after {
       background: #3498db;
     }
-    
     /* Responsive Design */
     @media (max-width: 992px) {
       .container {
@@ -348,19 +359,33 @@
       .container {
         margin: 10px auto;
       }
-      
       .form-row {
         flex-direction: column;
         gap: 0;
       }
-      
       .tab {
         padding: 12px 20px;
         font-size: 1rem;
       }
-      
       .form-title {
         font-size: 1.5rem;
+      }
+      /* ปรับปุ่ม nav-quick-btns บนมือถือให้แสดงด้านบน ไม่ทับโลโก้ */
+      .nav-quick-btns {
+        position: static !important;
+        top: unset !important;
+        right: unset !important;
+        left: unset !important;
+        margin-bottom: 12px !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        width: 100%;
+        z-index: 110;
+        background: none;
+        padding: 0;
+      }
+      .illustration {
+        padding-top: 0 !important;
       }
     }
     
@@ -448,13 +473,15 @@
     /* Error Message */
     .error-message {
       color: #e74c3c;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       margin-top: 5px;
       display: none;
+      font-weight: 600;
     }
     
     .input-error .form-control {
       border-color: #e74c3c;
+      background: #fff0f0;
     }
     
     .input-error .error-message {
@@ -485,31 +512,28 @@
     }
     /* ปุ่มกลับหน้าหลักและแดชบอร์ด */
     .quick-nav-btn {
-      background: linear-gradient(135deg, #f0f8ff 60%, #e6f7ff 100%);
-      border: 2px solid #3498db;
-      color: #3498db;
+      background: linear-gradient(135deg, #fff 60%, #f7fafd 100%);
+      border: 2px solid #183a7a;
+      color: #183a7a;
       font-size: 1.08rem;
-      font-weight: 500;
-      border-radius: 8px;
-      padding: 8px 22px;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 10px 26px;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
-      box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+      box-shadow: 0 2px 8px rgba(24,58,122,0.08);
       transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s, transform 0.2s;
       outline: none;
+      min-width: 120px;
+      justify-content: center;
+      font-weight: 700;
+      font-family: 'Kanit', sans-serif;
     }
     .quick-nav-btn:hover, .quick-nav-btn:focus {
-      background: linear-gradient(135deg, #3498db 60%, #2980b9 100%);
-      color: #fff;
-      border-color: #2980b9;
-      box-shadow: 0 4px 16px rgba(52,152,219,0.18);
-      transform: translateY(-2px) scale(1.04);
-    }
-    .quick-nav-btn i {
-      font-size: 1.1em;
-      margin-right: 2px;
+      background: linear-gradient(135deg, #183a7a 60%, #3a5ca8 100%);
+      border-color: #3a5ca8;
     }
     .nav-quick-btns {
       display: flex;
@@ -555,9 +579,9 @@
       right: 30px;
       z-index: 9999;
       background: #fff;
-      color: #333;
-      border-radius: 8px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      color: #183a7a;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(24,58,122,0.15);
       padding: 18px 28px;
       min-width: 220px;
       font-size: 1rem;
@@ -570,7 +594,7 @@
       gap: 12px;
     }
     .notification.success {
-      border-left: 6px solid #2ecc71;
+      border-left: 6px solid #3a5ca8;
     }
     .notification.error {
       border-left: 6px solid #e74c3c;
@@ -594,10 +618,14 @@
 <body>
     <div class="container">
       <div class="illustration" style="position:relative;">
-        <!-- ===== ปุ่ม Home และ ไปช้อปปิ้ง ไว้บนสุดใน .illustration ===== -->
-        <div class="nav-quick-btns" style="position:relative; justify-content:center; gap:10px; margin-bottom:0;">
-          <button id="backToHomeBtn" class="quick-nav-btn"><i class="fas fa-home"></i> Home</button>
-          <button id="goDashboardBtn" class="quick-nav-btn" style="border-color: #2ecc71; color: #2ecc71;"><i class="fas fa-shopping-bag"></i> ไปช้อปปิ้ง</button>
+        <!-- ปุ่ม Home และ ไปช้อปปิ้ง แบบใหม่ -->
+        <div class="nav-quick-btns" style="position:absolute;top:18px;right:18px;left:auto;z-index:110;gap:12px;justify-content:flex-end;">
+          <button id="backToHomeBtn" class="quick-nav-btn" style="background:#fff;border:2px solid #183a7a;color:#183a7a;box-shadow:0 2px 8px rgba(24,58,122,0.08);padding:10px 28px;font-size:1.08rem;font-weight:700;border-radius:12px;display:flex;align-items:center;gap:8px;transition:all 0.2s;">
+            <i class="fas fa-home"></i> หน้าหลัก
+          </button>
+          <button id="goDashboardBtn" class="quick-nav-btn" style="background:#3a5ca8;border:2px solid #3a5ca8;color:#fff;box-shadow:0 2px 8px rgba(24,58,122,0.12);padding:10px 28px;font-size:1.08rem;font-weight:700;border-radius:12px;display:flex;align-items:center;gap:8px;transition:all 0.2s;">
+            <i class="fas fa-shopping-bag"></i> ไปแดชบอร์ด
+          </button>
         </div>
         <span>
           <img src="/images/logo.png" style="background-color: #ffffff;height: 100px; width: auto;border-radius: 35px;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
@@ -729,7 +757,7 @@
     <!-- Email Verification Modal -->
     <div class="verification-modal" id="verificationModal">
       <div class="verification-container" style="position:relative;">
-        <!-- ปุ่มปิดโมดอล -->
+        <!-- ปุ่มปิดโมดาล -->
         <button id="closeVerificationModal" style="position:absolute;top:18px;right:18px;background:transparent;border:none;font-size:1.6rem;color:#3498db;cursor:pointer;z-index:10;" aria-label="ปิด">&times;</button>
         <div class="verification-icon">
           <i class="fas fa-envelope-open-text"></i>
@@ -782,7 +810,8 @@
       }
       
       // ====== ตั้งค่า BASE API URL ให้แก้ไขตรงนี้ ======
-      const API_BASE_URL = 'http://localhost:5500'; // เปลี่ยนเป็น IP ของเครื่องที่รัน Node.js
+      // เปลี่ยน endpoint ให้ใช้ user-login.js
+      const API_BASE_URL = 'http://localhost:5500/api/user-login';
   
       // DOM Elements
       const tabs = document.querySelectorAll('.tab');
@@ -872,7 +901,7 @@
             const phone = document.getElementById('phone').value.trim();
             if (phone && /^[0-9]{10}$/.test(phone)) {
               try {
-                const dupRes = await fetch(`${API_BASE_URL}/api/check-duplicate`, {
+                const dupRes = await fetch(`${API_BASE_URL}/check-duplicate`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ phone })
@@ -894,7 +923,7 @@
             const email = document.getElementById('email').value.trim();
             if (email && /^\S+@\S+\.\S+$/.test(email)) {
               try {
-                const dupRes = await fetch(`${API_BASE_URL}/api/check-duplicate`, {
+                const dupRes = await fetch(`${API_BASE_URL}/check-duplicate`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ email })
@@ -1022,7 +1051,7 @@
           };
           // เช็คซ้ำฝั่ง client ก่อน
           try {
-            const dupRes = await fetch(`${API_BASE_URL}/api/check-duplicate`, {
+            const dupRes = await fetch(`${API_BASE_URL}/check-duplicate`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email: user.email, phone: user.phone })
@@ -1051,7 +1080,7 @@
           loadingMsg.textContent = 'กำลังส่งรหัสยืนยันไปยังอีเมล กรุณารอสักครู่...';
           verificationModal.querySelector('.verification-container').insertBefore(loadingMsg, verificationModal.querySelector('.verification-code'));
           try {
-            const res = await fetch(`${API_BASE_URL}/api/register`, {
+            const res = await fetch(`${API_BASE_URL}/register`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(user)
@@ -1098,7 +1127,7 @@
         if (code.length === 6 && /^\d{6}$/.test(code)) {
           const email = userEmailSpan.textContent;
           try {
-            const res = await fetch(`${API_BASE_URL}/api/verify-email`, {
+            const res = await fetch(`${API_BASE_URL}/verify-email`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email, code })
@@ -1175,7 +1204,7 @@
           return;
         }
         try {
-          const res = await fetch(`${API_BASE_URL}/api/login`, {
+          const res = await fetch(`${API_BASE_URL}/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
@@ -1229,7 +1258,7 @@
           return;
         }
         try {
-          const res = await fetch(`${API_BASE_URL}/api/reset-password`, {
+          const res = await fetch(`${API_BASE_URL}/reset-password`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, newPassword, confirmPassword })
