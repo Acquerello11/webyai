@@ -190,20 +190,55 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
         
+        @media (max-width: 992px) {
+            .stats-summary {
+                flex-direction: column !important;
+                gap: 16px !important;
+            }
+            .stat-item.stat-filter {
+                padding: 20px 0 14px 0 !important;
+                font-size: 1rem !important;
+            }
+        }
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
                 transition: transform 0.3s ease;
             }
-            
             .sidebar.show {
                 transform: translateX(0);
             }
-            
             .main-content {
                 margin-left: 0;
+                padding: 10px;
             }
-            
+            .header-section {
+                padding: 14px;
+                margin-bottom: 18px;
+            }
+            .dashboard-card {
+                padding: 12px;
+                margin-bottom: 18px;
+            }
+            .stat-item.stat-filter {
+                padding: 16px 0 10px 0 !important;
+                font-size: 0.95rem !important;
+            }
+            .stats-summary {
+                flex-direction: column !important;
+                gap: 10px !important;
+            }
+            .table-responsive {
+                overflow-x: auto;
+            }
+            .table {
+                min-width: 700px;
+                font-size: 0.95rem;
+            }
+            .btn-action, .btn {
+                font-size: 0.95rem !important;
+                padding: 4px 8px !important;
+            }
             .mobile-toggle {
                 display: block !important;
             }
@@ -228,6 +263,48 @@
     <button class="mobile-toggle btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </button>
+
+    <!-- Order Detail Modal (วางไว้ใต้ body โดยตรง) -->
+    <!-- Tracking Number Modal -->
+    <div class="modal fade" id="trackingModal" tabindex="-1" aria-labelledby="trackingModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 16px;">
+          <div class="modal-header" style="background: linear-gradient(90deg, #ffc107 0%, #fffbe7 100%); border-top-left-radius: 16px; border-top-right-radius: 16px;">
+            <h5 class="modal-title" id="trackingModalLabel"><i class="fas fa-truck me-2 text-warning"></i>กรอกเลขพัสดุ</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="trackingForm">
+              <div class="mb-3">
+                <label for="trackingInput" class="form-label">เลขพัสดุ/Tracking Number <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="trackingInput" required autocomplete="off">
+                <div class="invalid-feedback">กรุณากรอกเลขพัสดุ</div>
+              </div>
+              <input type="hidden" id="trackingOrderId">
+              <button type="submit" class="btn btn-warning w-100"><i class="fas fa-truck"></i> ยืนยันเลขพัสดุและเปลี่ยนสถานะ</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="orderDetailModal" tabindex="-1" aria-labelledby="orderDetailModalLabel" aria-hidden="true" style="z-index: 2000;">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 18px; box-shadow: 0 8px 32px rgba(102,126,234,0.18);">
+          <div class="modal-header" style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); color: #fff; border-top-left-radius: 18px; border-top-right-radius: 18px;">
+            <h5 class="modal-title d-flex align-items-center gap-2" id="orderDetailModalLabel">
+              <i class="fas fa-receipt me-2"></i> รายละเอียดคำสั่งซื้อ
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body px-4 py-3" id="orderDetailBody" style="background: #f8f9fa;">
+            <!-- รายละเอียดจะถูกเติมโดย JS -->
+          </div>
+          <div class="modal-footer" style="background: #f4f6fb; border-bottom-left-radius: 18px; border-bottom-right-radius: 18px;">
+            <button type="button" class="btn btn-gradient-primary w-100" data-bs-dismiss="modal" style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); color: #fff; border: none; border-radius: 8px; font-weight: 500;">ปิด</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
@@ -299,37 +376,30 @@
         </div>
 
         <!-- Dashboard Stats -->
-        <div class="row mb-4" style="margin-bottom: 30px !important;">
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="stat-card orders">
-                    <h3 id="stat-new">1</h3>
-                    <p>คำสั่งซื้อใหม่</p>
-                    <small><i class="fas fa-clock"></i> รอดำเนินการ</small>
-                    <div onclick="filterOrdersByStatus('new')" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;cursor:pointer;"></div>
-                </div>
+        <div class="stats-summary mb-4" id="orderStatsFilter" style="display: flex; gap: 32px; justify-content: space-between;">
+            <div class="stat-item stat-filter active" data-status="all" onclick="setActiveStat(this);filterOrders(0, this)" style="flex:1; background:#fff; border-radius:20px; box-shadow:0 2px 12px rgba(0,0,0,0.06); padding:32px 0 20px 0; text-align:center; cursor:pointer; border:2px solid #3b82f6; transition:box-shadow .2s, border .2s;">
+                <div style="font-size:2rem; font-weight:700; color:#222;"> <span id="stat-all">1</span> </div>
+                <div style="font-size:1.1rem; color:#444; margin-top:2px;">ทั้งหมด</div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="stat-card shipping">
-                    <h3 id="stat-processing">0</h3>
-                    <p>รอจัดส่ง</p>
-                    <small><i class="fas fa-box"></i> รอจัดส่ง</small>
-                    <div id="stat-card-processing" onclick="filterOrdersByStatus('processing')" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;cursor:pointer;"></div>
-                </div>
+            <div class="stat-item stat-filter" data-status="new" onclick="setActiveStat(this);filterOrders(1, this)" style="flex:1; background:#fff; border-radius:20px; box-shadow:0 2px 12px rgba(0,0,0,0.06); padding:32px 0 20px 0; text-align:center; cursor:pointer; border:2px solid transparent; transition:box-shadow .2s, border .2s;">
+                <div style="font-size:2rem; font-weight:700; color:#219150;"> <span id="stat-new">1</span> </div>
+                <div style="font-size:1.1rem; color:#219150; margin-top:2px;">คำสั่งซื้อใหม่</div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="stat-card shipping" style="position:relative;">
-                    <h3 id="stat-shipped">0</h3>
-                    <p>กำลังจัดส่ง</p>
-                    <small><i class="fas fa-truck"></i> กำลังจัดส่ง</small>
-                    <div id="stat-card-shipped" onclick="filterOrdersByStatus('shipped')" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;cursor:pointer;"></div>
-                </div>
+            <div class="stat-item stat-filter" data-status="processing" onclick="setActiveStat(this);filterOrders(2, this)" style="flex:1; background:#fff; border-radius:20px; box-shadow:0 2px 12px rgba(0,0,0,0.06); padding:32px 0 20px 0; text-align:center; cursor:pointer; border:2px solid transparent; transition:box-shadow .2s, border .2s;">
+                <div style="font-size:2rem; font-weight:700; color:#ffc107;"> <span id="stat-processing">0</span> </div>
+                <div style="font-size:1.1rem; color:#ffc107; margin-top:2px;">รอจัดส่ง</div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="stat-card stock">
-                    <h3 id="stat-success">0</h3>
-                    <p>จัดส่งเรียบร้อย</p>
-                    <small><i class="fas fa-check-circle"></i> สำเร็จ</small>
-                </div>
+            <div class="stat-item stat-filter" data-status="shipped" onclick="setActiveStat(this);filterOrders(3, this)" style="flex:1; background:#fff; border-radius:20px; box-shadow:0 2px 12px rgba(0,0,0,0.06); padding:32px 0 20px 0; text-align:center; cursor:pointer; border:2px solid transparent; transition:box-shadow .2s, border .2s;">
+                <div style="font-size:2rem; font-weight:700; color:#00bcd4;"> <span id="stat-shipped">0</span> </div>
+                <div style="font-size:1.1rem; color:#00bcd4; margin-top:2px;">กำลังจัดส่ง</div>
+            </div>
+            <div class="stat-item stat-filter" data-status="success" onclick="setActiveStat(this);filterOrders(4, this)" style="flex:1; background:#fff; border-radius:20px; box-shadow:0 2px 12px rgba(0,0,0,0.06); padding:32px 0 20px 0; text-align:center; cursor:pointer; border:2px solid transparent; transition:box-shadow .2s, border .2s;">
+                <div style="font-size:2rem; font-weight:700; color:#888;"> <span id="stat-success">0</span> </div>
+                <div style="font-size:1.1rem; color:#888; margin-top:2px;">สำเร็จแล้ว</div>
+            </div>
+            <div class="stat-item stat-filter" data-status="cancel" onclick="setActiveStat(this);filterOrders(5, this)" style="flex:1; background:#fff; border-radius:20px; box-shadow:0 2px 12px rgba(0,0,0,0.06); padding:32px 0 20px 0; text-align:center; cursor:pointer; border:2px solid transparent; transition:box-shadow .2s, border .2s;">
+                <div style="font-size:2rem; font-weight:700; color:#e53935;"> <span id="stat-cancel">0</span> </div>
+                <div style="font-size:1.1rem; color:#e53935; margin-top:2px;">ยกเลิก</div>
             </div>
         </div>
 
@@ -347,9 +417,12 @@
                             <thead>
                                 <tr>
                                     <th>หมายเลขคำสั่ง</th>
-                                    <th>ลูกค้า</th>
+                                    <th>สินค้า</th>
+                                    <th>ค่าสายตาซ้าย</th>
+                                    <th>ค่าสายตาขวา</th>
                                     <th>จำนวน</th>
                                     <th>ยอดรวม</th>
+                                    <th>วิธีการชำระเงิน</th>
                                     <th>สถานะ</th>
                                     <th>การจัดการ</th>
                                 </tr>
@@ -357,14 +430,12 @@
                             <tbody>
                                 <tr id="order-ORD-001">
                                     <td><strong>ORD-001</strong></td>
-                                    <td>
-                                        <div>
-                                            <strong>นางสาวอันนา สมิท</strong><br>
-                                            <small class="text-muted">anna.smith@email.com</small>
-                                        </div>
-                                    </td>
+                                    <td>คอนแทคเลนส์แบบใส</td>
+                                    <td>-2.50</td>
+                                    <td>-3.00</td>
                                     <td>2 ชิ้น</td>
                                     <td><strong>฿1,200</strong></td>
+                                    <td>โอนชำระ</td>
                                     <td id="status-ORD-001">
                                         <span class="badge badge-status badge-new">
                                             <i class="fas fa-clock"></i> คำสั่งซื้อใหม่
@@ -477,41 +548,124 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ฟังก์ชันกรองออเดอร์ใน dashboard-card ให้โชว์เฉพาะสถานะใหม่ (mockup สำหรับ 1 ออเดอร์)
-        function filterOrdersByStatus(status) {
-            const orderRow = document.getElementById('order-ORD-001');
-            const statusCell = document.getElementById('status-ORD-001');
-            if (status === 'new') {
-                if (statusCell && statusCell.innerText.includes('คำสั่งซื้อใหม่')) {
-                    orderRow.style.display = '';
-                } else {
-                    orderRow.style.display = 'none';
-                }
-            } else if (status === 'processing') {
-                // Filter for 'รอจัดส่ง' (processing)
-                if (statusCell && statusCell.innerText.includes('รอจัดส่ง')) {
-                    orderRow.style.display = '';
-                } else {
-                    orderRow.style.display = 'none';
-                }
-            } else if (status === 'shipped') {
-                // Filter for 'กำลังจัดส่ง' (shipped)
-                if (statusCell && statusCell.innerText.includes('กำลังจัดส่ง')) {
-                    orderRow.style.display = '';
-                } else {
-                    orderRow.style.display = 'none';
-                }
-            } else {
-                orderRow.style.display = '';
-            }
+        function setActiveStat(el) {
+            document.querySelectorAll('.stat-item.stat-filter').forEach(item => {
+                item.classList.remove('active');
+                item.style.border = '2px solid transparent';
+            });
+            el.classList.add('active');
+            el.style.border = '2px solid #3b82f6';
         }
+    </script>
+    <script>
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('show');
         }
 
         function viewOrder(orderId) {
-            alert(`ดูรายละเอียดคำสั่งซื้อ: ${orderId}\n\nสินค้า: คอนแทคเลนส์แบบใส\nค่าสายตา: -2.50 (ซ้าย), -3.00 (ขวา)\nจำนวน: 2 ชิ้น (1 คู่)\nราคา: ฿1,200\nลูกค้า: นางสาวอันนา สมิท\nที่อยู่จัดส่ง: 123 ถนนสุขุมวิท กรุงเทพฯ 10110`);
+            // mockup: ดึงข้อมูลจาก row ในตาราง (จริงควรดึงจากฐานข้อมูลหรือ API)
+            const row = document.getElementById('order-' + orderId);
+            // กรณีนี้มีแค่ 1 ออเดอร์ mockup
+            const order = {
+                id: 'ORD-001',
+                product: 'คอนแทคเลนส์แบบใส',
+                left: '-2.50',
+                right: '-3.00',
+                qty: '2 ชิ้น',
+                total: '฿1,200',
+                payment: 'โอนชำระ',
+                status: 'คำสั่งซื้อใหม่',
+                customer: 'นางสาวอันนา สมิท',
+                email: 'anna.smith@email.com',
+                address: '123 ถนนสุขุมวิท กรุงเทพฯ 10110'
+            };
+            // ตรวจสอบสถานะจริงจาก DOM (mockup ใช้ order.status)
+            let statusText = 'คำสั่งซื้อใหม่';
+            if (row) {
+                const badge = row.querySelector('td[id^="status-"] .badge');
+                if (badge) {
+                    statusText = badge.textContent.trim();
+                }
+            }
+            let actionHtml = '';
+            if(statusText.includes('คำสั่งซื้อใหม่')) {
+                actionHtml = `
+                  <button class="btn btn-success me-2" style="min-width:120px;" onclick="updateOrderStatus('${order.id}', 2);bootstrap.Modal.getInstance(document.getElementById('orderDetailModal')).hide();">
+                    <i class="fas fa-check"></i> ยืนยันรับออเดอร์
+                  </button>
+                  <button class="btn btn-danger" style="min-width:100px;" onclick="updateOrderStatus('${order.id}', 5);bootstrap.Modal.getInstance(document.getElementById('orderDetailModal')).hide();">
+                    <i class="fas fa-times"></i> ยกเลิก
+                  </button>
+                `;
+            } else if(statusText.includes('รอจัดส่ง')) {
+                actionHtml = `
+                  <button class="btn btn-info me-2" style="min-width:120px;" onclick="showTrackingModal('${order.id}');bootstrap.Modal.getInstance(document.getElementById('orderDetailModal')).hide();">
+                    <i class="fas fa-truck"></i> กำลังจัดส่ง
+                  </button>
+                  <button class="btn btn-danger" style="min-width:100px;" onclick="updateOrderStatus('${order.id}', 5);bootstrap.Modal.getInstance(document.getElementById('orderDetailModal')).hide();">
+                    <i class="fas fa-times"></i> ยกเลิก
+                  </button>
+                `;
+            } else if(statusText.includes('กำลังจัดส่ง')) {
+                actionHtml = `
+                  <button class="btn btn-success" style="min-width:140px;" onclick="updateOrderStatus('${order.id}', 4);bootstrap.Modal.getInstance(document.getElementById('orderDetailModal')).hide();">
+                    <i class="fas fa-check-double"></i> จัดส่งเรียบร้อย
+                  </button>
+                `;
+            } else if(statusText.includes('จัดส่งเรียบร้อย')) {
+                actionHtml = `<span class='text-success'><i class='fas fa-check-circle'></i> เสร็จสิ้น</span>`;
+            } else if(statusText.includes('ยกเลิก')) {
+                actionHtml = `<span class='text-danger'><i class='fas fa-times'></i> ออเดอร์ถูกยกเลิก</span>`;
+            }
+
+            let html = `
+                <div class="d-flex align-items-center mb-3" style="gap: 12px;">
+                  <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; border-radius: 10px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 1.7rem;">
+                    <i class="fas fa-box"></i>
+                  </div>
+                  <div>
+                    <div style="font-size: 1.1rem; font-weight: 600; color: #333;">${order.product}</div>
+                    <div style="font-size: 0.95rem; color: #888;">หมายเลขคำสั่ง: <span style="color:#764ba2; font-weight:500;">${order.id}</span></div>
+                  </div>
+                </div>
+                <hr style="margin: 0.7rem 0 1.1rem 0; border-top: 1.5px solid #e0e3ea;">
+                <div class="row mb-2">
+                  <div class="col-6 mb-2"><strong><i class="fas fa-eye me-1"></i> ค่าสายตาซ้าย:</strong> <span class="text-primary">${order.left}</span></div>
+                  <div class="col-6 mb-2"><strong><i class="fas fa-eye me-1"></i> ค่าสายตาขวา:</strong> <span class="text-primary">${order.right}</span></div>
+                  <div class="col-6 mb-2"><strong><i class="fas fa-layer-group me-1"></i> จำนวน:</strong> ${order.qty}</div>
+                  <div class="col-6 mb-2"><strong><i class="fas fa-coins me-1"></i> ยอดรวม:</strong> <span class="text-success">${order.total}</span></div>
+                  <div class="col-6 mb-2"><strong><i class="fas fa-credit-card me-1"></i> วิธีการชำระเงิน:</strong> ${order.payment}</div>
+                  <div class="col-6 mb-2"><strong><i class="fas fa-info-circle me-1"></i> สถานะ:</strong> <span class="badge bg-success" style="font-size:0.95rem;">${statusText}</span></div>
+                </div>
+                <hr style="margin: 0.7rem 0 1.1rem 0; border-top: 1.5px solid #e0e3ea;">
+                <div class="mb-2"><strong><i class="fas fa-user me-1"></i> ลูกค้า:</strong> ${order.customer}</div>
+                <div class="mb-2"><strong><i class="fas fa-envelope me-1"></i> อีเมล:</strong> ${order.email}</div>
+                <div class="mb-2"><strong><i class="fas fa-map-marker-alt me-1"></i> ที่อยู่จัดส่ง:</strong> ${order.address}</div>
+                <div class="mt-4 d-flex flex-wrap gap-2 justify-content-center">${actionHtml}</div>
+            `;
+            document.getElementById('orderDetailBody').innerHTML = html;
+            var modal = new bootstrap.Modal(document.getElementById('orderDetailModal'));
+            modal.show();
+        }
+
+        // ฟิลเตอร์ออเดอร์ตามสถานะ
+        function filterOrders(status) {
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                // mockup: ตรวจสอบสถานะจาก badge ใน td
+                const statusTd = row.querySelector('td[id^="status-"]');
+                if (!statusTd) return;
+                let show = true;
+                if (status !== 0) {
+                    if (status === 1 && !statusTd.innerHTML.includes('คำสั่งซื้อใหม่')) show = false;
+                    else if (status === 2 && !statusTd.innerHTML.includes('รอจัดส่ง')) show = false;
+                    else if (status === 3 && !statusTd.innerHTML.includes('กำลังจัดส่ง')) show = false;
+                    else if (status === 4 && !statusTd.innerHTML.includes('จัดส่งเรียบร้อย')) show = false;
+                    else if (status === 5 && !statusTd.innerHTML.includes('ยกเลิก')) show = false;
+                }
+                row.style.display = show ? '' : 'none';
+            });
         }
 
         // สถานะ: 1=ใหม่, 2=รอจัดส่ง, 3=กำลังจัดส่ง, 4=จัดส่งเรียบร้อย, 5=ยกเลิก
@@ -521,19 +675,30 @@
             let statusHtml = '';
             let actionsHtml = '';
             // Update status cell and actions cell
+            const viewBtn = `<button class="btn btn-primary btn-action" onclick="viewOrder('${orderId}')"><i class="fas fa-eye"></i> ดู</button> `;
             if (nextStatus === 2) {
-                statusHtml = `<span class="badge badge-status badge-processing"><i class='fas fa-box'></i> รอจัดส่ง</span>`;
-                actionsHtml = `<button class='btn btn-info btn-action' onclick=\"updateOrderStatus('${orderId}',3)\"><i class='fas fa-truck'></i> กำลังจัดส่ง</button> ` +
+                statusHtml = `<span class=\"badge badge-status badge-processing\"><i class='fas fa-box'></i> รอจัดส่ง</span>`;
+                actionsHtml = viewBtn + `<button class='btn btn-info btn-action' onclick=\"showTrackingModal('${orderId}')\"><i class='fas fa-truck'></i> กำลังจัดส่ง</button> ` +
                               `<button class='btn btn-danger btn-action' onclick=\"updateOrderStatus('${orderId}',5)\"><i class='fas fa-times'></i> ยกเลิก</button>`;
             } else if (nextStatus === 3) {
-                statusHtml = `<span class="badge badge-status badge-shipped"><i class='fas fa-truck'></i> กำลังจัดส่ง</span>`;
-                actionsHtml = `<button class='btn btn-success btn-action' onclick=\"updateOrderStatus('${orderId}',4)\"><i class='fas fa-check-double'></i> จัดส่งเรียบร้อย</button>`;
+                // ต้องมีเลขพัสดุถึงจะเปลี่ยนสถานะนี้ได้ (ป้องกันเรียกตรง)
+                const tracking = statusCell.getAttribute('data-tracking');
+                if (!tracking) {
+                    showTrackingModal(orderId);
+                    return;
+                }
+                statusHtml = `<span class=\"badge badge-status badge-shipped\"><i class='fas fa-truck'></i> กำลังจัดส่ง <span class='ms-1 badge bg-light text-dark' style='font-size:0.85em;'>${tracking}</span></span>`;
+                actionsHtml = viewBtn + `<button class='btn btn-success btn-action' onclick=\"updateOrderStatus('${orderId}',4)\"><i class='fas fa-check-double'></i> จัดส่งเรียบร้อย</button>`;
             } else if (nextStatus === 4) {
-                statusHtml = `<span class="badge bg-success"><i class='fas fa-check-circle'></i> จัดส่งเรียบร้อย</span>`;
-                actionsHtml = `<span class='text-success'>เสร็จสิ้น</span>`;
+                statusHtml = `<span class=\"badge bg-success\"><i class='fas fa-check-circle'></i> จัดส่งเรียบร้อย</span>`;
+                actionsHtml = viewBtn + `<span class='text-success'>เสร็จสิ้น</span>`;
             } else if (nextStatus === 5) {
-                statusHtml = `<span class="badge bg-danger"><i class='fas fa-times'></i> ยกเลิก</span>`;
-                actionsHtml = `<span class='text-danger'>ออเดอร์ถูกยกเลิก</span>`;
+                statusHtml = `<span class=\"badge bg-danger\"><i class='fas fa-times'></i> ยกเลิก</span>`;
+                actionsHtml = viewBtn + `<span class='text-danger'>ออเดอร์ถูกยกเลิก</span>`;
+            } else {
+                // สถานะใหม่ (1)
+                actionsHtml = viewBtn + `<button class='btn btn-success btn-action' onclick=\"updateOrderStatus('${orderId}',2)\"><i class='fas fa-check'></i> ยืนยันรับออเดอร์</button> ` +
+                              `<button class='btn btn-danger btn-action' onclick=\"updateOrderStatus('${orderId}',5)\"><i class='fas fa-times'></i> ยกเลิก</button>`;
             }
             statusCell.innerHTML = statusHtml;
             actionsCell.innerHTML = actionsHtml;
@@ -541,21 +706,29 @@
             updateStats(nextStatus);
         }
 
-        // ฟังก์ชันอัปเดตตัวเลขสถิติ (mockup สำหรับ 1 ออเดอร์)
         function updateStats(currentStatus) {
-            // Reset all
+            document.getElementById('stat-all').innerText = '0';
             document.getElementById('stat-new').innerText = '0';
-            document.getElementById('stat-processing').innerText = '0';
+            document.getElementById('stat-processing') && (document.getElementById('stat-processing').innerText = '0');
             document.getElementById('stat-shipped').innerText = '0';
             document.getElementById('stat-success').innerText = '0';
+            document.getElementById('stat-cancel').innerText = '0';
+
             if (currentStatus === 1) {
+                document.getElementById('stat-all').innerText = '1';
                 document.getElementById('stat-new').innerText = '1';
             } else if (currentStatus === 2) {
+                document.getElementById('stat-all').innerText = '1';
                 document.getElementById('stat-processing').innerText = '1';
             } else if (currentStatus === 3) {
+                document.getElementById('stat-all').innerText = '1';
                 document.getElementById('stat-shipped').innerText = '1';
             } else if (currentStatus === 4) {
+                document.getElementById('stat-all').innerText = '1';
                 document.getElementById('stat-success').innerText = '1';
+            } else if (currentStatus === 5) {
+                document.getElementById('stat-all').innerText = '1';
+                document.getElementById('stat-cancel').innerText = '1';
             }
         }
 
@@ -579,6 +752,32 @@
 
         // ตั้งค่าเริ่มต้นให้สถิติแสดง "คำสั่งซื้อใหม่" 1 รายการ
         updateStats(1);
+
+        // Modal tracking logic
+        function showTrackingModal(orderId) {
+            document.getElementById('trackingOrderId').value = orderId;
+            document.getElementById('trackingInput').value = '';
+            document.getElementById('trackingInput').classList.remove('is-invalid');
+            var modal = new bootstrap.Modal(document.getElementById('trackingModal'));
+            modal.show();
+        }
+
+        document.getElementById('trackingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const tracking = document.getElementById('trackingInput').value.trim();
+            const orderId = document.getElementById('trackingOrderId').value;
+            if (!tracking) {
+                document.getElementById('trackingInput').classList.add('is-invalid');
+                return;
+            }
+            // ใส่ tracking ลงใน data-tracking ของ status cell
+            const statusCell = document.getElementById('status-' + orderId);
+            statusCell.setAttribute('data-tracking', tracking);
+            // ปิด modal
+            bootstrap.Modal.getInstance(document.getElementById('trackingModal')).hide();
+            // เปลี่ยนสถานะเป็นกำลังจัดส่ง
+            updateOrderStatus(orderId, 3);
+        });
     </script>
 </body>
 </html>
