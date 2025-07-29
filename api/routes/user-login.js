@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
         const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
         db.run(
           `INSERT INTO users (
-            user_name, phone, user_email, user_password, user_created_at, email_verified_at, default_address_id, verification_code
+            user_name, phone, user_email, user_password, user_created_at, email_verified_at, default_address_id, email_verification_code
           ) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, NULL, NULL, ?)`,
           [user_name, phone, email, hash, verificationCode],
           async function (err3) {
@@ -45,15 +45,27 @@ router.post('/register', async (req, res) => {
 
 // Login
 router.post('/login', (req, res) => {
-  const { username, password } = req.body;
+  const { login, password } = req.body; // login = email หรือ phone
+  if (!login || !password) {
+    return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
+  }
   db.get(
     'SELECT * FROM users WHERE user_email = ? OR phone = ?',
-    [username, username],
+    [login, login],
     async (err, user) => {
-      if (err || !user) return res.status(401).json({ error: 'User not found' });
+      if (err) {
+        return res.status(500).json({ error: 'เกิดข้อผิดพลาดในระบบ' });
+      }
+      if (!user) {
+        return res.status(401).json({ error: 'ไม่พบผู้ใช้หรือข้อมูลไม่ถูกต้อง' });
+      }
       const match = await bcrypt.compare(password, user.user_password);
-      if (!match) return res.status(401).json({ error: 'Incorrect password' });
-      if (!user.email_verified_at) return res.status(403).json({ error: 'Email not verified' });
+      if (!match) {
+        return res.status(401).json({ error: 'รหัสผ่านไม่ถูกต้อง' });
+      }
+      if (!user.email_verified_at) {
+        return res.status(403).json({ error: 'ยังไม่ได้ยืนยันอีเมล' });
+      }
       res.json({
         user_id: user.user_id,
         user_name: user.user_name,

@@ -335,23 +335,39 @@
       background: #3498db;
     }
     /* Responsive Design */
-    @media (max-width: 992px) {
+    @media (max-width: 990px) {
       .container {
         flex-direction: column;
-        /* สำหรับจอเล็ก ให้ margin ปกติ */
-        margin: 30px auto;
+        margin: 24px auto;
+        max-width: 98vw;
       }
-      
       .illustration {
-        padding: 30px;
+        padding: 24px;
+        min-width: unset;
+        max-width: 100vw;
+        position: relative;
       }
-      
       .illustration img {
-        max-width: 200px;
+        max-width: 160px;
+        margin-top: 32px;
       }
-      
+      .nav-quick-btns {
+        position: static !important;
+        top: unset !important;
+        right: unset !important;
+        left: unset !important;
+        margin-bottom: 16px !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        width: 100%;
+        z-index: 110;
+        background: none;
+        padding: 0;
+      }
       .form-container {
-        padding: 30px;
+        padding: 20px;
+        min-width: unset;
+        max-width: 100vw;
       }
     }
     
