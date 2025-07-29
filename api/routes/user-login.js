@@ -6,8 +6,8 @@ const router = express.Router();
 
 // Register (buyer)
 router.post('/register', async (req, res) => {
-  const { user_name, phone, email, password, user_role, user_profile_img } = req.body;
-  if (!user_name || !phone || !email || !password || !user_role) {
+  const { user_name, phone, email, password } = req.body;
+  if (!user_name || !phone || !email || !password) {
     return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบทุกช่อง' });
   }
   try {
@@ -21,9 +21,9 @@ router.post('/register', async (req, res) => {
         const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
         db.run(
           `INSERT INTO users (
-            user_name, phone, user_email, user_password, user_role, user_profile_img, user_created_at, email_verified_at, default_address_id, verification_code
-          ) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, NULL, NULL, ?)`,
-          [user_name, phone, email, hash, user_role, user_profile_img || '', verificationCode],
+            user_name, phone, user_email, user_password, user_created_at, email_verified_at, default_address_id, verification_code
+          ) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, NULL, NULL, ?)`,
+          [user_name, phone, email, hash, verificationCode],
           async function (err3) {
             if (err3) return res.status(500).json({ error: 'เกิดข้อผิดพลาดในระบบ' });
             await transporter.sendMail({
@@ -58,8 +58,6 @@ router.post('/login', (req, res) => {
         user_id: user.user_id,
         user_name: user.user_name,
         user_email: user.user_email,
-        user_role: user.user_role,
-        user_profile_img: user.user_profile_img,
         user_created_at: user.user_created_at,
         phone: user.phone,
         default_address_id: user.default_address_id
@@ -119,8 +117,6 @@ router.post('/by-email-or-phone', (req, res) => {
           user_id: user.user_id,
           user_name: user.user_name,
           user_email: user.user_email,
-          user_role: user.user_role,
-          user_profile_img: user.user_profile_img,
           user_created_at: user.user_created_at,
           phone: user.phone,
           email_verified_at: user.email_verified_at,
@@ -135,8 +131,6 @@ router.post('/by-email-or-phone', (req, res) => {
               user_id: user2.user_id,
               user_name: user2.user_name,
               user_email: user2.user_email,
-              user_role: user2.user_role,
-              user_profile_img: user2.user_profile_img,
               user_created_at: user2.user_created_at,
               phone: user2.phone,
               email_verified_at: user2.email_verified_at,
@@ -157,8 +151,6 @@ router.post('/by-email-or-phone', (req, res) => {
           user_id: user.user_id,
           user_name: user.user_name,
           user_email: user.user_email,
-          user_role: user.user_role,
-          user_profile_img: user.user_profile_img,
           user_created_at: user.user_created_at,
           phone: user.phone,
           email_verified_at: user.email_verified_at,
@@ -172,8 +164,8 @@ router.post('/by-email-or-phone', (req, res) => {
 
 // Update user info
 router.post('/update', (req, res) => {
-  const { user_email, user_name, phone, user_profile_img, user_role, default_address_id } = req.body;
-  db.run('UPDATE users SET user_name=?, phone=?, user_profile_img=?, user_role=?, default_address_id=? WHERE user_email=?', [user_name, phone, user_profile_img, user_role, default_address_id, user_email], function(err) {
+  const { user_email, user_name, phone, default_address_id } = req.body;
+  db.run('UPDATE users SET user_name=?, phone=?, default_address_id=? WHERE user_email=?', [user_name, phone, default_address_id, user_email], function(err) {
     if (err) return res.status(400).json({ error: 'Update failed' });
     res.json({ success: true });
   });
