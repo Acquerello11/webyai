@@ -6,8 +6,8 @@ const router = express.Router();
 
 // Register (buyer)
 router.post('/register', async (req, res) => {
-  const { user_name, phone, user_email, password } = req.body;
-  if (!user_name || !phone || !user_email || !password) {
+  const { user_name, phone, email, password } = req.body;
+  if (!user_name || !phone || !email || !password) {
     return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบทุกช่อง' });
   }
   try {
@@ -18,7 +18,7 @@ router.post('/register', async (req, res) => {
       if (userPhone) {
         return res.status(409).json({ error: 'เบอร์โทรศัพท์นี้ถูกใช้แล้ว' });
       }
-      db.get('SELECT user_id FROM users WHERE user_email = ?', [user_email], async (err2, userEmail) => {
+      db.get('SELECT user_id FROM users WHERE user_email = ?', [email], async (err2, userEmail) => {
         if (err2) {
           return res.status(500).json({ error: 'เกิดข้อผิดพลาดในระบบ' });
         }
@@ -31,7 +31,7 @@ router.post('/register', async (req, res) => {
           `INSERT INTO users (
             user_name, phone, user_email, user_password, user_created_at, email_verified_at, default_address_id, email_verification_code
           ) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, NULL, NULL, ?)`,
-          [user_name, phone, user_email, hash, verificationCode],
+          [user_name, phone, email, hash, verificationCode],
           async function (err3) {
             if (err3) {
               return res.status(500).json({ error: 'เกิดข้อผิดพลาดในระบบ' });
@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
             try {
               await transporter.sendMail({
                 from: `"Alice Moist" <${process.env.EMAIL_USER}>`,
-                to: user_email,
+                to: email,
                 subject: 'ยืนยันอีเมล Alice Moist',
                 html: `<p>รหัสยืนยัน 6 หลักของคุณคือ: <strong>${verificationCode}</strong></p>`
               });
