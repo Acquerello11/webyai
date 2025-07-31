@@ -6,32 +6,47 @@ const router = express.Router();
 
 // Register (buyer)
 router.post('/register', async (req, res) => {
-  const { user_name, phone, email, password } = req.body;
-  if (!user_name || !phone || !email || !password) {
+  const { user_name, phone, user_email, password } = req.body;
+  if (!user_name || !phone || !user_email || !password) {
     return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบทุกช่อง' });
   }
   try {
     db.get('SELECT user_id FROM users WHERE phone = ?', [phone], async (err, userPhone) => {
-      if (err) return res.status(500).json({ error: 'Database error' });
-      if (userPhone) return res.status(409).json({ error: 'เบอร์โทรศัพท์นี้ถูกใช้แล้ว' });
-      db.get('SELECT user_id FROM users WHERE user_email = ?', [email], async (err2, userEmail) => {
-        if (err2) return res.status(500).json({ error: 'Database error' });
-        if (userEmail) return res.status(409).json({ error: 'อีเมลนี้ถูกใช้แล้ว' });
+      if (err) {
+        return res.status(500).json({ error: 'เกิดข้อผิดพลาดในระบบ' });
+      }
+      if (userPhone) {
+        return res.status(409).json({ error: 'เบอร์โทรศัพท์นี้ถูกใช้แล้ว' });
+      }
+      db.get('SELECT user_id FROM users WHERE user_email = ?', [user_email], async (err2, userEmail) => {
+        if (err2) {
+          return res.status(500).json({ error: 'เกิดข้อผิดพลาดในระบบ' });
+        }
+        if (userEmail) {
+          return res.status(409).json({ error: 'อีเมลนี้ถูกใช้แล้ว' });
+        }
         const hash = await bcrypt.hash(password, 10);
         const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
         db.run(
           `INSERT INTO users (
             user_name, phone, user_email, user_password, user_created_at, email_verified_at, default_address_id, email_verification_code
           ) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, NULL, NULL, ?)`,
-          [user_name, phone, email, hash, verificationCode],
+          [user_name, phone, user_email, hash, verificationCode],
           async function (err3) {
-            if (err3) return res.status(500).json({ error: 'เกิดข้อผิดพลาดในระบบ' });
-            await transporter.sendMail({
-              from: `"Alice Moist" <${process.env.EMAIL_USER}>`,
-              to: email,
-              subject: 'ยืนยันอีเมล Alice Moist',
-              html: `<p>รหัสยืนยัน 6 หลักของคุณคือ: <strong>${verificationCode}</strong></p>`
-            });
+            if (err3) {
+              return res.status(500).json({ error: 'เกิดข้อผิดพลาดในระบบ' });
+            }
+            try {
+              await transporter.sendMail({
+                from: `"Alice Moist" <${process.env.EMAIL_USER}>`,
+                to: user_email,
+                subject: 'ยืนยันอีเมล Alice Moist',
+                html: `<p>รหัสยืนยัน 6 หลักของคุณคือ: <strong>${verificationCode}</strong></p>`
+              });
+            } catch (mailErr) {
+              // ไม่ต้อง block การสมัคร ถ้าอีเมลส่งไม่สำเร็จ
+              console.error('Email send error:', mailErr);
+            }
             res.json({ success: true });
           }
         );
@@ -81,10 +96,10 @@ router.post('/login', (req, res) => {
 // Email verification
 router.post('/verify-email', (req, res) => {
   const { email, code } = req.body;
-  db.get('SELECT verification_code FROM users WHERE user_email = ?', [email], (err, user) => {
+  db.get('SELECT email_verification_code FROM users WHERE user_email = ?', [email], (err, user) => {
     if (err || !user) return res.status(400).json({ error: 'ไม่พบผู้ใช้' });
-    if (user.verification_code === code) {
-      db.run('UPDATE users SET email_verified_at = CURRENT_TIMESTAMP, verification_code = NULL WHERE user_email = ?', [email], (err2) => {
+    if (user.email_verification_code === code) {
+      db.run('UPDATE users SET email_verified_at = CURRENT_TIMESTAMP, email_verification_code = NULL WHERE user_email = ?', [email], (err2) => {
         if (err2) return res.status(400).json({ error: 'อัปเดตสถานะไม่สำเร็จ' });
         res.json({ success: true });
       });
