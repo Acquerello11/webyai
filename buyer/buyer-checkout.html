@@ -7,6 +7,28 @@
   <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* Error message styles for input fields (login style) */
+    .error-message {
+      color: #d32f2f;
+      font-size: 0.98rem;
+      margin-top: 4px;
+      margin-bottom: 2px;
+      min-height: 18px;
+      font-family: 'Kanit', sans-serif;
+      display: block;
+      transition: opacity 0.2s;
+      opacity: 1;
+    }
+    .input-error {
+      border-color: #d32f2f !important;
+      box-shadow: 0 0 0 2px #ffe0e0 !important;
+    }
+    .error-message.hide {
+      opacity: 0;
+      height: 0;
+      margin: 0;
+      pointer-events: none;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Kanit', sans-serif;
@@ -21,7 +43,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #3498db, #2980b9);
+      background: linear-gradient(135deg, #183a7a, #2980b9);
       padding: 0px 15px;
       color: white;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -95,7 +117,7 @@
     
     /* ปุ่มเพิ่มที่อยู่ใหม่ */
     .add-address-btn {
-      background: #2ecc71;
+      background: #183a7a;
       color: white;
       border: none;
       padding: 8px 15px;
@@ -108,7 +130,7 @@
       transition: all 0.3s;
     }
     .add-address-btn:hover {
-      background: #27ae60;
+      background: #142e5c;
       transform: translateY(-2px);
     }
     .add-address-btn i {
@@ -144,7 +166,7 @@
       margin-bottom: 8px; /* เพิ่มระยะห่าง */
     }
     .cart-item-price {
-      color: #2ecc71;
+      color: #183a7a;
       font-weight: bold;
     }
     
@@ -165,7 +187,7 @@
       font-size: 1rem;
     }
     .apply-discount-btn {
-      background: #2ecc71;
+      background: #183a7a;
       color: white;
       border: none;
       padding: 12px 20px;
@@ -175,7 +197,7 @@
       transition: background 0.3s;
     }
     .apply-discount-btn:hover {
-      background: #27ae60;
+      background: #142e5c;
     }
     .discount-applied {
       margin-top: 15px; /* เพิ่มระยะห่าง */
@@ -213,9 +235,9 @@
       position: relative;
     }
     .address-item.selected {
-      border-color: #3498db;
+      border-color: #183a7a;
       background-color: #e3f2fd;
-      box-shadow: 0 0 0 2px #3498db;
+      box-shadow: 0 0 0 2px #183a7a;
     }
     .address-item:hover {
       background-color: #e3f2fd;
@@ -246,11 +268,11 @@
       transition: all 0.2s;
     }
     .edit-btn {
-      background: #3498db;
+      background: #183a7a;
       color: white;
     }
     .edit-btn:hover {
-      background: #2980b9;
+      background: #142e5c;
     }
     .delete-btn {
       background: #e74c3c;
@@ -272,11 +294,11 @@
       transition: all 0.3s;
     }
     .shipping-option:hover, .shipping-option.selected {
-      border-color: #3498db;
+      border-color: #183a7a;
       background-color: #f0f8ff;
     }
     .shipping-option.selected {
-      box-shadow: 0 0 0 2px #3498db;
+      box-shadow: 0 0 0 2px #183a7a;
     }
     .shipping-option input {
       margin-right: 10px;
@@ -286,7 +308,7 @@
       cursor: pointer;
     }
     .shipping-price {
-      color: #2ecc71;
+      color: #183a7a;
       font-weight: bold;
     }
     
@@ -302,11 +324,11 @@
       transition: all 0.3s;
     }
     .payment-option:hover, .payment-option.selected {
-      border-color: #3498db;
+      border-color: #183a7a;
       background-color: #f0f8ff;
     }
     .payment-option.selected {
-      box-shadow: 0 0 0 2px #3498db;
+      box-shadow: 0 0 0 2px #183a7a;
     }
     .payment-option input {
       margin-right: 10px;
@@ -318,7 +340,7 @@
     .payment-icon {
       font-size: 24px;
       margin-right: 10px;
-      color: #3498db;
+      color: #183a7a;
     }
     
     /* Order summary */
@@ -336,12 +358,12 @@
       margin-top: 15px; /* เพิ่มระยะห่าง */
     }
     .summary-total .price {
-      color: #2ecc71;
+      color: #183a7a;
     }
     .confirm-btn {
       width: 100%;
       padding: 15px;
-      background: #2ecc71;
+      background: #183a7a;
       color: white;
       border: none;
       border-radius: 5px;
@@ -350,10 +372,10 @@
       cursor: pointer;
       margin-top: 25px; /* เพิ่มระยะห่าง */
       transition: background 0.3s;
-      box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+      box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
     }
     .confirm-btn:hover {
-      background: #27ae60;
+      background: #2980b9;
       transform: translateY(-2px);
     }
     
@@ -412,7 +434,7 @@
       font-size: 1rem;
     }
     .form-group input:focus, .form-group select:focus {
-      border-color: #3498db;
+      border-color: #183a7a;
       outline: none;
       box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
     }
@@ -446,11 +468,11 @@
       background: #d0d0d0;
     }
     .save-btn {
-      background: #2ecc71;
+      background: #183a7a;
       color: white;
     }
     .save-btn:hover {
-      background: #27ae60;
+      background: #2980b9;
     }
     .close-btn {
       font-size: 32px;
@@ -463,7 +485,7 @@
       justify-content: center;
       border-radius: 50%;
       background: #f0f8ff;
-      color: #3498db;
+      color: #183a7a;
     }
     .close-btn:hover {
       background: #e74c3c;
@@ -483,7 +505,7 @@
     }
     .thankyou-icon {
       font-size: 80px;
-      color: #2ecc71;
+      color: #183a7a;
       margin-bottom: 30px; /* เพิ่มระยะห่าง */
     }
     .thankyou-title {
@@ -526,7 +548,7 @@
     }
     .back-to-home {
       display: inline-block;
-      background: #3498db;
+      background: #183a7a;
       color: white;
       padding: 15px 30px;
       border-radius: 50px;
@@ -621,7 +643,7 @@
     
     /* Selected badge */
     .selected-badge {
-      background: #3498db;
+      background: #183a7a;
       color: white;
       padding: 2px 8px;
       border-radius: 10px;
@@ -773,17 +795,22 @@
     <!-- ซ้าย: ที่อยู่สำหรับจัดส่ง -->
     <form id="shippingForm" class="checkout-left" style="background:#fff; border-radius:12px; box-shadow:0 2px 16px rgba(0,0,0,0.07); padding:32px 32px 24px 32px; min-width:340px;">
       <h2 style="font-size:1.25rem; color:#223; font-weight:700; margin-bottom:18px;">ที่อยู่สำหรับจัดส่ง</h2>
-      <div style="display:flex; gap:12px; margin-bottom:14px;">
-        <input type="text" placeholder="ชื่อจริง" style="flex:1; padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem;">
-        <input type="text" placeholder="นามสกุล" style="flex:1; padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem;">
+      <div style="display:flex; flex-direction:column; margin-bottom:14px;">
+        <input type="text" id="recipientName" placeholder="ชื่อผู้รับ" style="padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem;">
+        <div class="error-message" id="err-recipientName"></div>
       </div>
-      <input type="text" placeholder="บริษัท (ถ้ามี)" style="width:100%; padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem; margin-bottom:14px;">
-      <input type="text" placeholder="ที่อยู่" style="width:100%; padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem; margin-bottom:14px;">
-      <input type="text" placeholder="อาคาร/ห้อง/ชั้น (ถ้ามี)" style="width:100%; padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem; margin-bottom:14px;">
+      <div style="display:flex; flex-direction:column; margin-bottom:14px;">
+        <input type="text" id="address" placeholder="ที่อยู่" style="width:100%; padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem;">
+        <div class="error-message" id="err-address"></div>
+      </div>
       <div style="display:flex; gap:12px; margin-bottom:14px;">
-        <input type="text" placeholder="เขต/อำเภอ" style="flex:1; min-width:0; padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem;">
-        <select style="flex:1; min-width:0; padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem;">
-          <option value="">เลือกจังหวัด</option>
+        <div style="flex:1; display:flex; flex-direction:column;">
+          <input type="text" id="city" placeholder="เขต/อำเภอ" style="min-width:0; padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem;">
+          <div class="error-message" id="err-city"></div>
+        </div>
+        <div style="flex:1; display:flex; flex-direction:column;">
+          <select id="province" style="min-width:0; padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem;">
+            <option value="">เลือกจังหวัด</option>
           <option>กระบี่</option>
           <option>กรุงเทพมหานคร</option>
           <option>กาญจนบุรี</option>
@@ -867,14 +894,22 @@
           <option>อุตรดิตถ์</option>
           <option>อุทัยธานี</option>
           <option>อุบลราชธานี</option>
-        </select>
-        <input type="text" placeholder="รหัสไปรษณีย์" style="flex:1; min-width:0; padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem;">
+          </select>
+          <div class="error-message" id="err-province"></div>
+        </div>
+        <div style="flex:1; display:flex; flex-direction:column;">
+          <input type="text" id="postalCode" placeholder="รหัสไปรษณีย์" style="min-width:0; padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem;">
+          <div class="error-message" id="err-postalCode"></div>
+        </div>
       </div>
-      <input type="text" placeholder="เบอร์โทรศัพท์" style="width:100%; padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem; margin-bottom:10px;">
+      <div style="display:flex; flex-direction:column; margin-bottom:10px;">
+        <input type="text" id="phone" placeholder="เบอร์โทรศัพท์" style="width:100%; padding:10px; border-radius:7px; border:1px solid #ddd; font-size:1rem;">
+        <div class="error-message" id="err-phone"></div>
+      </div>
       <div style="font-size:0.95rem; color:#444; margin-bottom:18px;">***กรุณาเป็นเบอร์โทรที่ติดต่อได้จริง เพราะต้องใช้ในระบบขนส่ง</div>
       <div style="display:flex; align-items:center; gap:12px; margin-bottom:18px;">
         <a href="buyer-cart.html" style="color:#223; font-size:1.05rem; text-decoration:none; display:flex; align-items:center; gap:6px;"><i class="fas fa-chevron-left"></i> ย้อนกลับไปตะกร้า</a>
-        <button type="submit" style="background:#27ae60; color:#fff; font-size:1.08rem; font-weight:600; padding:10px 32px; border:none; border-radius:8px; cursor:pointer; margin-left:auto;">ช่องทางการชำระเงิน</button>
+      <button type="submit" style="background:#183a7a; color:#fff; font-size:1.08rem; font-weight:600; padding:10px 32px; border:none; border-radius:8px; cursor:pointer; margin-left:auto;">ช่องทางการชำระเงิน</button>
       </div>
       <div style="display:flex; gap:18px; margin-top:18px;">
         <a href="#" style="font-size:0.92rem; color:#888; text-decoration:underline;">นโยบายการคืนเงิน</a>
@@ -888,7 +923,7 @@
         <div id="orderSummaryItems"></div>
         <div style="margin:18px 0 12px 0; display:flex; gap:8px;">
           <input id="discountInput" type="text" placeholder="รหัสคูปองส่วนลด" style="flex:1; padding:8px 12px; border-radius:7px; border:1px solid #ddd; font-size:1rem;">
-          <button id="applyDiscountBtn" style="background:#3498db; color:#fff; font-size:1rem; font-weight:600; padding:8px 18px; border:none; border-radius:7px; cursor:pointer;">ใช้สิทธิ์</button>
+          <button id="applyDiscountBtn" style="background:#183a7a; color:#fff; font-size:1rem; font-weight:600; padding:8px 18px; border:none; border-radius:7px; cursor:pointer;">ใช้สิทธิ์</button>
         </div>
         <div id="orderSummaryDetails" style="margin-top:18px;"></div>
       </div>
@@ -1033,53 +1068,156 @@
       // Discount input logic
       document.getElementById('applyDiscountBtn').onclick = function() {
         const code = (document.getElementById('discountInput').value || '').trim().toUpperCase();
-        if (!code) { alert('กรุณากรอกรหัสคูปองส่วนลด'); return; }
+        if (!code) { noti('กรุณากรอกรหัสคูปองส่วนลด'); return; }
         if (code === 'SAVE100') {
           window.currentDiscount = 100; window.discountType = 'fixed';
         } else if (code === 'SAVE10%') {
           window.currentDiscount = 10; window.discountType = 'percentage';
         } else {
-          alert('รหัสคูปองไม่ถูกต้องหรือหมดอายุ'); return;
+          noti('รหัสคูปองไม่ถูกต้องหรือหมดอายุ'); return;
         }
         renderOrderSummary();
       };
       document.getElementById('discountInput').oninput = function() {
         if (!this.value) { window.currentDiscount = 0; window.discountType = ''; renderOrderSummary(); }
       };
-      // Payment button logic
+      // Payment button logic (เปิด modal ก่อน submit)
       const shippingForm = document.getElementById('shippingForm');
       shippingForm.onsubmit = function(e) {
         e.preventDefault();
-        if (orderSummary.qty === 0) { alert('ไม่มีสินค้าในตะกร้า'); return; }
-        // Validate address fields (minimal)
-        const inputs = shippingForm.querySelectorAll('input,select');
-        for (let i = 0; i < inputs.length; i++) {
-          if (inputs[i].hasAttribute('required') && !inputs[i].value) {
-            alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-            inputs[i].focus();
-            return;
+        if (orderSummary.qty === 0) { noti('ไม่มีสินค้าในตะกร้า'); return; }
+        // Validate each field and show error below
+        let valid = true;
+        function showError(id, msg) {
+          const input = document.getElementById(id);
+          const err = document.getElementById('err-' + id);
+          if (input) input.classList.add('input-error');
+          if (err) { err.textContent = msg; err.classList.remove('hide'); }
+        }
+        function clearError(id) {
+          const input = document.getElementById(id);
+          const err = document.getElementById('err-' + id);
+          if (input) input.classList.remove('input-error');
+          if (err) { err.textContent = ''; err.classList.add('hide'); }
+        }
+        // Required fields
+        const requiredFields = [
+          { id: 'recipientName', msg: 'กรุณากรอกชื่อผู้รับ' },
+          { id: 'address', msg: 'กรุณากรอกที่อยู่' },
+          { id: 'city', msg: 'กรุณากรอกเขต/อำเภอ' },
+          { id: 'province', msg: 'กรุณาเลือกจังหวัด' },
+          { id: 'postalCode', msg: 'กรุณากรอกรหัสไปรษณีย์' },
+          { id: 'phone', msg: 'กรุณากรอกเบอร์โทรศัพท์' }
+        ];
+        requiredFields.forEach(f => {
+          const input = document.getElementById(f.id);
+          if (!input.value.trim() || (f.id === 'province' && input.value === '')) {
+            showError(f.id, f.msg);
+            if (valid) input.focus();
+            valid = false;
+          } else {
+            clearError(f.id);
           }
+        });
+        if (!valid) return;
+        // เปิด modal เลือกช่องทางการชำระเงิน
+        document.getElementById('paymentModal').style.display = 'flex';
+      };
+      // Clear error on input
+      ['recipientName','address','city','province','postalCode','phone'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('input', function() {
+            if (this.value.trim() || (id === 'province' && this.value !== '')) {
+              clearError(id);
+            }
+          });
+          if (id === 'province') {
+            el.addEventListener('change', function() {
+              if (this.value !== '') clearError(id);
+            });
+          }
+        }
+      });
+
+      // Modal logic
+      const paymentModal = document.getElementById('paymentModal');
+      const confirmPaymentBtn = document.getElementById('confirmPaymentBtn');
+      const cancelPaymentBtn = document.getElementById('cancelPaymentBtn');
+      const slipInput = document.getElementById('slipInput');
+      const slipPreview = document.getElementById('slipPreview');
+      let selectedPayment = 'cod';
+      let slipFile = null;
+      // เปลี่ยนช่องทางการชำระเงิน
+      document.querySelectorAll('input[name="paymentType"]').forEach(radio => {
+        radio.onchange = function() {
+          selectedPayment = this.value;
+          document.getElementById('bankInfo').style.display = (this.value === 'bank') ? 'block' : 'none';
+          document.getElementById('qrInfo').style.display = (this.value === 'qr') ? 'block' : 'none';
+          document.getElementById('slipUpload').style.display = (this.value === 'bank' || this.value === 'qr') ? 'block' : 'none';
+        };
+      });
+      // อัปโหลดสลิป
+      slipInput.onchange = function() {
+        slipFile = this.files[0];
+        if (slipFile) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            slipPreview.innerHTML = `<img src="${e.target.result}" style="max-width:120px;border-radius:8px;box-shadow:0 2px 8px #ccc;">`;
+          };
+          reader.readAsDataURL(slipFile);
+        } else {
+          slipPreview.innerHTML = '';
+        }
+      };
+      // ยกเลิก modal
+      cancelPaymentBtn.onclick = function() {
+        paymentModal.style.display = 'none';
+        slipInput.value = '';
+        slipPreview.innerHTML = '';
+      };
+      // ยืนยันการชำระเงิน
+      confirmPaymentBtn.onclick = function() {
+        // ถ้าเลือกโอน/QR ต้องแนบสลิป
+        if ((selectedPayment === 'bank' || selectedPayment === 'qr') && !slipFile) {
+          noti('กรุณาแนบสลิปโอนเงิน');
+          return;
         }
         // สร้างข้อมูล order
         const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-        // เก็บข้อมูล address
-        const addrFields = ['firstName','lastName','company','address','apartment','city','province','postalCode','phone'];
+        const addrFields = ['recipientName','address','city','province','postalCode','phone'];
         const addr = {};
         const addrInputs = shippingForm.querySelectorAll('input,select');
         addrFields.forEach((f,i) => {
           const el = addrInputs[i];
           if (el) addr[f] = el.value;
         });
-        // เตรียม payload สำหรับ API
         const orderPayload = {
           items: cartItems,
           address: addr,
           subtotal: orderSummary.total,
           shippingFee: orderSummary.shipping,
           discount: orderSummary.discount,
-          total: orderSummary.grandTotal
+          total: orderSummary.grandTotal,
+          paymentType: selectedPayment
         };
-        // ส่ง order ไป API
+        // ถ้ามีสลิปแนบ ให้ส่งไปด้วย (base64)
+        if (slipFile) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            orderPayload.slipImage = e.target.result;
+            submitOrder(orderPayload);
+          };
+          reader.readAsDataURL(slipFile);
+        } else {
+          submitOrder(orderPayload);
+        }
+        paymentModal.style.display = 'none';
+        slipInput.value = '';
+        slipPreview.innerHTML = '';
+      };
+
+      function submitOrder(orderPayload) {
         fetch('/api/orders', {
           method: 'POST',
           headers: Object.assign({ 'Content-Type': 'application/json' }, (function(){
@@ -1096,20 +1234,23 @@
           return res.json();
         })
         .then(data => {
-          // ลบ cart, แสดง thank you page
           localStorage.removeItem('cart');
           document.querySelector('.container').style.display = 'none';
           document.getElementById('thankYouPage').style.display = 'block';
           document.getElementById('orderId').textContent = data.id || ('ORD-' + Date.now());
           document.getElementById('orderDate').textContent = new Date().toLocaleString();
           document.getElementById('orderTotal').textContent = orderSummary.grandTotal.toLocaleString() + ' บาท';
-          document.getElementById('paymentMethod').textContent = 'โอนเงิน/ชำระเงิน';
+          let payText = '';
+          if (orderPayload.paymentType === 'cod') payText = 'ชำระเงินปลายทาง';
+          else if (orderPayload.paymentType === 'bank') payText = 'โอนบัญชีธนาคาร';
+          else if (orderPayload.paymentType === 'qr') payText = 'สแกน QR Code';
+          document.getElementById('paymentMethod').textContent = payText;
           document.getElementById('shippingMethod').textContent = 'จัดส่งปกติ';
         })
         .catch(err => {
-          alert('สั่งซื้อไม่สำเร็จ: ' + (err.message || err));
+          noti('สั่งซื้อไม่สำเร็จ: ' + (err.message || err));
         });
-      };
+      }
       document.addEventListener('DOMContentLoaded', renderOrderSummary);
       window.addEventListener('storage', function(e) { if (e.key === 'cart') renderOrderSummary(); });
       </script>
@@ -1153,7 +1294,7 @@
       </div>
       <div class="detail-row">
         <span class="detail-label">สถานะ:</span>
-        <span class="detail-value" style="color: #3498db; font-weight: bold;">รอดำเนินการ</span>
+        <span class="detail-value" style="color: #183a7a; font-weight: bold;">รอดำเนินการ</span>
       </div>
     </div>
     
@@ -1168,8 +1309,8 @@
       // Check if cart exists and has items
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       if (cart.length === 0) {
-        alert('ไม่มีสินค้าในตะกร้า กรุณาเลือกสินค้าก่อนดำเนินการชำระเงิน');
-        window.location.href = 'buyer-dashboard.html';
+        noti('ไม่มีสินค้าในตะกร้า กรุณาเลือกสินค้าก่อนดำเนินการชำระเงิน');
+        // ไม่ต้อง redirect อัตโนมัติ
       }
 
       // Initialize addresses if not exists
@@ -1179,6 +1320,7 @@
 
       // Initialize page
       displayCartItems();
+      renderOrderSummary();
       displayAddresses();
 
       // Set up event listeners
@@ -1189,19 +1331,16 @@
     function displayCartItems() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const cartItemsContainer = document.getElementById('cartItemsContainer');
-      
       if (cart.length === 0) {
         cartItemsContainer.innerHTML = '<p>ไม่มีสินค้าในตะกร้า</p>';
+        renderOrderSummary();
         return;
       }
-      
       let html = '';
       let subtotal = 0;
-      
       cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
         subtotal += itemTotal;
-        // Fix image path for GitHub Pages
         let imgPath = item.image;
         if (imgPath && !imgPath.startsWith('../')) imgPath = '../images/' + imgPath.replace(/^images\//, '').replace(/^\/images\//, '');
         html += `
@@ -1217,11 +1356,9 @@
           </div>
         `;
       });
-      
       cartItemsContainer.innerHTML = html;
-      
-      // Calculate total after displaying items
       calculateTotal(subtotal);
+      renderOrderSummary();
     }
 
     // Display addresses
@@ -1422,7 +1559,7 @@
         const discountCode = document.getElementById('discountCode').value.trim().toUpperCase();
         
         if (!discountCode) {
-          alert('กรุณากรอกโค้ดส่วนลด');
+          noti('กรุณากรอกโค้ดส่วนลด');
           return;
         }
         
@@ -1437,7 +1574,7 @@
           document.getElementById('discountApplied').style.display = 'flex';
           document.getElementById('appliedDiscountText').textContent = 'ส่วนลด 10% (SAVE10%)';
         } else {
-          alert('โค้ดส่วนลดไม่ถูกต้องหรือหมดอายุแล้ว');
+          noti('โค้ดส่วนลดไม่ถูกต้องหรือหมดอายุแล้ว');
           return;
         }
         
@@ -1463,7 +1600,7 @@
         const selectedAddress = addresses.find(a => a.id === selectedAddressId);
         
         if (!selectedAddress) {
-          alert('กรุณาเลือกที่อยู่จัดส่งก่อนยืนยันการสั่งซื้อ');
+          noti('กรุณาเลือกที่อยู่จัดส่งก่อนยืนยันการสั่งซื้อ');
           return;
         }
         
@@ -1598,6 +1735,68 @@
         document.getElementById('address').value = address;
       }, 200);
     }
+  // Simple notification function
+  function noti(msg) {
+    let notiBox = document.getElementById('notiBox');
+    if (!notiBox) {
+      notiBox = document.createElement('div');
+      notiBox.id = 'notiBox';
+      notiBox.style.position = 'fixed';
+      notiBox.style.top = '50%';
+      notiBox.style.left = '50%';
+      notiBox.style.transform = 'translate(-50%, -50%) scale(1.08)';
+      notiBox.style.background = 'linear-gradient(135deg, #fffbe6 60%, #ffe0e0 100%)';
+      notiBox.style.color = '#d32f2f';
+      notiBox.style.padding = '22px 38px';
+      notiBox.style.borderRadius = '14px';
+      notiBox.style.fontSize = '1.08rem';
+      notiBox.style.fontWeight = 'bold';
+      notiBox.style.boxShadow = '0 8px 32px rgba(220,38,38,0.18), 0 2px 8px rgba(24,58,122,0.10)';
+      notiBox.style.zIndex = '99999';
+      notiBox.style.opacity = '0';
+      notiBox.style.border = '3px solid #d32f2f';
+      notiBox.style.textAlign = 'center';
+      notiBox.style.transition = 'opacity 0.3s, transform 0.3s';
+      document.body.appendChild(notiBox);
+    }
+    notiBox.textContent = msg;
+    notiBox.style.display = 'block';
+    notiBox.style.opacity = '1';
+    notiBox.style.transform = 'translate(-50%, -50%) scale(1.12)';
+    setTimeout(() => {
+      notiBox.style.opacity = '0';
+      notiBox.style.transform = 'translate(-50%, -50%) scale(1.08)';
+      setTimeout(() => { notiBox.style.display = 'none'; }, 350);
+    }, 2200);
+  }
   </script>
+<!-- Modal เลือกช่องทางการชำระเงิน -->
+<div id="paymentModal" class="address-modal" style="display:none;z-index:2000;align-items:center;justify-content:center;">
+  <div class="address-modal-content" style="max-width:400px;padding:32px 24px;text-align:center;">
+    <div class="address-modal-header"><h2>เลือกช่องทางการชำระเงิน</h2></div>
+    <div style="margin:18px 0 24px 0;">
+      <label><input type="radio" name="paymentType" value="cod" checked> ชำระเงินปลายทาง (COD)</label><br>
+      <label><input type="radio" name="paymentType" value="bank"> โอนบัญชีธนาคาร</label><br>
+      <label><input type="radio" name="paymentType" value="qr"> สแกน QR Code</label>
+    </div>
+    <div id="bankInfo" style="display:none;margin-bottom:16px;">
+      <div>เลขบัญชี: <b>123-4-56789-0</b> (ธ.กสิกรไทย)</div>
+    </div>
+    <div id="qrInfo" style="display:none;margin-bottom:16px;">
+      <div>สแกนจ่ายผ่าน QR Code</div>
+      <img src="/images/qr-demo.png" alt="QR Code" style="width:120px;height:120px;border-radius:8px;box-shadow:0 2px 8px #ccc;">
+    </div>
+    <div id="slipUpload" style="display:none;margin-bottom:16px;">
+      <label>แนบสลิปโอนเงิน:<br>
+        <input type="file" id="slipInput" accept="image/*">
+      </label>
+      <div id="slipPreview" style="margin-top:8px;"></div>
+    </div>
+    <div style="margin-top:18px;display:flex;gap:12px;justify-content:center;">
+      <button id="confirmPaymentBtn" class="confirm-btn" style="background:#183a7a;color:#fff;">ยืนยันการชำระเงิน</button>
+      <button id="cancelPaymentBtn" class="cancel-btn" style="background:#eee;color:#333;">ยกเลิก</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
