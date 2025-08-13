@@ -862,10 +862,11 @@
       // Toggle between login and register
       tabs.forEach(tab => {
         tab.addEventListener('click', () => {
+          // ป้องกันการสลับ tab ถ้า modal ยืนยันอีเมลเปิดอยู่
+          if (verificationModal && verificationModal.classList.contains('show')) return;
           // Update tabs
           tabs.forEach(t => t.classList.remove('active'));
           tab.classList.add('active');
-          
           // Update forms
           if (tab.dataset.tab === 'login') {
             loginForm.classList.add('active');
@@ -1110,70 +1111,70 @@
       
       // Submit registration
       async function submitRegistration() {
-        if (validateStep(3)) {
-          const user = {
-            fullName: document.getElementById('fullName').value.trim(),
-            phone: document.getElementById('phone').value.trim(),
-            address: document.getElementById('address').value.trim(),
-            province: document.getElementById('province').value.trim(),
-            district: document.getElementById('district').value.trim(),
-            postalCode: document.getElementById('postalCode').value.trim(),
-            email: document.getElementById('email').value.trim(),
-            password: document.getElementById('password').value
-          };
-          // เช็คซ้ำฝั่ง client ก่อน
-          try {
-            const dupRes = await fetch(`${API_BASE_URL}/api/check-duplicate`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email: user.email, phone: user.phone })
-            });
-            const dupData = await dupRes.json();
-            if (dupData.duplicate) {
-              showNotification(dupData.message || 'อีเมลหรือเบอร์โทรศัพท์นี้ถูกใช้ไปแล้ว', 'error');
-              if (dupData.message && dupData.message.includes('อีเมล')) {
-                showError('email', dupData.message);
-              } else if (dupData.message && dupData.message.includes('เบอร์')) {
-                showError('phone', dupData.message);
+          if (validateStep(3)) {
+            const user = {
+              fullName: document.getElementById('fullName').value.trim(),
+              phone: document.getElementById('phone').value.trim(),
+              address: document.getElementById('address').value.trim(),
+              province: document.getElementById('province').value.trim(),
+              district: document.getElementById('district').value.trim(),
+              postalCode: document.getElementById('postalCode').value.trim(),
+              email: document.getElementById('email').value.trim(),
+              password: document.getElementById('password').value
+            };
+            // เช็คซ้ำฝั่ง client ก่อน
+            try {
+              const dupRes = await fetch(`${API_BASE_URL}/api/check-duplicate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: user.email, phone: user.phone })
+              });
+              const dupData = await dupRes.json();
+              if (dupData.duplicate) {
+                showNotification(dupData.message || 'อีเมลหรือเบอร์โทรศัพท์นี้ถูกใช้ไปแล้ว', 'error');
+                if (dupData.message && dupData.message.includes('อีเมล')) {
+                  showError('email', dupData.message);
+                } else if (dupData.message && dupData.message.includes('เบอร์')) {
+                  showError('phone', dupData.message);
+                }
+                return;
               }
+            } catch (e) {
+              showNotification('เกิดข้อผิดพลาดในการเช็คข้อมูลซ้ำ', 'error');
               return;
             }
-          } catch (e) {
-            showNotification('เกิดข้อผิดพลาดในการเช็คข้อมูลซ้ำ', 'error');
-            return;
-          }
-          // Show modal immediately
-          showVerificationModal(user.email);
-          // Show loading message
-          const loadingMsg = document.createElement('div');
-          loadingMsg.id = 'verificationLoadingMsg';
-          loadingMsg.style.color = '#3498db';
-          loadingMsg.style.marginBottom = '10px';
-          loadingMsg.textContent = 'กำลังส่งรหัสยืนยันไปยังอีเมล กรุณารอสักครู่...';
-          verificationModal.querySelector('.verification-container').insertBefore(loadingMsg, verificationModal.querySelector('.verification-code'));
-          try {
-            const res = await fetch(`${API_BASE_URL}/api/register`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(user)
-            });
-            const data = await res.json();
-            // Remove loading message
-            if (document.getElementById('verificationLoadingMsg')) {
-              document.getElementById('verificationLoadingMsg').remove();
-            }
-            if (!data.success) {
+            // Show modal only, do not change tab or reset registration
+            showVerificationModal(user.email);
+            // Show loading message
+            const loadingMsg = document.createElement('div');
+            loadingMsg.id = 'verificationLoadingMsg';
+            loadingMsg.style.color = '#3498db';
+            loadingMsg.style.marginBottom = '10px';
+            loadingMsg.textContent = 'กำลังส่งรหัสยืนยันไปยังอีเมล กรุณารอสักครู่...';
+            verificationModal.querySelector('.verification-container').insertBefore(loadingMsg, verificationModal.querySelector('.verification-code'));
+            try {
+              const res = await fetch(`${API_BASE_URL}/api/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(user)
+              });
+              const data = await res.json();
+              // Remove loading message
+              if (document.getElementById('verificationLoadingMsg')) {
+                document.getElementById('verificationLoadingMsg').remove();
+              }
+              if (!data.success) {
+                verificationModal.classList.remove('show');
+                showNotification(data.error || 'เกิดข้อผิดพลาด', 'error');
+              }
+            } catch (e) {
+              if (document.getElementById('verificationLoadingMsg')) {
+                document.getElementById('verificationLoadingMsg').remove();
+              }
               verificationModal.classList.remove('show');
-              showNotification(data.error || 'เกิดข้อผิดพลาด', 'error');
+              showNotification('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์', 'error');
             }
-          } catch (e) {
-            if (document.getElementById('verificationLoadingMsg')) {
-              document.getElementById('verificationLoadingMsg').remove();
-            }
-            verificationModal.classList.remove('show');
-            showNotification('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์', 'error');
           }
-        }
       }
       
       // Show verification modal
@@ -1201,13 +1202,13 @@
               body: JSON.stringify({ email, code })
             });
             const data = await res.json();
-            if (data.success) {
-              verificationModal.classList.remove('show');
-              showNotification('ยืนยันอีเมลสำเร็จ! คุณสามารถเข้าสู่ระบบได้แล้ว', 'success');
-              tabs[0].click();
-            } else {
-              showNotification(data.error || 'รหัสยืนยันไม่ถูกต้อง', 'error');
-            }
+          if (data.success) {
+            verificationModal.classList.remove('show');
+            showNotification('ยืนยันอีเมลสำเร็จ! คุณสามารถเข้าสู่ระบบได้แล้ว', 'success');
+            // ไม่ต้องสลับ tab หรือ reset registration ให้ผู้ใช้เลือกเอง
+          } else {
+            showNotification(data.error || 'รหัสยืนยันไม่ถูกต้อง', 'error');
+          }
           } catch (e) {
             showNotification('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์', 'error');
           }

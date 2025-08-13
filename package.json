@@ -12,7 +12,7 @@
     "nodemon": "^3.1.10"
   },
   "scripts": {
-    "start": "node buyer-auth-api.js",
-    "dev": "nodemon buyer-auth-api.js"
+    "start": "node api/index.js",
+    "dev": "nodemon api/index.js"
   }
 }
