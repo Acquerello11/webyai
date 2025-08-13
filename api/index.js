@@ -22,14 +22,14 @@ app.use('/images', express.static(path.join(projectRoot, 'images')));
 
 
 // Routes
-app.use('/api', require('./routes/user'));
+app.use('/api/user-login', require('./routes/user-login'));
 app.use('/api/health', require('./routes/health'));
 app.use('/api/addresses', require('./routes/addresses'));
 app.use('/api/cart', require('./routes/cart'));
 app.use('/api/products', require('./routes/products'));
 app.use('/api/orders', require('./routes/orders'));
 
-const PORT = process.env.PORT || 5500;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`API base URL: http://localhost:${PORT}`);

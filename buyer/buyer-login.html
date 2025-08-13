@@ -6,8 +6,6 @@
   <title>Alice Moist Daily - สมัครสมาชิก/ล็อกอิน</title>
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="css/navbar-footer-style.css">
-  <link rel="stylesheet" href="js/navbar-footer.js">
   <style>
     * {
       margin: 0;
@@ -17,108 +15,127 @@
     }
     
     body {
-      background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
       min-height: 100vh;
+      background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 24px;
+      position: relative;
+      overflow-x: hidden;
     }
-    .container {
-      max-width: 1200px;
-      width: 100%;
-      display: flex;
-      background: white;
-      border-radius: 20px;
-      overflow: hidden;
-    body {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Kanit', sans-serif;
-    }
+    
     .login-bg {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #e6f7ff 0%, #f0f8ff 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 0;
-    }
-    .login-card {
-      background: #fff;
-      border-radius: 24px;
-      box-shadow: 0 8px 32px rgba(52,152,219,0.12), 0 2px 8px rgba(44,62,80,0.08);
-      max-width: 400px;
       width: 100%;
-      padding: 38px 32px 32px 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      z-index: 1;
+    }
+    
+    .login-card {
+      background: rgba(255,255,255,0.85);
+      border-radius: 32px;
+      box-shadow: 0 12px 40px 0 rgba(52,152,219,0.18), 0 2px 8px rgba(44,62,80,0.10);
+      max-width: 420px;
+      width: 100%;
+      padding: 48px 36px 36px 36px;
       display: flex;
       flex-direction: column;
       align-items: center;
       position: relative;
+      backdrop-filter: blur(8px) saturate(120%);
+      border: 1.5px solid rgba(52,152,219,0.10);
+      transition: box-shadow 0.3s, background 0.3s;
     }
+    .login-card:hover {
+      box-shadow: 0 18px 60px 0 rgba(52,152,219,0.22), 0 4px 16px rgba(44,62,80,0.13);
+      background: rgba(255,255,255,0.93);
+    }
+    
     .login-logo img {
-      width: 90px;
-      height: 90px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
-      box-shadow: 0 2px 8px rgba(52,152,219,0.10);
-      margin-bottom: 18px;
+      box-shadow: 0 4px 16px rgba(52,152,219,0.13);
+      margin-bottom: 22px;
+      border: 4px solid #e3f2fd;
+      background: #fff;
+      object-fit: cover;
     }
+    
     .login-title {
-      font-size: 2rem;
-      font-weight: 600;
+      font-size: 2.2rem;
+      font-weight: 700;
       color: #3498db;
-      margin-bottom: 18px;
+      margin-bottom: 22px;
       text-align: center;
+      letter-spacing: 1.2px;
+      text-shadow: 0 2px 8px rgba(52,152,219,0.10);
     }
+    
     .login-tabs {
       display: flex;
       width: 100%;
-      margin-bottom: 24px;
-      border-bottom: 2px solid #f0f0f0;
+      margin-bottom: 28px;
+      border-bottom: 2.5px solid #e3eafc;
+      background: transparent;
+      border-radius: 12px 12px 0 0;
+      overflow: hidden;
     }
     .login-tab {
       flex: 1;
-      padding: 12px 0;
+      padding: 14px 0 12px 0;
       background: none;
       border: none;
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: #888;
+      font-size: 1.13rem;
+      font-weight: 600;
+      color: #7b8fa6;
       cursor: pointer;
-      transition: color 0.2s;
+      transition: color 0.2s, background 0.2s;
       outline: none;
       position: relative;
+      border-radius: 12px 12px 0 0;
+      letter-spacing: 0.5px;
     }
     .login-tab.active {
       color: #3498db;
+      background: linear-gradient(90deg, #e3f2fd 60%, #f0f8ff 100%);
+      box-shadow: 0 2px 8px rgba(52,152,219,0.07);
     }
     .login-tab.active::after {
       content: "";
       position: absolute;
-      left: 0;
-      bottom: -2px;
-      width: 100%;
-      height: 3px;
+      left: 18%;
+      bottom: -2.5px;
+      width: 64%;
+      height: 3.5px;
       background: #3498db;
       border-radius: 3px;
+      box-shadow: 0 2px 8px rgba(52,152,219,0.10);
     }
+    
     .login-forms {
       width: 100%;
     }
+    
     .login-form {
       display: none;
       flex-direction: column;
       gap: 0;
       animation: fadeIn 0.5s ease;
     }
+    
     .login-form.active {
       display: flex;
     }
+    
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    
     .form-title {
       font-size: 1.3rem;
       font-weight: 500;
@@ -126,29 +143,37 @@
       margin-bottom: 18px;
       text-align: left;
     }
+    
     .form-group {
       margin-bottom: 18px;
       position: relative;
     }
+    
     .form-group label {
       display: block;
       margin-bottom: 7px;
       font-weight: 500;
       color: #2c3e50;
     }
+    
     .form-control {
       width: 100%;
-      padding: 13px 15px;
-      border: 2px solid #ecf0f1;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: border 0.2s;
+      padding: 15px 18px;
+      border: 2px solid #e3eafc;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      background: rgba(255,255,255,0.95);
+      transition: border 0.2s, box-shadow 0.2s;
+      color: #2c3e50;
+      box-shadow: 0 2px 8px rgba(52,152,219,0.04);
     }
     .form-control:focus {
       border-color: #3498db;
       outline: none;
-      box-shadow: 0 0 0 2px rgba(52,152,219,0.10);
+      box-shadow: 0 0 0 3px rgba(52,152,219,0.13);
+      background: #fafdff;
     }
+    
     .password-toggle {
       position: absolute;
       right: 18px;
@@ -157,273 +182,59 @@
       color: #95a5a6;
       z-index: 2;
     }
+    
     .btn {
       width: 100%;
-      padding: 13px;
-      background: linear-gradient(135deg, #3498db, #2980b9);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 1.1rem;
+      padding: 12px;
+      background: #fff;
+      color: #3498db;
+      border: 1.5px solid #3498db;
+      border-radius: 8px;
+      font-size: 1.08rem;
       font-weight: 500;
       cursor: pointer;
-      transition: background 0.2s, box-shadow 0.2s;
-      margin-top: 8px;
+      transition: background 0.18s, color 0.18s, border 0.18s, box-shadow 0.18s;
+      margin-top: 10px;
+      box-shadow: none;
+      letter-spacing: 0.2px;
     }
-    .btn:hover {
-      background: linear-gradient(135deg, #2980b9, #3498db);
-      box-shadow: 0 4px 16px rgba(52,152,219,0.18);
+    .btn:hover, .btn:focus {
+      background: #3498db;
+      color: #fff;
+      border-color: #3498db;
+      box-shadow: 0 2px 8px rgba(52,152,219,0.10);
+      outline: none;
+      transform: none;
     }
+    
     .form-footer {
       text-align: center;
       margin-top: 18px;
       color: #7f8c8d;
       font-size: 0.98rem;
     }
+    
     .form-footer a {
       color: #3498db;
       text-decoration: none;
       font-weight: 500;
     }
+    
     .form-footer a:hover {
       text-decoration: underline;
     }
+    
     .error-message {
       color: #e74c3c;
       font-size: 0.92rem;
       margin-top: 4px;
       display: none;
     }
+    
     .input-error {
       border-color: #e74c3c !important;
     }
-    @media (max-width: 576px) {
-      .login-card {
-        padding: 18px 5px 18px 5px;
-        max-width: 98vw;
-      }
-      .login-title {
-        font-size: 1.3rem;
-      }
-    }
-    .form-title {
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-      color: #2c3e50;
-    }
     
-    .form-subtitle {
-      color: #7f8c8d;
-      margin-bottom: 30px;
-    }
-    
-    .form-group {
-      margin-bottom: 20px;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: #2c3e50;
-    }
-    
-    .input-icon {
-      position: relative;
-    }
-    
-    .input-icon i {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #95a5a6;
-    }
-    
-    .form-control {
-      width: 100%;
-      padding: 15px 15px 15px 45px;
-      border: 2px solid #ecf0f1;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-    
-    .form-control:focus {
-      border-color: #3498db;
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-    }
-    
-    .form-row {
-      display: flex;
-      gap: 15px;
-    }
-    
-    .form-row .form-group {
-      flex: 1;
-    }
-    
-    .password-toggle {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      color: #95a5a6;
-    }
-    
-    .btn {
-      width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, #3498db, #2980b9);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 1.1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 10px;
-    }
-    
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(19, 20, 21, 0.3);
-      filter: none !important;
-      opacity: 1 !important;
-    }
-    
-    .form-footer {
-      text-align: center;
-      margin-top: 25px;
-      color: #7f8c8d;
-    }
-    
-    .form-footer a {
-      color: #3498db;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    
-    .form-footer a:hover {
-      text-decoration: underline;
-    }
-    
-    .progress-bar {
-      height: 5px;
-      background: #ecf0f1;
-      border-radius: 5px;
-      margin-bottom: 30px;
-      overflow: hidden;
-    }
-    
-    .progress {
-      height: 100%;
-      width: 33.33%;
-      background: #3498db;
-      transition: width 0.5s ease;
-    }
-    
-    .step-indicator {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    
-    .step {
-      text-align: center;
-      flex: 1;
-      position: relative;
-    }
-    
-    .step-number {
-      width: 30px;
-      height: 30px;
-      background: #ecf0f1;
-      color: #7f8c8d;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 auto 10px;
-      font-weight: 500;
-      z-index: 2;
-      position: relative;
-    }
-    
-    .step.active .step-number {
-      background: #3498db;
-      color: white;
-    }
-    
-    .step-title {
-      font-size: 0.9rem;
-      color: #7f8c8d;
-    }
-    
-    .step.active .step-title {
-      color: #3498db;
-      font-weight: 500;
-    }
-    
-    .step:not(:last-child)::after {
-      content: "";
-      position: absolute;
-      top: 15px;
-      left: 50%;
-      width: 100%;
-      height: 2px;
-      background: #ecf0f1;
-      z-index: 1;
-    }
-    
-    .step.active:not(:last-child)::after {
-      background: #3498db;
-    }
-    
-    /* Responsive Design */
-    @media (max-width: 992px) {
-      .container {
-        flex-direction: column;
-        /* สำหรับจอเล็ก ให้ margin ปกติ */
-        margin: 30px auto;
-      }
-      
-      .illustration {
-        padding: 30px;
-      }
-      
-      .illustration img {
-        max-width: 200px;
-      }
-      
-      .form-container {
-        padding: 30px;
-      }
-    }
-    
-    @media (max-width: 576px) {
-      .container {
-        margin: 10px auto;
-      }
-      
-      .form-row {
-        flex-direction: column;
-        gap: 0;
-      }
-      
-      .tab {
-        padding: 12px 20px;
-        font-size: 1rem;
-      }
-      
-      .form-title {
-        font-size: 1.5rem;
-      }
-    }
-    
-    /* Email Verification Modal */
     .verification-modal {
       display: none;
       position: fixed;
@@ -504,110 +315,6 @@
       display: inline-block;
     }
     
-    /* Error Message */
-    .error-message {
-      color: #e74c3c;
-      font-size: 0.9rem;
-      margin-top: 5px;
-      display: none;
-    }
-    
-    .input-error .form-control {
-      border-color: #e74c3c;
-    }
-    
-    .input-error .error-message {
-      display: block;
-    }
-    /* Password toggle right align for all password fields */
-    .input-icon .password-toggle {
-      right: 15px;
-      left: auto;
-      top: 50%;
-      transform: translateY(-50%);
-      position: absolute;
-      z-index: 2;
-    }
-    /* Add border and shadow to registration form */
-    #registerForm {
-      border: 1.5px solid #e0e0e0;
-      border-radius: 18px;
-      box-shadow: 0 4px 18px rgba(52,152,219,0.08), 0 1.5px 6px rgba(44,62,80,0.04);
-      background: #fff;
-      padding: 35px 30px 30px 30px;
-      margin-top: 10px;
-    }
-    @media (max-width: 576px) {
-      #registerForm {
-        padding: 18px 5px 18px 5px;
-      }
-    }
-    /* ปุ่มกลับหน้าหลักและแดชบอร์ด */
-    .quick-nav-btn {
-      background: linear-gradient(135deg, #f0f8ff 60%, #e6f7ff 100%);
-      border: 2px solid #3498db;
-      color: #3498db;
-      font-size: 1.08rem;
-      font-weight: 500;
-      border-radius: 8px;
-      padding: 8px 22px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 2px 8px rgba(52,152,219,0.08);
-      transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s, transform 0.2s;
-      outline: none;
-    }
-    .quick-nav-btn:hover, .quick-nav-btn:focus {
-      background: linear-gradient(135deg, #3498db 60%, #2980b9 100%);
-      color: #fff;
-      border-color: #2980b9;
-      box-shadow: 0 4px 16px rgba(52,152,219,0.18);
-      transform: translateY(-2px) scale(1.04);
-    }
-    .quick-nav-btn i {
-      font-size: 1.1em;
-      margin-right: 2px;
-    }
-    .nav-quick-btns {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      margin-bottom: 30px;
-      gap: 0;
-    }
-    .nav-quick-btns .quick-nav-btn {
-      min-width: 120px;
-      justify-content: center;
-    }
-    @media (max-width: 576px) {
-      .nav-quick-btns {
-        flex-direction: column;
-        gap: 10px;
-        margin-bottom: 18px;
-      }
-      .nav-quick-btns .quick-nav-btn {
-        width: 100%;
-        min-width: unset;
-      }
-    }
-    /* ปุ่ม Home และ ไปช้อปปิ้ง */
-    .nav-quick-btns {
-      position: absolute;
-      top: 30px;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-    /* ===== Notification CSS (copied from dashboard) ===== */
     .notification {
       position: fixed;
       top: 30px;
@@ -628,714 +335,671 @@
       align-items: center;
       gap: 12px;
     }
+    
     .notification.success {
       border-left: 6px solid #2ecc71;
     }
+    
     .notification.error {
       border-left: 6px solid #e74c3c;
     }
+    
     .notification.show {
       opacity: 1;
       pointer-events: auto;
       transform: translateY(0);
     }
+    
     .notification.hide {
       opacity: 0;
       pointer-events: none;
       transform: translateY(-20px);
     }
+    
     .notification-content i {
       font-size: 1.3em;
       margin-right: 8px;
     }
-  </style>
-</head>
-<body>
-    <!-- Navbar -->
-    <div id="navbar-container"></div>
-    <div class="login-bg">
-      <div class="login-card">
-        <div class="login-logo">
-          <img src="/images/logo.png" alt="Alice Moist Daily" />
-        </div>
-        <h1 class="login-title">Alice Moist Daily</h1>
-        <div class="login-tabs">
-          <button class="login-tab active" data-tab="login">เข้าสู่ระบบ</button>
-          <button class="login-tab" data-tab="register">สมัครสมาชิก</button>
-        </div>
-        <div class="login-forms">
-          <!-- Login Form -->
-          <form id="loginForm" class="login-form active">
-            <h2 class="form-title">เข้าสู่ระบบ</h2>
-            <div class="form-group">
-              <label for="loginUsername">อีเมลหรือเบอร์โทรศัพท์</label>
-              <input type="text" id="loginUsername" class="form-control" placeholder="อีเมลหรือเบอร์โทรศัพท์">
-              <div class="error-message" id="loginUsernameError"></div>
-            </div>
-            <div class="form-group">
-              <label for="loginPassword">รหัสผ่าน</label>
-              <input type="password" id="loginPassword" class="form-control" placeholder="รหัสผ่าน">
-              <span class="password-toggle"><i class="fas fa-eye" id="loginPasswordToggle"></i></span>
-              <div class="error-message" id="loginPasswordError"></div>
-            </div>
-            <button type="button" class="btn" id="loginBtn">เข้าสู่ระบบ</button>
-            <div class="form-footer">
-              ลืมรหัสผ่าน? <a href="#" id="forgotPassword">รีเซ็ตรหัสผ่าน</a>
-            </div>
-          </form>
-          <!-- Register Form -->
-          <form id="registerForm" class="login-form">
-            <h2 class="form-title">สมัครสมาชิก</h2>
-            <div class="form-group">
-              <label for="fullName">ชื่อ-นามสกุล</label>
-              <input type="text" id="fullName" class="form-control" placeholder="ชื่อ-นามสกุล">
-              <div class="error-message" id="fullNameError"></div>
-            </div>
-            <div class="form-group">
-              <label for="phone">เบอร์โทรศัพท์</label>
-              <input type="tel" id="phone" class="form-control" placeholder="เบอร์โทรศัพท์">
-              <div class="error-message" id="phoneError"></div>
-            </div>
-            <div class="form-group">
-              <label for="email">อีเมล</label>
-              <input type="email" id="email" class="form-control" placeholder="อีเมล">
-              <div class="error-message" id="emailError"></div>
-            </div>
-            <div class="form-group">
-              <label for="password">รหัสผ่าน</label>
-              <input type="password" id="password" class="form-control" placeholder="รหัสผ่าน (6 ตัวขึ้นไป)">
-              <span class="password-toggle"><i class="fas fa-eye"></i></span>
-              <div class="error-message" id="passwordError"></div>
-            </div>
-            <div class="form-group">
-              <label for="confirmPassword">ยืนยันรหัสผ่าน</label>
-              <input type="password" id="confirmPassword" class="form-control" placeholder="ยืนยันรหัสผ่าน">
-              <span class="password-toggle"><i class="fas fa-eye"></i></span>
-              <div class="error-message" id="confirmPasswordError"></div>
-            </div>
-            <button type="button" class="btn" id="registerBtn">สมัครสมาชิก</button>
-          </form>
-        </div>
-      </div>
-    </div>
-    <!-- Footer -->
-    <div id="footer-container"></div>
-    <!-- Footer -->
-    <div id="footer-container"></div>
     
-    <!-- Email Verification Modal -->
-    <div class="verification-modal" id="verificationModal">
-      <div class="verification-container" style="position:relative;">
-        <!-- ปุ่มปิดโมดอล -->
-        <button id="closeVerificationModal" style="position:absolute;top:18px;right:18px;background:transparent;border:none;font-size:1.6rem;color:#3498db;cursor:pointer;z-index:10;" aria-label="ปิด">&times;</button>
-        <div class="verification-icon">
-          <i class="fas fa-envelope-open-text"></i>
-        </div>
-        <h2 class="verification-title">ยืนยันอีเมลของคุณ</h2>
-        <p class="verification-text">เราได้ส่งรหัสยืนยันไปยังอีเมล <span id="userEmail">user@example.com</span> กรุณากรอกรหัสยืนยัน 6 หลักที่ได้รับในอีเมลของคุณ</p>
-        <div class="verification-code">
-          <input type="text" class="code-input" maxlength="1">
-          <input type="text" class="code-input" maxlength="1">
-          <input type="text" class="code-input" maxlength="1">
-          <input type="text" class="code-input" maxlength="1">
-          <input type="text" class="code-input" maxlength="1">
-          <input type="text" class="code-input" maxlength="1">
-        </div>
-        <button class="btn" id="verifyBtn">ยืนยัน</button>
-        <div class="form-footer">
-          ไม่ได้รับอีเมล? <span class="resend-link" id="resendLink">ส่งอีกครั้ง</span>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Reset Password Modal -->
-    <div class="verification-modal" id="resetPasswordModal">
-      <div class="verification-container">
-        <div class="verification-icon">
-          <i class="fas fa-key"></i>
-        </div>
-        <h2 class="verification-title">รีเซ็ตรหัสผ่าน</h2>
-        <p class="verification-text">กรอกอีเมล รหัสผ่านใหม่ และยืนยันรหัสผ่าน</p>
-        <div class="form-group">
-          <input type="email" id="resetEmail" class="form-control" placeholder="อีเมล" required>
-        </div>
-        <div class="form-group">
-          <input type="password" id="resetNewPassword" class="form-control" placeholder="รหัสผ่านใหม่ (6 ตัวขึ้นไป)" required>
-        </div>
-        <div class="form-group">
-          <input type="password" id="resetConfirmPassword" class="form-control" placeholder="ยืนยันรหัสผ่านใหม่" required>
-        </div>
-        <button class="btn" id="resetPasswordBtn">รีเซ็ตรหัสผ่าน</button>
-        <div class="form-footer">
-          <a href="#" id="closeResetPasswordModal">ยกเลิก</a>
-        </div>
-      </div>
-    </div>
-    
-    <script>
-      // Database simulation using localStorage
-      if (!localStorage.getItem('users')) {
-        localStorage.setItem('users', JSON.stringify([]));
-      }
-
-      // Load navbar.html and footer.html
-      function loadHTML(id, url) {
-        fetch(url)
-          .then(res => res.text())
-          .then(html => {
-            document.getElementById(id).innerHTML = html;
-          });
-      }
-      loadHTML('navbar-container', 'navbar.html');
-      loadHTML('footer-container', 'footer.html');
-      
-      // ====== ตั้งค่า BASE API URL ให้แก้ไขตรงนี้ ======
-      const API_BASE_URL = 'http://localhost:5500'; // เปลี่ยนเป็น IP ของเครื่องที่รัน Node.js
-  
-      // DOM Elements
-      const tabs = document.querySelectorAll('.tab');
-      const loginForm = document.getElementById('loginForm');
-      const registerForm = document.getElementById('registerForm');
-      const steps = document.querySelectorAll('.step');
-      const formSteps = document.querySelectorAll('.form-step');
-      const progressBar = document.getElementById('registrationProgress');
-      const verificationModal = document.getElementById('verificationModal');
-      const userEmailSpan = document.getElementById('userEmail');
-      const resendLink = document.getElementById('resendLink');
-      const verifyBtn = document.getElementById('verifyBtn');
-      const codeInputs = document.querySelectorAll('.code-input');
-      
-      // Toggle between login and register
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          // Update tabs
-          tabs.forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          
-          // Update forms
-          if (tab.dataset.tab === 'login') {
-            loginForm.classList.add('active');
-    .login-bg {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #e6f7ff 0%, #f0f8ff 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 0;
-    }
-    .login-card {
-      background: #fff;
-      border-radius: 24px;
-      box-shadow: 0 8px 32px rgba(52,152,219,0.12), 0 2px 8px rgba(44,62,80,0.08);
-      max-width: 400px;
-      width: 100%;
-      padding: 38px 32px 32px 32px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
-    .login-logo img {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      box-shadow: 0 2px 8px rgba(52,152,219,0.10);
-      margin-bottom: 18px;
-    }
-    .login-title {
-      font-size: 2rem;
-      font-weight: 600;
-      color: #3498db;
-      margin-bottom: 18px;
-      text-align: center;
-    }
-    .login-tabs {
-      display: flex;
-      width: 100%;
-      margin-bottom: 24px;
-      border-bottom: 2px solid #f0f0f0;
-    }
-    .login-tab {
-      flex: 1;
-      padding: 12px 0;
-      background: none;
-      border: none;
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: #888;
-      cursor: pointer;
-      transition: color 0.2s;
-      outline: none;
-      position: relative;
-    }
-    .login-tab.active {
-      color: #3498db;
-    }
-    .login-tab.active::after {
-      content: "";
+    .input-icon .password-toggle {
+      right: 15px;
+      left: auto;
+      top: 50%;
+      transform: translateY(-50%);
       position: absolute;
-      left: 0;
-      bottom: -2px;
-      width: 100%;
-      height: 3px;
-      background: #3498db;
-      border-radius: 3px;
-    }
-    .login-forms {
-      width: 100%;
-    }
-    .login-form {
-      display: none;
-      flex-direction: column;
-      gap: 0;
-      animation: fadeIn 0.5s ease;
-    }
-    .login-form.active {
-      display: flex;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .form-title {
-      font-size: 1.3rem;
-      font-weight: 500;
-      color: #2c3e50;
-      margin-bottom: 18px;
-      text-align: left;
-    }
-    .form-group {
-      margin-bottom: 18px;
-      position: relative;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 7px;
-      font-weight: 500;
-      color: #2c3e50;
-    }
-    .form-control {
-      width: 100%;
-      padding: 13px 15px;
-      border: 2px solid #ecf0f1;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: border 0.2s;
-    }
-    .form-control:focus {
-      border-color: #3498db;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(52,152,219,0.10);
-    }
-    .password-toggle {
-      position: absolute;
-      right: 18px;
-      top: 38px;
-      cursor: pointer;
-      color: #95a5a6;
       z-index: 2;
     }
-    .btn {
-      width: 100%;
-      padding: 13px;
-      background: linear-gradient(135deg, #3498db, #2980b9);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 1.1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.2s, box-shadow 0.2s;
-      margin-top: 8px;
+    
+    #registerForm {
+      border: 1.5px solid #e0e0e0;
+      border-radius: 18px;
+      box-shadow: 0 4px 18px rgba(52,152,219,0.08), 0 1.5px 6px rgba(44,62,80,0.04);
+      background: #fff;
+      padding: 35px 30px 30px 30px;
+      margin-top: 10px;
     }
-    .btn:hover {
-      background: linear-gradient(135deg, #2980b9, #3498db);
-      box-shadow: 0 4px 16px rgba(52,152,219,0.18);
-    }
-    .form-footer {
-      text-align: center;
-      margin-top: 18px;
-      color: #7f8c8d;
-      font-size: 0.98rem;
-    }
-    .form-footer a {
+    
+    .quick-nav-btn {
+      background: #fff;
+      border: 1.5px solid #b0beca;
       color: #3498db;
-      text-decoration: none;
+      font-size: 1.05rem;
       font-weight: 500;
+      border-radius: 8px;
+      padding: 10px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: none;
+      transition: background 0.15s, color 0.15s, border 0.15s;
+      outline: none;
+      font-family: 'Kanit', sans-serif;
+      margin-bottom: 6px;
+      letter-spacing: 0.2px;
     }
-    .form-footer a:hover {
-      text-decoration: underline;
+    .quick-nav-btn i {
+      font-size: 1.2em;
+      margin-right: 7px;
+      filter: none;
     }
-    .error-message {
-      color: #e74c3c;
-      font-size: 0.92rem;
-      margin-top: 4px;
-      display: none;
+    .quick-nav-btn.main-btn {
+      background: #3498db;
+      color: #fff;
+      border-color: #3498db;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(52,152,219,0.10);
     }
-    .input-error {
-      border-color: #e74c3c !important;
+    .quick-nav-btn.main-btn:hover, .quick-nav-btn.main-btn:focus {
+      background: #217dbb;
+      color: #fff;
+      border-color: #217dbb;
+    }
+    .quick-nav-btn.shopping-btn {
+      background: #fff;
+      color: #3498db;
+      border: 1.5px solid #3498db;
+      font-weight: 600;
+    }
+    .quick-nav-btn.shopping-btn:hover, .quick-nav-btn.shopping-btn:focus {
+      background: #3498db;
+      color: #fff;
+      border-color: #3498db;
+    }
+    .quick-nav-btn:hover, .quick-nav-btn:focus {
+      background: #3498db;
+      color: #fff;
+      border-color: #3498db;
+    }
+    
+    .nav-quick-btns {
+      position: absolute;
+      top: 18px;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 10px;
+      background: transparent;
+      pointer-events: none;
+    }
+    .nav-quick-btns > * {
+      pointer-events: auto;
+    }
+    
+    @media (max-width: 768px) {
+      .login-card {
+        max-width: 98vw;
+        padding: 32px 8vw 28px 8vw;
+      }
+      .nav-quick-btns {
+        top: 8px;
+        gap: 12px;
+        padding: 0 2vw;
+      }
+      .quick-nav-btn {
+        font-size: 0.95rem;
+        padding: 8px 8px;
+        gap: 7px;
+        min-width: 0;
+      }
+      .quick-nav-btn i {
+        font-size: 1.1em;
+        margin-right: 5px;
+      }
     }
     @media (max-width: 576px) {
       .login-card {
-        padding: 18px 5px 18px 5px;
-        max-width: 98vw;
+        max-width: 100vw;
+        padding: 18px 2vw 16px 2vw;
       }
-      .login-title {
-        font-size: 1.3rem;
+      .nav-quick-btns {
+        top: 4px;
+        gap: 5px;
+        padding: 0 1vw;
+      }
+      .quick-nav-btn {
+        font-size: 0.85rem;
+        padding: 6px 2px;
+        gap: 3px;
+        min-width: 0;
+      }
+      .quick-nav-btn i {
+        font-size: 0.95em;
+        margin-right: 2px;
       }
     }
-      document.querySelectorAll('.prev-step').forEach(button => {
-        button.addEventListener('click', () => {
-          const prevStep = parseInt(button.dataset.prev);
-          goToStep(prevStep);
-        });
-      });
+  </style>
+</head>
+<body>
+  <div class="login-bg">
+    <div class="login-card">
+      <div class="nav-quick-btns">
+        <button class="quick-nav-btn main-btn" onclick="window.location.href='../index.html'">
+          <i class="fas fa-home"></i> <span>หน้าหลัก</span>
+        </button>
+        <button class="quick-nav-btn shopping-btn" onclick="window.location.href='buyer-dashboard.html'">
+          <i class="fas fa-shopping-cart"></i> <span>ช้อปปิ้ง</span>
+        </button>
       
-      // Reset registration form
-      function resetRegistration() {
-        goToStep(1);
-        // Clear form fields
-        document.getElementById('fullName').value = '';
-        document.getElementById('phone').value = '';
-        document.getElementById('email').value = '';
-        document.getElementById('password').value = '';
-        document.getElementById('confirmPassword').value = '';
-        // Clear errors
-        document.querySelectorAll('.error-message').forEach(el => {
-          el.style.display = 'none';
-        });
-        document.querySelectorAll('.form-control').forEach(input => {
-          input.classList.remove('input-error');
-        });
-      }
+      </div>
       
-      // Form Validation
-      function validateStep(step) {
-        let isValid = true;
-        if (step === 1) {
-          // Validate personal info
-          if (!document.getElementById('fullName').value.trim()) {
-            showError('fullName', 'กรุณากรอกชื่อ-นามสกุล');
-            isValid = false;
-          }
-          const phone = document.getElementById('phone').value.trim();
-          if (!phone) {
-            showError('phone', 'กรุณากรอกเบอร์โทรศัพท์');
-            isValid = false;
-          } else if (!/^[0-9]{10}$/.test(phone)) {
-            showError('phone', 'เบอร์โทรศัพท์ต้องเป็นตัวเลข 10 หลัก');
-            isValid = false;
-          }
-        } else if (step === 2) {
-          // Validate login info
-          const email = document.getElementById('email').value.trim();
-          if (!email) {
-            showError('email', 'กรุณากรอกอีเมล');
-            isValid = false;
-          } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-            showError('email', 'รูปแบบอีเมลไม่ถูกต้อง');
-            isValid = false;
-          }
-          const password = document.getElementById('password').value;
-          if (!password) {
-            showError('password', 'กรุณากรอกรหัสผ่าน');
-            isValid = false;
-          } else if (password.length < 6) {
-            showError('password', 'รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัว');
-            isValid = false;
-          } else if (!/\d/.test(password)) {
-            showError('password', 'รหัสผ่านต้องมีตัวเลขอย่างน้อย 1 ตัว');
-            isValid = false;
-          }
-          const confirmPassword = document.getElementById('confirmPassword').value;
-          if (!confirmPassword) {
-            showError('confirmPassword', 'กรุณายืนยันรหัสผ่าน');
-            isValid = false;
-          } else if (password !== confirmPassword) {
-            showError('confirmPassword', 'รหัสผ่านไม่ตรงกัน');
-            isValid = false;
-          }
-        }
-        return isValid;
-      }
+      <div class="login-logo">
+        <img src="logo.png" alt="Alice Moist Daily" />
+      </div>
+      <h1 class="login-title">Alice Moist Daily</h1>
       
-      // Show error message
-      function showError(fieldId, message) {
-        const errorElement = document.getElementById(`${fieldId}Error`);
-        const inputElement = document.getElementById(fieldId);
+      <div class="login-tabs">
+        <button class="login-tab active" data-tab="login">เข้าสู่ระบบ</button>
+        <button class="login-tab" data-tab="register">สมัครสมาชิก</button>
+      </div>
+      
+      <div class="login-forms">
+        <!-- Login Form -->
+        <form id="loginForm" class="login-form active">
+          <h2 class="form-title">เข้าสู่ระบบ</h2>
+          <div class="form-group">
+            <label for="loginUsername">อีเมลหรือเบอร์โทรศัพท์</label>
+            <input type="text" id="loginUsername" class="form-control" placeholder="อีเมลหรือเบอร์โทรศัพท์">
+            <div class="error-message" id="loginUsernameError"></div>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">รหัสผ่าน</label>
+            <div class="input-icon">
+              <input type="password" id="loginPassword" class="form-control" placeholder="รหัสผ่าน">
+              <span class="password-toggle"><i class="fas fa-eye"></i></span>
+            </div>
+            <div class="error-message" id="loginPasswordError"></div>
+          </div>
+          <button type="button" class="btn" id="loginBtn">เข้าสู่ระบบ</button>
+          <div class="form-footer">
+            ลืมรหัสผ่าน? <a href="#" id="forgotPassword">รีเซ็ตรหัสผ่าน</a>
+          </div>
+        </form>
         
+        <!-- Register Form -->
+        <form id="registerForm" class="login-form">
+          <h2 class="form-title">สมัครสมาชิก</h2>
+          <div class="form-group">
+            <label for="fullName">ชื่อ-นามสกุล</label>
+            <input type="text" id="fullName" class="form-control" placeholder="ชื่อ-นามสกุล">
+            <div class="error-message" id="fullNameError"></div>
+          </div>
+          <div class="form-group">
+            <label for="phone">เบอร์โทรศัพท์</label>
+            <input type="tel" id="phone" class="form-control" placeholder="เบอร์โทรศัพท์">
+            <div class="error-message" id="phoneError"></div>
+          </div>
+          <div class="form-group">
+            <label for="email">อีเมล</label>
+            <input type="email" id="email" class="form-control" placeholder="อีเมล">
+            <div class="error-message" id="emailError"></div>
+          </div>
+          <div class="form-group">
+            <label for="password">รหัสผ่าน</label>
+            <div class="input-icon">
+              <input type="password" id="password" class="form-control" placeholder="รหัสผ่าน (6 ตัวขึ้นไป)">
+              <span class="password-toggle"><i class="fas fa-eye"></i></span>
+            </div>
+            <div class="error-message" id="passwordError"></div>
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">ยืนยันรหัสผ่าน</label>
+            <div class="input-icon">
+              <input type="password" id="confirmPassword" class="form-control" placeholder="ยืนยันรหัสผ่าน">
+              <span class="password-toggle"><i class="fas fa-eye"></i></span>
+            </div>
+            <div class="error-message" id="confirmPasswordError"></div>
+          </div>
+          <button type="button" class="btn" id="registerBtn">สมัครสมาชิก</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Email Verification Modal -->
+  <div class="verification-modal" id="verificationModal">
+    <div class="verification-container" style="position:relative;">
+      <button id="closeVerificationModal" style="position:absolute;top:18px;right:18px;background:transparent;border:none;font-size:1.6rem;color:#3498db;cursor:pointer;z-index:10;" aria-label="ปิด">&times;</button>
+      <div class="verification-icon">
+        <i class="fas fa-envelope-open-text"></i>
+      </div>
+      <h2 class="verification-title">ยืนยันอีเมลของคุณ</h2>
+      <p class="verification-text">เราได้ส่งรหัสยืนยันไปยังอีเมล <span id="userEmail">user@example.com</span> กรุณากรอกรหัสยืนยัน 6 หลักที่ได้รับในอีเมลของคุณ</p>
+      <div class="verification-code">
+        <input type="text" class="code-input" maxlength="1">
+        <input type="text" class="code-input" maxlength="1">
+        <input type="text" class="code-input" maxlength="1">
+        <input type="text" class="code-input" maxlength="1">
+        <input type="text" class="code-input" maxlength="1">
+        <input type="text" class="code-input" maxlength="1">
+      </div>
+      <button class="btn" id="verifyBtn">ยืนยัน</button>
+      <div class="form-footer">
+        ไม่ได้รับอีเมล? <span class="resend-link" id="resendLink">ส่งอีกครั้ง</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Reset Password Modal -->
+  <div class="verification-modal" id="resetPasswordModal">
+    <div class="verification-container">
+      <div class="verification-icon">
+        <i class="fas fa-key"></i>
+      </div>
+      <h2 class="verification-title">รีเซ็ตรหัสผ่าน</h2>
+      <p class="verification-text">กรอกอีเมล รหัสผ่านใหม่ และยืนยันรหัสผ่าน</p>
+      <div class="form-group">
+        <input type="email" id="resetEmail" class="form-control" placeholder="อีเมล" required>
+      </div>
+      <div class="form-group">
+        <input type="password" id="resetNewPassword" class="form-control" placeholder="รหัสผ่านใหม่ (6 ตัวขึ้นไป)" required>
+      </div>
+      <div class="form-group">
+        <input type="password" id="resetConfirmPassword" class="form-control" placeholder="ยืนยันรหัสผ่านใหม่" required>
+      </div>
+      <button class="btn" id="resetPasswordBtn">รีเซ็ตรหัสผ่าน</button>
+      <div class="form-footer">
+        <a href="#" id="closeResetPasswordModal">ยกเลิก</a>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // ==================== DOM Elements ====================
+    const loginTab = document.querySelector('[data-tab="login"]');
+    const registerTab = document.querySelector('[data-tab="register"]');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const verificationModal = document.getElementById('verificationModal');
+    const resetPasswordModal = document.getElementById('resetPasswordModal');
+    const userEmailSpan = document.getElementById('userEmail');
+    const resendLink = document.getElementById('resendLink');
+    const verifyBtn = document.getElementById('verifyBtn');
+    const codeInputs = document.querySelectorAll('.code-input');
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const forgotPasswordLink = document.getElementById('forgotPassword');
+    const resetPasswordBtn = document.getElementById('resetPasswordBtn');
+    const closeResetPasswordModal = document.getElementById('closeResetPasswordModal');
+    const closeVerificationModal = document.getElementById('closeVerificationModal');
+    
+    // ==================== Constants ====================
+    const API_BASE_URL = 'http://localhost:3000'; // เปลี่ยนเป็น IP ของเครื่องที่รัน Node.js
+    
+    // ==================== Utility Functions ====================
+    function showError(fieldId, message) {
+      const errorElement = document.getElementById(`${fieldId}Error`);
+      const inputElement = document.getElementById(fieldId);
+      
+      if (errorElement && inputElement) {
         errorElement.textContent = message;
         errorElement.style.display = 'block';
         inputElement.classList.add('input-error');
       }
+    }
+    
+    function hideError(fieldId) {
+      const errorElement = document.getElementById(`${fieldId}Error`);
+      const inputElement = document.getElementById(fieldId);
       
-      // Submit registration
-      async function submitRegistration() {
-        if (validateStep(2)) {
-          const user = {
-            user_name: document.getElementById('fullName').value.trim(),
-            phone: document.getElementById('phone').value.trim(),
-            email: document.getElementById('email').value.trim(),
-            password: document.getElementById('password').value,
-            user_role: 'buyer',
-            user_profile_img: ''
-          };
-          // เช็คซ้ำฝั่ง client ก่อน
-          try {
-            const dupRes = await fetch(`${API_BASE_URL}/api/check-duplicate`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email: user.email, phone: user.phone })
-            });
-            const dupData = await dupRes.json();
-            if (dupData.duplicate) {
-              showNotification(dupData.message || 'อีเมลหรือเบอร์โทรศัพท์นี้ถูกใช้ไปแล้ว', 'error');
-              if (dupData.message && dupData.message.includes('อีเมล')) {
-                showError('email', dupData.message);
-              } else if (dupData.message && dupData.message.includes('เบอร์')) {
-                showError('phone', dupData.message);
-              }
-              return;
-            }
-          } catch (e) {
-            showNotification('เกิดข้อผิดพลาดในการเช็คข้อมูลซ้ำ', 'error');
-            return;
-          }
-          // Show modal immediately
-          showVerificationModal(user.email);
-          // Show loading message
-          const loadingMsg = document.createElement('div');
-          loadingMsg.id = 'verificationLoadingMsg';
-          loadingMsg.style.color = '#3498db';
-          loadingMsg.style.marginBottom = '10px';
-          loadingMsg.textContent = 'กำลังส่งรหัสยืนยันไปยังอีเมล กรุณารอสักครู่...';
-          verificationModal.querySelector('.verification-container').insertBefore(loadingMsg, verificationModal.querySelector('.verification-code'));
-          try {
-            const res = await fetch(`${API_BASE_URL}/api/register`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(user)
-            });
-            const data = await res.json();
-            // Remove loading message
-            if (document.getElementById('verificationLoadingMsg')) {
-              document.getElementById('verificationLoadingMsg').remove();
-            }
-            if (data.success && data.user_id && user.email) {
-              localStorage.setItem('buyer_user_id', data.user_id);
-              localStorage.setItem('buyer_email', user.email);
-            }
-            if (!data.success) {
-              verificationModal.classList.remove('show');
-              showNotification(data.error || 'เกิดข้อผิดพลาด', 'error');
-            }
-          } catch (e) {
-            if (document.getElementById('verificationLoadingMsg')) {
-              document.getElementById('verificationLoadingMsg').remove();
-            }
-            verificationModal.classList.remove('show');
-            showNotification('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์', 'error');
-          }
-        }
+      if (errorElement && inputElement) {
+        errorElement.style.display = 'none';
+        inputElement.classList.remove('input-error');
       }
+    }
+    
+    function showNotification(message, type) {
+      // Remove existing notifications
+      const existing = document.querySelector('.notification');
+      if (existing) existing.remove();
       
-      // Show verification modal
-      function showVerificationModal(email) {
-        userEmailSpan.textContent = email;
-        verificationModal.classList.add('show');
-        
-        // Clear code inputs
-        codeInputs.forEach(input => input.value = '');
-        
-        // Focus first input
-        codeInputs[0].focus();
-      }
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.innerHTML = `
+        <div class="notification-content">
+          <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+          ${message}
+        </div>
+      `;
       
-      // Verify email
-      verifyBtn.addEventListener('click', async () => {
-        let code = '';
-        codeInputs.forEach(input => { code += input.value; });
-        if (code.length === 6 && /^\d{6}$/.test(code)) {
-          const email = userEmailSpan.textContent;
-          try {
-            const res = await fetch(`${API_BASE_URL}/api/verify-email`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email, code })
-            });
-            const data = await res.json();
-            if (data.success) {
-              verificationModal.classList.remove('show');
-              showNotification('ยืนยันอีเมลสำเร็จ! คุณสามารถเข้าสู่ระบบได้แล้ว', 'success');
-              // Save user_id and email to localStorage (for buyer) after register & verify
-              if (data.user_id && email) {
-                localStorage.setItem('buyer_user_id', data.user_id);
-                localStorage.setItem('buyer_email', email);
-              }
-              tabs[0].click();
-            } else {
-              showNotification(data.error || 'รหัสยืนยันไม่ถูกต้อง', 'error');
-            }
-          } catch (e) {
-            showNotification('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์', 'error');
-          }
-        } else {
-          showNotification('กรุณากรอกรหัสยืนยัน 6 หลัก', 'error');
-        }
-      });
+      document.body.appendChild(notification);
+      notification.classList.add('show');
       
-      // Resend verification code
-      resendLink.addEventListener('click', () => {
-        showNotification('ส่งรหัสยืนยันใหม่ไปยังอีเมลของคุณแล้ว', 'success');
-      });
-      
-      // Auto-tab between code inputs
-      codeInputs.forEach((input, index) => {
-        input.addEventListener('input', () => {
-          if (input.value.length === 1 && index < codeInputs.length - 1) {
-            codeInputs[index + 1].focus();
-          }
-        });
-        
-        input.addEventListener('keydown', (e) => {
-          if (e.key === 'Backspace' && input.value === '' && index > 0) {
-            codeInputs[index - 1].focus();
-          }
-        });
-      });
-      
-      // Password toggle visibility
+      setTimeout(() => {
+        notification.classList.remove('show');
+        notification.classList.add('hide');
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
+    }
+    
+    // ==================== Form Switching ====================
+    function switchToLogin() {
+      loginTab.classList.add('active');
+      registerTab.classList.remove('active');
+      loginForm.classList.add('active');
+      registerForm.classList.remove('active');
+    }
+    
+    function switchToRegister() {
+      registerTab.classList.add('active');
+      loginTab.classList.remove('active');
+      registerForm.classList.add('active');
+      loginForm.classList.remove('active');
+    }
+    
+    loginTab.addEventListener('click', switchToLogin);
+    registerTab.addEventListener('click', switchToRegister);
+    
+    // ==================== Password Toggle ====================
+    function setupPasswordToggles() {
       document.querySelectorAll('.password-toggle').forEach(toggle => {
         toggle.addEventListener('click', function() {
           const input = this.closest('.input-icon').querySelector('input');
           const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+          const icon = this.querySelector('i');
+          
           input.setAttribute('type', type);
-          this.classList.toggle('fa-eye');
-          this.classList.toggle('fa-eye-slash');
+          icon.classList.toggle('fa-eye');
+          icon.classList.toggle('fa-eye-slash');
         });
       });
+    }
+    
+    // ==================== Email Verification ====================
+    function showVerificationModal(email) {
+      userEmailSpan.textContent = email;
+      verificationModal.classList.add('show');
       
-      // Login functionality
-      document.getElementById('loginBtn').addEventListener('click', async () => {
-        const username = document.getElementById('loginUsername').value.trim();
-        const password = document.getElementById('loginPassword').value;
-        // Clear errors
-        document.querySelectorAll('#loginForm .error-message').forEach(el => {
-          el.style.display = 'none';
-        });
-        document.querySelectorAll('#loginForm .form-control').forEach(input => {
-          input.classList.remove('input-error');
-        });
-        if (!username) {
-          showError('loginUsername', 'กรุณากรอกอีเมลหรือเบอร์โทรศัพท์');
-          return;
-        }
-        if (!password) {
-          showError('loginPassword', 'กรุณากรอกรหัสผ่าน');
-          return;
-        }
+      // Clear code inputs
+      codeInputs.forEach(input => input.value = '');
+      
+      // Focus first input
+      codeInputs[0].focus();
+    }
+    
+    async function verifyEmail() {
+      let code = '';
+      codeInputs.forEach(input => { code += input.value; });
+      
+      if (code.length === 6 && /^\d{6}$/.test(code)) {
+        const email = userEmailSpan.textContent;
         try {
-          const res = await fetch(`${API_BASE_URL}/api/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
-          });
-          const data = await res.json();
-          if (res.ok) {
-            // Save user info to sessionStorage
-            sessionStorage.setItem('currentUser', JSON.stringify(data));
-            // Save user_id and email to localStorage (for buyer)
-            if (data && data.user_id && data.email) {
-              localStorage.setItem('buyer_user_id', data.user_id);
-              localStorage.setItem('buyer_email', data.email);
-            }
-            showNotification('เข้าสู่ระบบสำเร็จ! จะนำคุณไปยังหน้าหลัก', 'success');
-            setTimeout(() => {
-              // ดึงข้อมูล user จาก sessionStorage ไปใส่ใน dropdown (ถ้ามี navbar)
-              if (window.updateUserUI) window.updateUserUI();
-              window.location.href = 'buyer-dashboard.html';
-            }, 1200);
-          } else {
-            showNotification(data.error || 'เข้าสู่ระบบไม่สำเร็จ', 'error');
-          }
+          // Simulate API call
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          // Show success notification
+          showNotification('ยืนยันอีเมลสำเร็จ! คุณสามารถเข้าสู่ระบบได้แล้ว', 'success');
+          // Save user data (simulated)
+          localStorage.setItem('buyer_email', email);
+          // ไม่ปิด modal และไม่ switchToLogin() อัตโนมัติ ให้ user ปิด modal เอง
         } catch (e) {
-          showNotification('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์', 'error');
+          showNotification('เกิดข้อผิดพลาดในการยืนยันอีเมล', 'error');
+        }
+      } else {
+        showNotification('กรุณากรอกรหัสยืนยัน 6 หลัก', 'error');
+      }
+    }
+    
+    // Auto-tab between code inputs
+    codeInputs.forEach((input, index) => {
+      input.addEventListener('input', () => {
+        if (input.value.length === 1 && index < codeInputs.length - 1) {
+          codeInputs[index + 1].focus();
         }
       });
       
-      // Forgot password
-      document.getElementById('forgotPassword').addEventListener('click', (e) => {
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && input.value === '' && index > 0) {
+          codeInputs[index - 1].focus();
+        }
+      });
+    });
+    
+    // ==================== Login Functionality ====================
+    async function login() {
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      
+      // Clear errors
+      hideError('loginUsername');
+      hideError('loginPassword');
+      
+      let valid = true;
+      
+      // Validation
+      if (!username) {
+        showError('loginUsername', 'กรุณากรอกอีเมลหรือเบอร์โทรศัพท์');
+        valid = false;
+      }
+      
+      if (!password) {
+        showError('loginPassword', 'กรุณากรอกรหัสผ่าน');
+        valid = false;
+      } else if (password.length < 6) {
+        showError('loginPassword', 'รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัว');
+        valid = false;
+      }
+      
+      if (!valid) return;
+      
+      try {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Show success
+        showNotification('เข้าสู่ระบบสำเร็จ! จะนำคุณไปยังหน้าหลัก', 'success');
+        
+        // Simulate redirect
+        setTimeout(() => {
+          window.location.href = 'buyer-dashboard.html';
+        }, 1500);
+      } catch (e) {
+        showNotification('เข้าสู่ระบบไม่สำเร็จ: อีเมล/รหัสผ่านไม่ถูกต้อง', 'error');
+      }
+    }
+    
+    // ==================== Registration Functionality ====================
+    async function register() {
+      const fullName = document.getElementById('fullName').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      // Clear errors
+      hideError('fullName');
+      hideError('phone');
+      hideError('email');
+      hideError('password');
+      hideError('confirmPassword');
+
+      let valid = true;
+
+      // Validation
+      if (!fullName) {
+        showError('fullName', 'กรุณากรอกชื่อ-นามสกุล');
+        valid = false;
+      }
+
+      if (!phone) {
+        showError('phone', 'กรุณากรอกเบอร์โทรศัพท์');
+        valid = false;
+      } else if (!/^[0-9]{10}$/.test(phone)) {
+        showError('phone', 'เบอร์โทรศัพท์ต้องเป็นตัวเลข 10 หลัก');
+        valid = false;
+      }
+
+      if (!email) {
+        showError('email', 'กรุณากรอกอีเมล');
+        valid = false;
+      } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+        showError('email', 'รูปแบบอีเมลไม่ถูกต้อง');
+        valid = false;
+      }
+
+      if (!password) {
+        showError('password', 'กรุณากรอกรหัสผ่าน');
+        valid = false;
+      } else if (password.length < 6) {
+        showError('password', 'รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัว');
+        valid = false;
+      } else if (!/\d/.test(password)) {
+        showError('password', 'รหัสผ่านต้องมีตัวเลขอย่างน้อย 1 ตัว');
+        valid = false;
+      }
+
+      if (!confirmPassword) {
+        showError('confirmPassword', 'กรุณายืนยันรหัสผ่าน');
+        valid = false;
+      } else if (password !== confirmPassword) {
+        showError('confirmPassword', 'รหัสผ่านไม่ตรงกัน');
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_name: fullName,
+            phone: phone,
+            email: email,
+            password: password
+          })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          console.log('Register success, show verification modal');
+          showVerificationModal(email);
+          localStorage.setItem('buyer_email', email);
+          // Force register tab and form to stay active
+          registerTab.classList.add('active');
+          loginTab.classList.remove('active');
+          registerForm.classList.add('active');
+          loginForm.classList.remove('active');
+        } else {
+          console.log('Register error:', data.error);
+          showNotification(data.error || 'เกิดข้อผิดพลาดในการสมัครสมาชิก', 'error');
+        }
+      } catch (e) {
+        showNotification('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์', 'error');
+      }
+    }
+    
+    // ==================== Reset Password ====================
+    function openResetPasswordModal() {
+      resetPasswordModal.classList.add('show');
+    }
+    
+    function closeResetPassword() {
+      resetPasswordModal.classList.remove('show');
+    }
+    
+    async function resetPassword() {
+      const email = document.getElementById('resetEmail').value.trim();
+      const newPassword = document.getElementById('resetNewPassword').value;
+      const confirmPassword = document.getElementById('resetConfirmPassword').value;
+      
+      if (!email || !newPassword || !confirmPassword) {
+        showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
+        return;
+      }
+      
+      if (newPassword !== confirmPassword) {
+        showNotification('รหัสผ่านใหม่ไม่ตรงกัน', 'error');
+        return;
+      }
+      
+      if (newPassword.length < 6) {
+        showNotification('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร', 'error');
+        return;
+      }
+      
+      try {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Show success
+        showNotification('รีเซ็ตรหัสผ่านสำเร็จ! คุณสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่', 'success');
+        closeResetPassword();
+      } catch (e) {
+        showNotification('เกิดข้อผิดพลาดในการรีเซ็ตรหัสผ่าน', 'error');
+      }
+    }
+    
+    // ==================== Event Listeners ====================
+    document.addEventListener('DOMContentLoaded', () => {
+      setupPasswordToggles();
+      
+      // Button event listeners
+      loginBtn.addEventListener('click', login);
+      registerBtn.addEventListener('click', register);
+      verifyBtn.addEventListener('click', verifyEmail);
+      forgotPasswordLink.addEventListener('click', (e) => {
         e.preventDefault();
-        document.getElementById('resetPasswordModal').classList.add('show');
+        openResetPasswordModal();
       });
-      document.getElementById('closeResetPasswordModal').addEventListener('click', (e) => {
+      resetPasswordBtn.addEventListener('click', resetPassword);
+      resendLink.addEventListener('click', () => {
+        showNotification('ส่งรหัสยืนยันใหม่ไปยังอีเมลของคุณแล้ว', 'success');
+      });
+      closeResetPasswordModal.addEventListener('click', (e) => {
         e.preventDefault();
-        document.getElementById('resetPasswordModal').classList.remove('show');
+        closeResetPassword();
       });
-      document.getElementById('resetPasswordBtn').addEventListener('click', async () => {
-        const email = document.getElementById('resetEmail').value.trim();
-        const newPassword = document.getElementById('resetNewPassword').value;
-        const confirmPassword = document.getElementById('resetConfirmPassword').value;
-        if (!email || !newPassword || !confirmPassword) {
-          showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
-          return;
-        }
-        if (newPassword !== confirmPassword) {
-          showNotification('รหัสผ่านใหม่ไม่ตรงกัน', 'error');
-          return;
-        }
-        if (newPassword.length < 6) {
-          showNotification('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร', 'error');
-          return;
-        }
-        try {
-          const res = await fetch(`${API_BASE_URL}/api/reset-password`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, newPassword, confirmPassword })
-          });
-          const data = await res.json();
-          if (data.success) {
-            showNotification('รีเซ็ตรหัสผ่านสำเร็จ! คุณสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่', 'success');
-            document.getElementById('resetPasswordModal').classList.remove('show');
-          } else {
-            showNotification(data.error || 'เกิดข้อผิดพลาดในการรีเซ็ตรหัสผ่าน', 'error');
-          }
-        } catch (e) {
-          showNotification('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์', 'error');
-        }
+      closeVerificationModal.addEventListener('click', () => {
+        verificationModal.classList.remove('show');
       });
       
-      // ปุ่มย้อนกลับหน้าหลัก
-      document.getElementById('backToHomeBtn').onclick = function() {
-        window.location.href = '../index.html';
-      };
-      // ปุ่มไปหน้า Dashboard
-      document.getElementById('goDashboardBtn').onclick = function() {
-        window.location.href = 'buyer-dashboard.html';
-      };
-      
-      // Enter key triggers button click for login/register/next
-      document.addEventListener('keydown', function(e) {
+      // Enter key submits forms (ป้องกัน Enter ใน modal verification trigger register ซ้ำ)
+      document.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-          const activeTab = document.querySelector('.tab.active').dataset.tab;
-          if (activeTab === 'login') {
-            document.getElementById('loginBtn').click();
-          } else if (activeTab === 'register') {
-            // หา step ที่ active
-            const activeStep = Array.from(document.querySelectorAll('.form-step')).find(step => step.classList.contains('active'));
-            if (activeStep) {
-              // หา next-step button ใน step ปัจจุบัน
-              const nextBtn = activeStep.querySelector('.next-step');
-              if (nextBtn) nextBtn.click();
+          const activeElement = document.activeElement;
+          // Prevent register() if modal is open
+          if (loginForm.classList.contains('active')) {
+            login();
+          } else if (registerForm.classList.contains('active') && !verificationModal.classList.contains('show')) {
+            register();
+          } else if (verificationModal.classList.contains('show')) {
+            if (activeElement && activeElement.classList.contains('code-input')) {
+              e.preventDefault();
+              verifyEmail();
+            } else {
+              // Prevent Enter from doing anything else
+              e.preventDefault();
             }
+          } else if (resetPasswordModal.classList.contains('show')) {
+            resetPassword();
           }
         }
       });
-      // เพิ่ม JS สำหรับปุ่มปิดโมดาลอีเมลเวอริไฟ
-      document.getElementById('closeVerificationModal').addEventListener('click', function() {
-        document.getElementById('verificationModal').classList.remove('show');
-      });
-    </script>
-  </body>
+    });
+  </script>
+</body>
 </html>
