@@ -22,8 +22,7 @@ app.use('/images', express.static(path.join(projectRoot, 'images')));
 
 
 // Routes
-app.use('/api', require('./routes/auth'));
-app.use('/api/user', require('./routes/user'));
+app.use('/api', require('./routes/user'));
 app.use('/api/health', require('./routes/health'));
 app.use('/api/addresses', require('./routes/addresses'));
 app.use('/api/cart', require('./routes/cart'));

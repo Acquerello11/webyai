@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/navbar-footer-style.css">
+  <link rel="stylesheet" href="js/navbar-footer.js">
   <style>
     * {
       margin: 0;
@@ -30,123 +31,181 @@
       background: white;
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
-      /* แก้ไข bug: ไม่ควรมี top/transform/margin: auto ที่ทำให้ container ลอยผิดตำแหน่ง */
-      position: static;
-      top: unset;
-      transform: unset;
-      margin: 0 auto;
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Kanit', sans-serif;
     }
-    
-    .illustration {
-      flex: 1;
-      background: linear-gradient(135deg, #3498db, #2980b9);
+    .login-bg {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #e6f7ff 0%, #f0f8ff 100%);
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
-      padding: 40px;
-      color: white;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      justify-content: center;
+      padding: 40px 0;
     }
-    
-    .illustration::before {
-      content: "";
-      position: absolute;
-      top: -50px;
-      left: -50px;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-    }
-    
-    .illustration::after {
-      content: "";
-      position: absolute;
-      bottom: -80px;
-      right: -80px;
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-    }
-    
-    .illustration img {
-      max-width: 300px;
-      margin-bottom: 30px;
-      z-index: 1;
-    }
-    
-    .illustration h1 {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      z-index: 1;
-    }
-    
-    .illustration p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      max-width: 500px;
-      line-height: 1.6;
-      z-index: 1;
-    }
-    
-    .form-container {
-      flex: 1;
-      padding: 50px;
+    .login-card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(52,152,219,0.12), 0 2px 8px rgba(44,62,80,0.08);
+      max-width: 400px;
+      width: 100%;
+      padding: 38px 32px 32px 32px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      align-items: center;
+      position: relative;
     }
-    
-    .tabs {
+    .login-logo img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(52,152,219,0.10);
+      margin-bottom: 18px;
+    }
+    .login-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #3498db;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+    .login-tabs {
       display: flex;
-      margin-bottom: 30px;
+      width: 100%;
+      margin-bottom: 24px;
       border-bottom: 2px solid #f0f0f0;
     }
-    
-    .tab {
-      padding: 15px 30px;
-      cursor: pointer;
-      font-size: 1.2rem;
+    .login-tab {
+      flex: 1;
+      padding: 12px 0;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
       font-weight: 500;
       color: #888;
-      transition: all 0.3s ease;
+      cursor: pointer;
+      transition: color 0.2s;
+      outline: none;
       position: relative;
     }
-    
-    .tab.active {
+    .login-tab.active {
       color: #3498db;
     }
-    
-    .tab.active::after {
+    .login-tab.active::after {
       content: "";
       position: absolute;
-      bottom: -2px;
       left: 0;
+      bottom: -2px;
       width: 100%;
       height: 3px;
       background: #3498db;
       border-radius: 3px;
     }
-    
-    .form-section {
-      display: none;
+    .login-forms {
+      width: 100%;
     }
-    
-    .form-section.active {
-      display: block;
+    .login-form {
+      display: none;
+      flex-direction: column;
+      gap: 0;
       animation: fadeIn 0.5s ease;
     }
-    
+    .login-form.active {
+      display: flex;
+    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    
+    .form-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: #2c3e50;
+      margin-bottom: 18px;
+      text-align: left;
+    }
+    .form-group {
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 500;
+      color: #2c3e50;
+    }
+    .form-control {
+      width: 100%;
+      padding: 13px 15px;
+      border: 2px solid #ecf0f1;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: border 0.2s;
+    }
+    .form-control:focus {
+      border-color: #3498db;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(52,152,219,0.10);
+    }
+    .password-toggle {
+      position: absolute;
+      right: 18px;
+      top: 38px;
+      cursor: pointer;
+      color: #95a5a6;
+      z-index: 2;
+    }
+    .btn {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      margin-top: 8px;
+    }
+    .btn:hover {
+      background: linear-gradient(135deg, #2980b9, #3498db);
+      box-shadow: 0 4px 16px rgba(52,152,219,0.18);
+    }
+    .form-footer {
+      text-align: center;
+      margin-top: 18px;
+      color: #7f8c8d;
+      font-size: 0.98rem;
+    }
+    .form-footer a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.92rem;
+      margin-top: 4px;
+      display: none;
+    }
+    .input-error {
+      border-color: #e74c3c !important;
+    }
+    @media (max-width: 576px) {
+      .login-card {
+        padding: 18px 5px 18px 5px;
+        max-width: 98vw;
+      }
+      .login-title {
+        font-size: 1.3rem;
+      }
+    }
     .form-title {
       font-size: 1.8rem;
       margin-bottom: 10px;
@@ -592,139 +651,77 @@
   </style>
 </head>
 <body>
-    <div class="container">
-      <div class="illustration" style="position:relative;">
-        <!-- ===== ปุ่ม Home และ ไปช้อปปิ้ง ไว้บนสุดใน .illustration ===== -->
-        <div class="nav-quick-btns" style="position:relative; justify-content:center; gap:10px; margin-bottom:0;">
-          <button id="backToHomeBtn" class="quick-nav-btn"><i class="fas fa-home"></i> Home</button>
-          <button id="goDashboardBtn" class="quick-nav-btn" style="border-color: #2ecc71; color: #2ecc71;"><i class="fas fa-shopping-bag"></i> ไปช้อปปิ้ง</button>
+    <!-- Navbar -->
+    <div id="navbar-container"></div>
+    <div class="login-bg">
+      <div class="login-card">
+        <div class="login-logo">
+          <img src="/images/logo.png" alt="Alice Moist Daily" />
         </div>
-        <span>
-          <img src="/images/logo.png" style="background-color: #ffffff;height: 100px; width: auto;border-radius: 35px;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
-        </span>
-        <h1>Alice Moist Daily</h1>
-        <p>พบกับประสบการณ์การมองเห็นที่สมบูรณ์แบบด้วยเลนส์สัมผัสรายวันคุณภาพสูงจาก Alice Moist</p>
-      </div>
-      
-      <div class="form-container">
-        <div class="tabs">
-          <div class="tab active" data-tab="login">เข้าสู่ระบบ</div>
-          <div class="tab" data-tab="register">สมัครสมาชิก</div>
+        <h1 class="login-title">Alice Moist Daily</h1>
+        <div class="login-tabs">
+          <button class="login-tab active" data-tab="login">เข้าสู่ระบบ</button>
+          <button class="login-tab" data-tab="register">สมัครสมาชิก</button>
         </div>
-        
-        <!-- Login Form -->
-        <div class="form-section active" id="loginForm">
-          <h2 class="form-title">ยินดีต้อนรับกลับ</h2>
-          <p class="form-subtitle">กรุณากรอกข้อมูลเพื่อเข้าสู่ระบบ</p>
-          
-          <div class="form-group">
-            <label for="loginUsername">อีเมลหรือเบอร์โทรศัพท์</label>
-            <div class="input-icon">
-              <i class="fas fa-user"></i>
+        <div class="login-forms">
+          <!-- Login Form -->
+          <form id="loginForm" class="login-form active">
+            <h2 class="form-title">เข้าสู่ระบบ</h2>
+            <div class="form-group">
+              <label for="loginUsername">อีเมลหรือเบอร์โทรศัพท์</label>
               <input type="text" id="loginUsername" class="form-control" placeholder="อีเมลหรือเบอร์โทรศัพท์">
+              <div class="error-message" id="loginUsernameError"></div>
             </div>
-            <div class="error-message" id="loginUsernameError"></div>
-          </div>
-          
-          <div class="form-group">
-            <label for="loginPassword">รหัสผ่าน</label>
-            <div class="input-icon" style="position: relative;">
-              <i class="fas fa-lock"></i>
+            <div class="form-group">
+              <label for="loginPassword">รหัสผ่าน</label>
               <input type="password" id="loginPassword" class="form-control" placeholder="รหัสผ่าน">
-              <span style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%);">
-                <i class="fas fa-eye password-toggle" id="loginPasswordToggle"></i>
-              </span>
+              <span class="password-toggle"><i class="fas fa-eye" id="loginPasswordToggle"></i></span>
+              <div class="error-message" id="loginPasswordError"></div>
             </div>
-            <div class="error-message" id="loginPasswordError"></div>
-          </div>
-          
-          <button class="btn" id="loginBtn">เข้าสู่ระบบ</button>
-          
-          <div class="form-footer">
-            ลืมรหัสผ่าน? <a href="#" id="forgotPassword">รีเซ็ตรหัสผ่าน</a>
-          </div>
-        </div>
-        
-        <!-- Registration Form -->
-        <div class="form-section" id="registerForm">
-          <div class="progress-bar">
-            <div class="progress" id="registrationProgress"></div>
-          </div>
-          <div class="step-indicator">
-            <div class="step active" data-step="1">
-              <div class="step-number">1</div>
-              <div class="step-title">ข้อมูลส่วนตัว</div>
+            <button type="button" class="btn" id="loginBtn">เข้าสู่ระบบ</button>
+            <div class="form-footer">
+              ลืมรหัสผ่าน? <a href="#" id="forgotPassword">รีเซ็ตรหัสผ่าน</a>
             </div>
-            <div class="step" data-step="2">
-              <div class="step-number">2</div>
-              <div class="step-title">ข้อมูลล็อกอิน</div>
-            </div>
-          </div>
-          
-          <!-- Step 1: Personal Information -->
-          <div class="form-step active" id="step1" style="display: block;">
-            <h2 class="form-title">ข้อมูลส่วนตัว</h2>
-            <p class="form-subtitle">กรุณากรอกข้อมูลส่วนตัวของคุณ</p>
+          </form>
+          <!-- Register Form -->
+          <form id="registerForm" class="login-form">
+            <h2 class="form-title">สมัครสมาชิก</h2>
             <div class="form-group">
               <label for="fullName">ชื่อ-นามสกุล</label>
-              <div class="input-icon">
-                <i class="fas fa-user"></i>
-                <input type="text" id="fullName" class="form-control" placeholder="ชื่อ-นามสกุล">
-              </div>
+              <input type="text" id="fullName" class="form-control" placeholder="ชื่อ-นามสกุล">
               <div class="error-message" id="fullNameError"></div>
             </div>
             <div class="form-group">
               <label for="phone">เบอร์โทรศัพท์</label>
-              <div class="input-icon">
-                <i class="fas fa-phone"></i>
-                <input type="tel" id="phone" class="form-control" placeholder="เบอร์โทรศัพท์">
-              </div>
+              <input type="tel" id="phone" class="form-control" placeholder="เบอร์โทรศัพท์">
               <div class="error-message" id="phoneError"></div>
             </div>
-            <button class="btn next-step" data-next="2">ต่อไป</button>
-          </div>
-          <!-- Step 2: Login Information -->
-          <div class="form-step" id="step2" style="display: none;">
-            <h2 class="form-title">ข้อมูลล็อกอิน</h2>
-            <p class="form-subtitle">กรุณากรอกข้อมูลสำหรับเข้าสู่ระบบ</p>
             <div class="form-group">
               <label for="email">อีเมล</label>
-              <div class="input-icon">
-                <i class="fas fa-envelope"></i>
-                <input type="email" id="email" class="form-control" placeholder="อีเมล">
-              </div>
+              <input type="email" id="email" class="form-control" placeholder="อีเมล">
               <div class="error-message" id="emailError"></div>
             </div>
             <div class="form-group">
               <label for="password">รหัสผ่าน</label>
-              <div class="input-icon" style="position: relative;">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="password" class="form-control" placeholder="รหัสผ่าน (6 ตัวขึ้นไป)">
-                <span style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%);">
-                  <i class="fas fa-eye password-toggle"></i>
-                </span>
-              </div>
+              <input type="password" id="password" class="form-control" placeholder="รหัสผ่าน (6 ตัวขึ้นไป)">
+              <span class="password-toggle"><i class="fas fa-eye"></i></span>
               <div class="error-message" id="passwordError"></div>
             </div>
             <div class="form-group">
               <label for="confirmPassword">ยืนยันรหัสผ่าน</label>
-              <div class="input-icon" style="position: relative;">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="confirmPassword" class="form-control" placeholder="ยืนยันรหัสผ่าน">
-                <span style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%);">
-                  <i class="fas fa-eye password-toggle"></i>
-                </span>
-              </div>
+              <input type="password" id="confirmPassword" class="form-control" placeholder="ยืนยันรหัสผ่าน">
+              <span class="password-toggle"><i class="fas fa-eye"></i></span>
               <div class="error-message" id="confirmPasswordError"></div>
             </div>
-            <div class="form-row">
-              <button class="btn prev-step" data-prev="1">ย้อนกลับ</button>
-              <button class="btn next-step" data-next="3">สมัครสมาชิก</button>
-            </div>
-          </div>
+            <button type="button" class="btn" id="registerBtn">สมัครสมาชิก</button>
+          </form>
         </div>
       </div>
     </div>
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    <!-- Footer -->
+    <div id="footer-container"></div>
     
     <!-- Email Verification Modal -->
     <div class="verification-modal" id="verificationModal">
@@ -780,6 +777,17 @@
       if (!localStorage.getItem('users')) {
         localStorage.setItem('users', JSON.stringify([]));
       }
+
+      // Load navbar.html and footer.html
+      function loadHTML(id, url) {
+        fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            document.getElementById(id).innerHTML = html;
+          });
+      }
+      loadHTML('navbar-container', 'navbar.html');
+      loadHTML('footer-container', 'footer.html');
       
       // ====== ตั้งค่า BASE API URL ให้แก้ไขตรงนี้ ======
       const API_BASE_URL = 'http://localhost:5500'; // เปลี่ยนเป็น IP ของเครื่องที่รัน Node.js
@@ -807,123 +815,175 @@
           // Update forms
           if (tab.dataset.tab === 'login') {
             loginForm.classList.add('active');
-            registerForm.classList.remove('active');
-            resetRegistration();
-          } else {
-            loginForm.classList.remove('active');
-            registerForm.classList.add('active');
-          }
-        });
-      });
-      
-      // ===== Notification function (copied from dashboard) =====
-      function showNotification(message, type) {
-        const notification = document.createElement('div');
-        notification.className = `notification ${type || 'success'}`;
-        notification.innerHTML = `
-          <div class="notification-content">
-            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
-            <span>${message}</span>
-          </div>
-        `;
-        document.body.appendChild(notification);
-        setTimeout(() => {
-          notification.classList.add('show');
-        }, 100);
-        setTimeout(() => {
-          notification.classList.remove('show');
-          notification.classList.add('hide');
-          setTimeout(() => {
-            document.body.removeChild(notification);
-          }, 300);
-        }, 1500);
+    .login-bg {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #e6f7ff 0%, #f0f8ff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 0;
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(52,152,219,0.12), 0 2px 8px rgba(44,62,80,0.08);
+      max-width: 400px;
+      width: 100%;
+      padding: 38px 32px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .login-logo img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(52,152,219,0.10);
+      margin-bottom: 18px;
+    }
+    .login-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #3498db;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+    .login-tabs {
+      display: flex;
+      width: 100%;
+      margin-bottom: 24px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+    .login-tab {
+      flex: 1;
+      padding: 12px 0;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #888;
+      cursor: pointer;
+      transition: color 0.2s;
+      outline: none;
+      position: relative;
+    }
+    .login-tab.active {
+      color: #3498db;
+    }
+    .login-tab.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 3px;
+      background: #3498db;
+      border-radius: 3px;
+    }
+    .login-forms {
+      width: 100%;
+    }
+    .login-form {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      animation: fadeIn 0.5s ease;
+    }
+    .login-form.active {
+      display: flex;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .form-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: #2c3e50;
+      margin-bottom: 18px;
+      text-align: left;
+    }
+    .form-group {
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 500;
+      color: #2c3e50;
+    }
+    .form-control {
+      width: 100%;
+      padding: 13px 15px;
+      border: 2px solid #ecf0f1;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: border 0.2s;
+    }
+    .form-control:focus {
+      border-color: #3498db;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(52,152,219,0.10);
+    }
+    .password-toggle {
+      position: absolute;
+      right: 18px;
+      top: 38px;
+      cursor: pointer;
+      color: #95a5a6;
+      z-index: 2;
+    }
+    .btn {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      margin-top: 8px;
+    }
+    .btn:hover {
+      background: linear-gradient(135deg, #2980b9, #3498db);
+      box-shadow: 0 4px 16px rgba(52,152,219,0.18);
+    }
+    .form-footer {
+      text-align: center;
+      margin-top: 18px;
+      color: #7f8c8d;
+      font-size: 0.98rem;
+    }
+    .form-footer a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.92rem;
+      margin-top: 4px;
+      display: none;
+    }
+    .input-error {
+      border-color: #e74c3c !important;
+    }
+    @media (max-width: 576px) {
+      .login-card {
+        padding: 18px 5px 18px 5px;
+        max-width: 98vw;
       }
-      
-      // Registration Form Navigation
-      function goToStep(stepNumber) {
-        // Update steps
-        steps.forEach(step => {
-          if (parseInt(step.dataset.step) <= stepNumber && parseInt(step.dataset.step) <= 2) {
-            step.classList.add('active');
-          } else {
-            step.classList.remove('active');
-          }
-        });
-        // Update form steps
-        formSteps.forEach(step => {
-          if (step.id === `step${stepNumber}`) {
-            step.classList.add('active');
-            step.style.display = 'block';
-          } else {
-            step.classList.remove('active');
-            step.style.display = 'none';
-          }
-        });
-        // Update progress bar (2 steps)
-        progressBar.style.width = `${((stepNumber - 1) / 1) * 100}%`;
+      .login-title {
+        font-size: 1.3rem;
       }
-      
-      // Next Step Button
-      document.querySelectorAll('.next-step').forEach(button => {
-        button.addEventListener('click', async () => {
-          const nextStep = parseInt(button.dataset.next);
-          // ถ้าเป็น step 1 (ข้อมูลส่วนตัว) ให้เช็คเบอร์โทรซ้ำก่อน
-          if (nextStep === 2) {
-            const phone = document.getElementById('phone').value.trim();
-            if (phone && /^[0-9]{10}$/.test(phone)) {
-              try {
-                const dupRes = await fetch(`${API_BASE_URL}/api/check-duplicate`, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ phone })
-                });
-                const dupData = await dupRes.json();
-                if (dupData.duplicate) {
-                  showNotification(dupData.message || 'เบอร์โทรศัพท์นี้ถูกใช้ไปแล้ว', 'error');
-                  showError('phone', dupData.message || 'เบอร์โทรศัพท์นี้ถูกใช้ไปแล้ว');
-                  return;
-                }
-              } catch (e) {
-                showNotification('เกิดข้อผิดพลาดในการเช็คเบอร์โทรซ้ำ', 'error');
-                return;
-              }
-            }
-          }
-          // ถ้าเป็น step 2 (ข้อมูลล็อกอิน) ให้เช็คอีเมลซ้ำก่อน
-          if (nextStep === 3) {
-            const email = document.getElementById('email').value.trim();
-            if (email && /^\S+@\S+\.\S+$/.test(email)) {
-              try {
-                const dupRes = await fetch(`${API_BASE_URL}/api/check-duplicate`, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ email })
-                });
-                const dupData = await dupRes.json();
-                if (dupData.duplicate) {
-                  showNotification(dupData.message || 'อีเมลนี้ถูกใช้ไปแล้ว', 'error');
-                  showError('email', dupData.message || 'อีเมลนี้ถูกใช้ไปแล้ว');
-                  return;
-                }
-              } catch (e) {
-                showNotification('เกิดข้อผิดพลาดในการเช็คอีเมลซ้ำ', 'error');
-                return;
-              }
-            }
-          }
-          // Validate current step before proceeding
-          if (validateStep(nextStep - 1)) {
-            if (nextStep === 3) {
-              // Show modal only, do not go to step 3
-              submitRegistration();
-            } else {
-              goToStep(nextStep);
-            }
-          }
-        });
-      });
-      
-      // Previous Step Button
+    }
       document.querySelectorAll('.prev-step').forEach(button => {
         button.addEventListener('click', () => {
           const prevStep = parseInt(button.dataset.prev);
