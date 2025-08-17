@@ -233,12 +233,10 @@
     </style>
 </head>
 <body>
-    <!-- Mobile Toggle Button -->
     <button class="mobile-toggle btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </button>
 
-    <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
         <div class="store-logo">
             <div class="mb-3">
@@ -300,9 +298,61 @@
                     <p class="text-muted mb-0">ติดตามและจัดการสต็อกคอนแทคเลนส์ทุกค่าสายตา</p>
                 </div>
                 <div class="col-md-4 text-end">
-                    <button class="btn btn-success">
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addStockModal">
                         <i class="fas fa-plus"></i> เติมสต็อก
                     </button>
+                    <!-- Add Stock Modal -->
+                    <div class="modal fade" id="addStockModal" tabindex="-1" aria-labelledby="addStockModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addStockModalLabel"><i class="fas fa-plus"></i> เติมสต็อกสินค้า</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="addStockForm">
+                                        <div class="mb-3">
+                                            <label for="deliveryNoteInput" class="form-label">เลขที่ใบส่งของ (Delivery Note No.)</label>
+                                            <input type="text" class="form-control" id="deliveryNoteInput" placeholder="กรอกเลขที่ใบส่งของ" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="receiveDateInput" class="form-label">วันที่รับของ</label>
+                                            <input type="date" class="form-control" id="receiveDateInput" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productIdInput" class="form-label">รหัสสินค้า</label>
+                                            <input type="text" class="form-control" id="productIdInput" placeholder="กรอกรหัสสินค้า" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productNameSelect" class="form-label">ชื่อสินค้า (ค่าสายตา)</label>
+                                            <select class="form-select" id="productNameSelect" required>
+                                                <option value="">เลือกค่าสายตา</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="quantityInput" class="form-label">จำนวน (ที่จัดส่ง)</label>
+                                            <input type="number" class="form-control" id="quantityInput" min="1" placeholder="กรอกจำนวน" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="unitInput" class="form-label">หน่วยนับ</label>
+                                            <input type="text" class="form-control" id="unitInput" value="กล่อง" readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="costInput" class="form-label">ราคาต่อหน่วย (ต้นทุน)</label>
+                                            <input type="number" class="form-control" id="costInput" min="0" placeholder="กรอกราคาต่อหน่วย" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="totalInput" class="form-label">รวมราคาทั้งหมด</label>
+                                            <input type="number" class="form-control" id="totalInput" readonly>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" id="confirmAddStockBtn">เติมสต็อก</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -336,7 +386,6 @@
             <button class="filter-btn" onclick="filterStock('out')">หมดสต็อก</button>
         </div>
 
-        <!-- Stock List -->
         <div class="dashboard-card">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5><i class="fas fa-list text-primary"></i> รายการสต็อกคอนแทคเลนส์</h5>
@@ -362,7 +411,6 @@
                         </tr>
                     </thead>
                     <tbody id="stockTableBody">
-                        <!-- เลนส์ใส สายตาสั้น (เรียงตามค่าสายตา) -->
                         <tr class="stock-row" data-stock-level="out">
                             <td><strong>CL-001-100</strong></td>
                             <td>คอนแทคเลนส์ใส</td>
@@ -376,9 +424,6 @@
                             <td>
                                 <button class="btn btn-primary btn-action" onclick="editStock('CL-001-100')" disabled>
                                     <i class="fas fa-edit"></i> แก้ไข
-                                </button>
-                                <button class="btn btn-danger btn-action" onclick="addStock('CL-001-100')">
-                                    <i class="fas fa-shopping-cart"></i> สั่งซื้อ
                                 </button>
                             </td>
                         </tr>
@@ -396,9 +441,6 @@
                                 <button class="btn btn-primary btn-action" onclick="editStock('CL-001-150')" disabled>
                                     <i class="fas fa-edit"></i> แก้ไข
                                 </button>
-                                <button class="btn btn-danger btn-action" onclick="addStock('CL-001-150')">
-                                    <i class="fas fa-shopping-cart"></i> สั่งซื้อ
-                                </button>
                             </td>
                         </tr>
                         <tr class="stock-row" data-stock-level="out">
@@ -414,9 +456,6 @@
                             <td>
                                 <button class="btn btn-primary btn-action" onclick="editStock('CL-001-200')" disabled>
                                     <i class="fas fa-edit"></i> แก้ไข
-                                </button>
-                                <button class="btn btn-danger btn-action" onclick="addStock('CL-001-200')">
-                                    <i class="fas fa-shopping-cart"></i> สั่งซื้อ
                                 </button>
                             </td>
                         </tr>
@@ -434,9 +473,6 @@
                                 <button class="btn btn-primary btn-action" onclick="editStock('CL-001-250')" disabled>
                                     <i class="fas fa-edit"></i> แก้ไข
                                 </button>
-                                <button class="btn btn-danger btn-action" onclick="addStock('CL-001-250')">
-                                    <i class="fas fa-shopping-cart"></i> สั่งซื้อ
-                                </button>
                             </td>
                         </tr>
                         <tr class="stock-row" data-stock-level="out">
@@ -452,9 +488,6 @@
                             <td>
                                 <button class="btn btn-primary btn-action" onclick="editStock('CL-001-300')" disabled>
                                     <i class="fas fa-edit"></i> แก้ไข
-                                </button>
-                                <button class="btn btn-danger btn-action" onclick="addStock('CL-001-300')">
-                                    <i class="fas fa-shopping-cart"></i> สั่งซื้อ
                                 </button>
                             </td>
                         </tr>
@@ -472,13 +505,9 @@
                                 <button class="btn btn-primary btn-action" onclick="editStock('CL-001-350')" disabled>
                                     <i class="fas fa-edit"></i> แก้ไข
                                 </button>
-                                <button class="btn btn-danger btn-action" onclick="addStock('CL-001-350')">
-                                    <i class="fas fa-shopping-cart"></i> สั่งซื้อ
-                                </button>
                             </td>
                         </tr>
                         
-                        <!-- เลนส์ใส สายตายาว (เรียงตามค่าสายตา) -->
                         <tr class="stock-row" data-stock-level="out">
                             <td><strong>CL-002-100</strong></td>
                             <td>คอนแทคเลนส์ใส</td>
@@ -492,9 +521,6 @@
                             <td>
                                 <button class="btn btn-primary btn-action" onclick="editStock('CL-002-100')" disabled>
                                     <i class="fas fa-edit"></i> แก้ไข
-                                </button>
-                                <button class="btn btn-danger btn-action" onclick="addStock('CL-002-100')">
-                                    <i class="fas fa-shopping-cart"></i> สั่งซื้อ
                                 </button>
                             </td>
                         </tr>
@@ -512,13 +538,9 @@
                                 <button class="btn btn-primary btn-action" onclick="editStock('CL-002-150')" disabled>
                                     <i class="fas fa-edit"></i> แก้ไข
                                 </button>
-                                <button class="btn btn-danger btn-action" onclick="addStock('CL-002-150')">
-                                    <i class="fas fa-shopping-cart"></i> สั่งซื้อ
-                                </button>
                             </td>
                         </tr>
                         
-                        <!-- เลนส์สีน้ำตาล (เรียงตามค่าสายตา) -->
                         <tr class="stock-row" data-stock-level="out">
                             <td><strong>CL-003-000</strong></td>
                             <td>คอนแทคเลนส์สีน้ำตาล</td>
@@ -532,9 +554,6 @@
                             <td>
                                 <button class="btn btn-primary btn-action" onclick="editStock('CL-003-000')" disabled>
                                     <i class="fas fa-edit"></i> แก้ไข
-                                </button>
-                                <button class="btn btn-danger btn-action" onclick="addStock('CL-003-000')">
-                                    <i class="fas fa-shopping-cart"></i> สั่งซื้อ
                                 </button>
                             </td>
                         </tr>
@@ -551,9 +570,6 @@
                             <td>
                                 <button class="btn btn-primary btn-action" onclick="editStock('CL-003-100')" disabled>
                                     <i class="fas fa-edit"></i> แก้ไข
-                                </button>
-                                <button class="btn btn-danger btn-action" onclick="addStock('CL-003-100')">
-                                    <i class="fas fa-shopping-cart"></i> สั่งซื้อ
                                 </button>
                             </td>
                         </tr>
@@ -573,9 +589,6 @@
                                 <button class="btn btn-primary btn-action" onclick="editStock('CL-004-000')" disabled>
                                     <i class="fas fa-edit"></i> แก้ไข
                                 </button>
-                                <button class="btn btn-danger btn-action" onclick="addStock('CL-004-000')">
-                                    <i class="fas fa-shopping-cart"></i> สั่งซื้อ
-                                </button>
                             </td>
                         </tr>
                         
@@ -593,9 +606,6 @@
                             <td>
                                 <button class="btn btn-primary btn-action" onclick="editStock('CL-005-200')" disabled>
                                     <i class="fas fa-edit"></i> แก้ไข
-                                </button>
-                                <button class="btn btn-danger btn-action" onclick="addStock('CL-005-200')">
-                                    <i class="fas fa-shopping-cart"></i> สั่งซื้อ
                                 </button>
                             </td>
                         </tr>
@@ -630,21 +640,92 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
+        // เติม dropdown ค่าสายตาเมื่อกรอกรหัสสินค้า
+        document.getElementById('productIdInput').addEventListener('input', function() {
+            const productId = this.value.trim();
+            const rows = Array.from(document.querySelectorAll('.stock-row')).filter(r => {
+                const code = r.querySelector('strong');
+                return code && code.textContent.startsWith(productId.split('-')[0] + '-');
+            });
+            const select = document.getElementById('productNameSelect');
+            select.innerHTML = '<option value="">เลือกค่าสายตา</option>';
+            let found = false;
+            rows.forEach(row => {
+                const code = row.querySelector('strong').textContent;
+                const name = row.children[1].textContent.trim();
+                const desc = row.children[2].textContent.trim();
+                const priceText = row.children[3].textContent.replace(/[^\d.]/g, '');
+                const optionText = name + ' ' + desc;
+                const option = document.createElement('option');
+                option.value = code;
+                option.textContent = optionText;
+                option.dataset.price = priceText;
+                select.appendChild(option);
+                if (code === productId) {
+                    select.value = code;
+                    document.getElementById('costInput').value = priceText;
+                    found = true;
+                }
+            });
+            if (!found) {
+                document.getElementById('costInput').value = '';
+            }
+        });
+        document.getElementById('productNameSelect').addEventListener('change', function() {
+            const selected = this.options[this.selectedIndex];
+            document.getElementById('productIdInput').value = selected.value;
+            document.getElementById('costInput').value = selected.dataset.price || '';
+            calcTotal();
+        });
+        function calcTotal() {
+            const quantity = parseInt(document.getElementById('quantityInput').value);
+            const cost = parseFloat(document.getElementById('costInput').value);
+            if (!isNaN(quantity) && !isNaN(cost)) {
+                document.getElementById('totalInput').value = (quantity * cost).toFixed(2);
+            } else {
+                document.getElementById('totalInput').value = '';
+            }
+        }
+        document.getElementById('quantityInput').addEventListener('input', calcTotal);
+        document.getElementById('costInput').addEventListener('input', calcTotal);
+        // กดเติมสต็อก
+        document.getElementById('confirmAddStockBtn').addEventListener('click', function() {
+            const deliveryNote = document.getElementById('deliveryNoteInput').value.trim();
+            const receiveDate = document.getElementById('receiveDateInput').value;
+            const productId = document.getElementById('productIdInput').value.trim();
+            const productName = document.getElementById('productNameSelect').options[document.getElementById('productNameSelect').selectedIndex].text;
+            const quantity = parseInt(document.getElementById('quantityInput').value);
+            const unit = document.getElementById('unitInput').value.trim();
+            const cost = parseFloat(document.getElementById('costInput').value);
+            const total = parseFloat(document.getElementById('totalInput').value);
+            if (!deliveryNote || !receiveDate || !productId || !productName || isNaN(quantity) || quantity <= 0 || isNaN(cost) || cost < 0 || isNaN(total)) {
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วนและถูกต้อง', 'danger');
+                return;
+            }
+            const currentStock = getCurrentStock(productId);
+            if (currentStock === null) {
+                showNotification('ไม่พบรหัสสินค้านี้ในระบบ', 'danger');
+                return;
+            }
+            updateStockDisplay(productId, currentStock + quantity);
+            showNotification(`เติมสต็อก ${productId} (${productName}) จำนวน ${quantity} ${unit} (รวม ${currentStock + quantity} ${unit})\nใบส่งของ: ${deliveryNote}\nวันที่รับของ: ${receiveDate}\nราคาต่อหน่วย: ${cost} บาท\nรวมราคา: ${total} บาท`, 'success');
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addStockModal'));
+            modal.hide();
+            document.getElementById('addStockForm').reset();
+        });
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('show');
         }
 
         function filterStock(level) {
-            // Remove active class from all buttons
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             
-            // Add active class to clicked button
             event.target.classList.add('active');
             
-            // Show/hide stock rows based on filter
             const stockRows = document.querySelectorAll('.stock-row');
             stockRows.forEach(row => {
                 if (level === 'all' || row.dataset.stockLevel === level) {
@@ -719,7 +800,6 @@
                     const stockCell = row.children[4];
                     const statusCell = row.children[5];
                     
-                    // Update stock quantity
                     if (newStock === 0) {
                         stockCell.innerHTML = '<span class="fw-bold text-danger">0 ชิ้น</span>';
                         statusCell.innerHTML = '<span class="stock-level stock-out">หมดสต็อก</span>';
@@ -761,7 +841,6 @@
             }, 5000);
         }
 
-        // Search functionality
         document.getElementById('searchInput').addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
             const stockRows = document.querySelectorAll('.stock-row');
@@ -776,7 +855,6 @@
             });
         });
 
-        // Close sidebar when clicking outside on mobile
         document.addEventListener('click', function(event) {
             const sidebar = document.getElementById('sidebar');
             const toggleBtn = document.querySelector('.mobile-toggle');
@@ -789,21 +867,14 @@
             }
         });
 
-        // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             updateStockStats();
             
-            // Auto-refresh every 60 seconds
             setInterval(function() {
                 console.log('Checking stock levels...');
-                // Here you would typically make an AJAX call
             }, 60000);
         });
 
-        // Show stock alert notification
-        setTimeout(() => {
-            showNotification('พบสินค้าหมดสต็อกทั้งหมด 24 รายการ กรุณาเติมสต็อกด่วน!', 'danger');
-        }, 2000);
     </script>
 </body>
 </html>

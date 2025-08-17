@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เติมสต็อกสินค้า - WebYAI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Kanit', sans-serif; background: #f8f9fa; }
+        .container { max-width: 500px; margin-top: 48px; }
+        .card { border-radius: 18px; box-shadow: 0 4px 18px rgba(102,126,234,0.08); }
+        .form-label { font-weight: 500; }
+        .btn-primary { background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card p-4">
+            <h3 class="mb-3 text-center"><i class="fas fa-plus-square text-primary me-2"></i> เติมสต็อกสินค้า</h3>
+            <form id="addStockForm">
+                <div class="mb-3">
+                    <label for="orderNumber" class="form-label">เลขใบออเดอร์ที่รับของมา <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="orderNumber" required placeholder="กรอกเลขใบออเดอร์">
+                </div>
+                <div class="mb-3">
+                    <label for="itemSelect" class="form-label">เลือกค่าสายตา (ไอเทมที่รับมา) <span class="text-danger">*</span></label>
+                    <select class="form-select" id="itemSelect" required>
+                        <option value="" disabled selected>เลือกค่าสายตา</option>
+                        <option value="-1.00">-1.00</option>
+                        <option value="-1.50">-1.50</option>
+                        <option value="-2.00">-2.00</option>
+                        <option value="-2.50">-2.50</option>
+                        <option value="-3.00">-3.00</option>
+                        <option value="-3.50">-3.50</option>
+                        <option value="-4.00">-4.00</option>
+                        <!-- เพิ่มค่าสายตาอื่น ๆ ตามต้องการ -->
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="qty" class="form-label">จำนวนสินค้าที่รับมา (กล่อง) <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" id="qty" min="1" required placeholder="กรอกจำนวนกล่อง">
+                </div>
+                <button type="submit" class="btn btn-primary w-100"><i class="fas fa-save"></i> บันทึกการเติมสต็อก</button>
+            </form>
+            <div id="resultMsg" class="mt-3"></div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('addStockForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const orderNumber = document.getElementById('orderNumber').value.trim();
+            const item = document.getElementById('itemSelect').value;
+            const qty = document.getElementById('qty').value;
+            if (!orderNumber || !item || !qty || qty < 1) {
+                document.getElementById('resultMsg').innerHTML = '<div class="alert alert-danger">กรุณากรอกข้อมูลให้ครบถ้วน</div>';
+                return;
+            }
+            // Mockup: แสดงผลลัพธ์
+            document.getElementById('resultMsg').innerHTML = `<div class='alert alert-success'>เติมสต็อกสำเร็จ!<br>เลขใบออเดอร์: <strong>${orderNumber}</strong><br>ค่าสายตา: <strong>${item}</strong><br>จำนวน: <strong>${qty}</strong> กล่อง</div>`;
+            this.reset();
+        });
+    </script>
+</body>
+</html>
