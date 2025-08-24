@@ -64,27 +64,42 @@
           const name = product?.name || item.name || 'Alice MOIST (30 เลนส์/ชุด)';
           let imgPath = product?.image || item.image || 'product1.png';
           if (imgPath && !imgPath.startsWith('../')) imgPath = '../images/' + imgPath.replace(/^images\//, '').replace(/^\/images\//, '');
+
+          // Logic: 1 ชุด = ตาขวาเท่านั้น, 2/4 ชุด = ตาขวา+ตาซ้าย
+          let eyesHtml = '';
+          if (item.quantity == 1) {
+            eyesHtml = `<div>ตาขวา <span style="color:#888;">ค่าสายตา: ${item.rightEye || '-'}</span> <span style="float:right; color:#183a7a; font-weight:600;">${item.rightEye ? (pd.price).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})+' บาท' : ''}</span></div>`;
+          } else {
+            eyesHtml = `
+              <div>ตาขวา <span style="color:#888;">ค่าสายตา: ${item.rightEye || '-'}</span> <span style="float:right; color:#183a7a; font-weight:600;">${item.rightEye ? (pd.price/item.quantity).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})+' บาท' : ''}</span></div>
+              <div>ตาซ้าย <span style="color:#888;">ค่าสายตา: ${item.leftEye || '-'}</span> <span style="float:right; color:#183a7a; font-weight:600;">${item.leftEye ? (pd.price/item.quantity).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})+' บาท' : ''}</span></div>
+            `;
+          }
+
+          // Quantity select: 1 ชุด = เลือกได้เฉพาะ 1, 2/4 ชุด = เลือกได้เฉพาะ 2 หรือ 4
+          let qtyOptions = '';
+          if (item.quantity == 1) {
+            qtyOptions = `<option value="1" selected>1 ชุด (30 เลนส์)</option>`;
+          } else {
+            qtyOptions = `
+              <option value="2" ${item.quantity==2?'selected':''}>2 ชุด (60 เลนส์)</option>
+              <option value="4" ${item.quantity==4?'selected':''}>4 ชุด (120 เลนส์)</option>
+            `;
+          }
+
           cartItemsList.innerHTML += `
             <div style="display:flex; gap:18px; align-items:flex-start; margin-bottom:24px; border-bottom:1px solid #f0f0f0; padding-bottom:18px;">
               <img src="${imgPath}" alt="${name}" style="width:80px; height:80px; border-radius:12px; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.09); object-fit:contain;">
               <div style="flex:1;">
                 <div style="font-size:1.08rem; font-weight:600; color:#183a7a; margin-bottom:4px;">${name}</div>
                 <div style="font-size:0.98rem; color:#333; margin-bottom:6px;">
-                  <div>ตาขวา <span style="color:#888;">ค่าสายตา: ${item.rightEye || '-'}</span> <span style="float:right; color:#183a7a; font-weight:600;">${item.rightEye ? (pd.price/item.quantity).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})+' บาท' : ''}</span></div>
-                  <div>ตาซ้าย <span style="color:#888;">ค่าสายตา: ${item.leftEye || '-'}</span> <span style="float:right; color:#183a7a; font-weight:600;">${item.leftEye ? (pd.price/item.quantity).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})+' บาท' : ''}</span></div>
+                  ${eyesHtml}
                 </div>
                 <a href="#" style="color:#e74c3c; font-size:0.97rem; text-decoration:underline;" onclick="removeFromCart(${item.id}); event.preventDefault();">ยกเลิก</a>
                 <div style="margin-top:10px;">
                   <label for="cart-qty-${item.id}" style="font-size:0.97rem; color:#555;">จำนวน</label>
                   <select id="cart-qty-${item.id}" style="padding:5px 12px; border-radius:6px; border:1px solid #ddd; font-size:1rem; min-width:90px; margin-left:8px;" onchange="updateQuantityNoModal(${item.id}, this.value - ${item.quantity}); renderCartPage();">
-                    ${item.rightEye && item.leftEye ? `
-                      <option value="2" ${item.quantity==2?'selected':''}>2 ชุด (60 เลนส์)</option>
-                      <option value="4" ${item.quantity==4?'selected':''}>4 ชุด (120 เลนส์)</option>
-                    ` : `
-                      <option value="1" ${item.quantity==1?'selected':''}>1 ชุด (30 เลนส์)</option>
-                      <option value="2" ${item.quantity==2?'selected':''}>2 ชุด (60 เลนส์)</option>
-                      <option value="4" ${item.quantity==4?'selected':''}>4 ชุด (120 เลนส์)</option>
-                    `}
+                    ${qtyOptions}
                   </select>
                 </div>
               </div>
