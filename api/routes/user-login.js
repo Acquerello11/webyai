@@ -8,21 +8,26 @@ const router = express.Router();
 router.post('/register', async (req, res) => {
   const { user_name, phone, email, password } = req.body;
   if (!user_name || !phone || !email || !password) {
+    console.error('Register: Missing fields', { user_name, phone, email, password });
     return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบทุกช่อง' });
   }
   try {
     db.get('SELECT user_id FROM users WHERE phone = ?', [phone], async (err, userPhone) => {
       if (err) {
+        console.error('DB error (check phone):', err);
         return res.status(500).json({ error: 'เกิดข้อผิดพลาดในระบบ' });
       }
       if (userPhone) {
+        console.error('Register: Duplicate phone', phone);
         return res.status(409).json({ error: 'เบอร์โทรศัพท์นี้ถูกใช้แล้ว' });
       }
       db.get('SELECT user_id FROM users WHERE user_email = ?', [email], async (err2, userEmail) => {
         if (err2) {
+          console.error('DB error (check email):', err2);
           return res.status(500).json({ error: 'เกิดข้อผิดพลาดในระบบ' });
         }
         if (userEmail) {
+          console.error('Register: Duplicate email', email);
           return res.status(409).json({ error: 'อีเมลนี้ถูกใช้แล้ว' });
         }
         const hash = await bcrypt.hash(password, 10);
@@ -34,6 +39,7 @@ router.post('/register', async (req, res) => {
           [user_name, phone, email, hash, verificationCode],
           async function (err3) {
             if (err3) {
+              console.error('DB error (insert user):', err3);
               return res.status(500).json({ error: 'เกิดข้อผิดพลาดในระบบ' });
             }
             try {
@@ -44,7 +50,6 @@ router.post('/register', async (req, res) => {
                 html: `<p>รหัสยืนยัน 6 หลักของคุณคือ: <strong>${verificationCode}</strong></p>`
               });
             } catch (mailErr) {
-              // ไม่ต้อง block การสมัคร ถ้าอีเมลส่งไม่สำเร็จ
               console.error('Email send error:', mailErr);
             }
             res.json({ success: true });
@@ -62,6 +67,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', (req, res) => {
   const { login, password } = req.body; // login = email หรือ phone
   if (!login || !password) {
+    console.error('Login: Missing login or password', { login, password });
     return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
   }
   db.get(
@@ -69,16 +75,20 @@ router.post('/login', (req, res) => {
     [login, login],
     async (err, user) => {
       if (err) {
+        console.error('DB error (login):', err);
         return res.status(500).json({ error: 'เกิดข้อผิดพลาดในระบบ' });
       }
       if (!user) {
+        console.error('Login: User not found', login);
         return res.status(401).json({ error: 'ไม่พบผู้ใช้หรือข้อมูลไม่ถูกต้อง' });
       }
       const match = await bcrypt.compare(password, user.user_password);
       if (!match) {
+        console.error('Login: Incorrect password', login);
         return res.status(401).json({ error: 'รหัสผ่านไม่ถูกต้อง' });
       }
       if (!user.email_verified_at) {
+        console.error('Login: Email not verified', login);
         return res.status(403).json({ error: 'ยังไม่ได้ยืนยันอีเมล' });
       }
       res.json({
@@ -97,13 +107,20 @@ router.post('/login', (req, res) => {
 router.post('/verify-email', (req, res) => {
   const { email, code } = req.body;
   db.get('SELECT email_verification_code FROM users WHERE user_email = ?', [email], (err, user) => {
-    if (err || !user) return res.status(400).json({ error: 'ไม่พบผู้ใช้' });
+    if (err || !user) {
+      console.error('Verify email: user not found or DB error', err, email);
+      return res.status(400).json({ error: 'ไม่พบผู้ใช้' });
+    }
     if (user.email_verification_code === code) {
       db.run('UPDATE users SET email_verified_at = CURRENT_TIMESTAMP, email_verification_code = NULL WHERE user_email = ?', [email], (err2) => {
-        if (err2) return res.status(400).json({ error: 'อัปเดตสถานะไม่สำเร็จ' });
+        if (err2) {
+          console.error('Verify email: update error', err2, email);
+          return res.status(400).json({ error: 'อัปเดตสถานะไม่สำเร็จ' });
+        }
         res.json({ success: true });
       });
     } else {
+      console.error('Verify email: code incorrect', code, email);
       res.status(400).json({ error: 'รหัสยืนยันไม่ถูกต้อง' });
     }
   });
@@ -112,20 +129,36 @@ router.post('/verify-email', (req, res) => {
 // Reset password
 router.post('/reset-password', async (req, res) => {
   const { email, newPassword, confirmPassword } = req.body;
-  if (!email || !newPassword || !confirmPassword) return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
-  if (newPassword !== confirmPassword) return res.status(400).json({ error: 'รหัสผ่านใหม่ไม่ตรงกัน' });
-  if (newPassword.length < 6) return res.status(400).json({ error: 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร' });
+  if (!email || !newPassword || !confirmPassword) {
+    console.error('Reset password: missing fields', { email, newPassword, confirmPassword });
+    return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
+  }
+  if (newPassword !== confirmPassword) {
+    console.error('Reset password: password not match', { email });
+    return res.status(400).json({ error: 'รหัสผ่านใหม่ไม่ตรงกัน' });
+  }
+  if (newPassword.length < 6) {
+    console.error('Reset password: password too short', { email });
+    return res.status(400).json({ error: 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร' });
+  }
   db.get('SELECT * FROM users WHERE user_email = ?', [email], async (err, user) => {
-    if (err || !user) return res.status(404).json({ error: 'ไม่พบอีเมลนี้ในระบบ' });
+    if (err || !user) {
+      console.error('Reset password: user not found or DB error', err, email);
+      return res.status(404).json({ error: 'ไม่พบอีเมลนี้ในระบบ' });
+    }
     const hash = await bcrypt.hash(newPassword, 10);
     db.run('UPDATE users SET user_password = ? WHERE user_email = ?', [hash, email], (err2) => {
-      if (err2) return res.status(500).json({ error: 'อัปเดตรหัสผ่านไม่สำเร็จ' });
+      if (err2) {
+        console.error('Reset password: update error', err2, email);
+        return res.status(500).json({ error: 'อัปเดตรหัสผ่านไม่สำเร็จ' });
+      }
       transporter.sendMail({
         from: `"Alice Moist" <${process.env.EMAIL_USER}>`,
         to: email,
         subject: 'เปลี่ยนรหัสผ่าน Alice Moist',
         html: `<p>คุณได้เปลี่ยนรหัสผ่านเรียบร้อยแล้ว หากไม่ได้เป็นผู้ดำเนินการ กรุณาติดต่อทีมงาน</p>`
-      }, () => {
+      }, (mailErr) => {
+        if (mailErr) console.error('Reset password: send mail error', mailErr, email);
         res.json({ success: true });
       });
     });
