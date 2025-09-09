@@ -762,12 +762,12 @@
       <h2 class="verification-title">ยืนยันอีเมลของคุณ</h2>
       <p class="verification-text">เราได้ส่งรหัสยืนยันไปยังอีเมล <span id="userEmail">user@example.com</span> กรุณากรอกรหัสยืนยัน 6 หลักที่ได้รับในอีเมลของคุณ</p>
       <div class="verification-code">
-        <input type="text" class="code-input" maxlength="1">
-        <input type="text" class="code-input" maxlength="1">
-        <input type="text" class="code-input" maxlength="1">
-        <input type="text" class="code-input" maxlength="1">
-        <input type="text" class="code-input" maxlength="1">
-        <input type="text" class="code-input" maxlength="1">
+  <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 1">
+  <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 2">
+  <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 3">
+  <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 4">
+  <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 5">
+  <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 6">
       </div>
       <button class="btn" id="verifyBtn">ยืนยัน</button>
       <div class="form-footer">
@@ -930,34 +930,40 @@
     // ==================== Email Verification ====================
     function showVerificationModal(email) {
       userEmailSpan.textContent = email;
-  verificationModal.classList.add('show');
+      verificationModal.classList.add('show');
       // Clear code inputs
       codeInputs.forEach(input => input.value = '');
       // Focus first input
       setTimeout(() => codeInputs[0].focus(), 100);
+        // ตรวจสอบว่า modal โชว์จริงไหม
+        setTimeout(() => {
+          if (!verificationModal.classList.contains('show')) {
+            showNotification('เกิดข้อผิดพลาด: ไม่สามารถแสดงหน้าต่างยืนยันอีเมล', 'error');
+          }
+        }, 300);
     }
-    
+
     async function verifyEmail() {
       let code = '';
       codeInputs.forEach(input => { code += input.value; });
-      
-  if (code.length === 6 && /^\d{6}$/.test(code)) {
+
+      if (code.length === 6 && /^\d{6}$/.test(code)) {
         const email = userEmailSpan.textContent;
         try {
           showLoading('กำลังยืนยันอีเมล...');
-          
-          // ส่งรหัสยืนยันไปยังเซิร์ฟเวอร์
+
+          // ส่งรหัสยืนยันไปยังเซิร์ฟเวอร์ (key ต้องเป็น code)
           const res = await fetch(`${API_BASE_URL}/api/user-login/verify-email`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               email: email,
-              verification_code: code
+              code: code
             })
           });
-          
+
           const data = await res.json();
-          
+
           if (res.ok && data.success) {
             showNotification('ยืนยันอีเมลสำเร็จ! คุณสามารถเข้าสู่ระบบได้แล้ว', 'success');
             // Save user data
@@ -1022,26 +1028,24 @@
 
       try {
         showLoading('กำลังเข้าสู่ระบบ...');
-        
-        // API call สำหรับล็อกอิน
-  const res = await fetch(`${API_BASE_URL}/api/user-login/login`, {
+
+        // API call สำหรับล็อกอิน (key ต้องเป็น login)
+        const res = await fetch(`${API_BASE_URL}/api/user-login/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            username: username,
+            login: username,
             password: password
           })
         });
-        
+
         const data = await res.json();
-        
-        if (res.ok && data.success) {
+
+        if (res.ok && data.user_email) {
           showNotification('เข้าสู่ระบบสำเร็จ! จะนำคุณไปยังหน้าหลัก', 'success');
-          
+
           // Save user data
-          localStorage.setItem('buyer_email', data.email || username);
-          localStorage.setItem('buyer_token', data.token || '');
-          
+          localStorage.setItem('buyer_email', data.user_email || username);
           // Redirect to dashboard
           setTimeout(() => {
             window.location.href = 'buyer-dashboard.html';
