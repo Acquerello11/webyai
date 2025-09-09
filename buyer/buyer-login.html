@@ -762,16 +762,24 @@
       <h2 class="verification-title">ยืนยันอีเมลของคุณ</h2>
       <p class="verification-text">เราได้ส่งรหัสยืนยันไปยังอีเมล <span id="userEmail">user@example.com</span> กรุณากรอกรหัสยืนยัน 6 หลักที่ได้รับในอีเมลของคุณ</p>
       <div class="verification-code">
-  <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 1">
-  <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 2">
-  <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 3">
-  <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 4">
-  <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 5">
-  <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 6">
+        <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 1">
+        <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 2">
+        <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 3">
+        <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 4">
+        <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 5">
+        <input type="text" class="code-input" maxlength="1" aria-label="รหัสยืนยันหลักที่ 6">
       </div>
       <button class="btn" id="verifyBtn">ยืนยัน</button>
       <div class="form-footer">
         ไม่ได้รับอีเมล? <span class="resend-link" id="resendLink">ส่งอีกครั้ง</span>
+      </div>
+      <div class="form-footer" style="margin-top:18px;">
+        <button class="btn" id="changeEmailBtn" style="background:#fff;color:#183a7a;border:1.5px solid #183a7a;margin-bottom:10px;">เปลี่ยนอีเมล</button>
+        <button class="btn" id="backToLoginBtn" style="background:#f8fafc;color:#183a7a;border:1.5px solid #183a7a;">กลับไปหน้าเข้าสู่ระบบ</button>
+      </div>
+      <div id="changeEmailForm" style="display:none;margin-top:18px;">
+        <input type="email" id="newEmailInput" class="form-control" placeholder="กรอกอีเมลใหม่">
+        <button class="btn" id="submitChangeEmailBtn" style="margin-top:10px;">ยืนยันอีเมลใหม่</button>
       </div>
     </div>
   </div>
@@ -931,16 +939,17 @@
     function showVerificationModal(email) {
       userEmailSpan.textContent = email;
       verificationModal.classList.add('show');
+      document.getElementById('changeEmailForm').style.display = 'none';
       // Clear code inputs
       codeInputs.forEach(input => input.value = '');
       // Focus first input
       setTimeout(() => codeInputs[0].focus(), 100);
-        // ตรวจสอบว่า modal โชว์จริงไหม
-        setTimeout(() => {
-          if (!verificationModal.classList.contains('show')) {
-            showNotification('เกิดข้อผิดพลาด: ไม่สามารถแสดงหน้าต่างยืนยันอีเมล', 'error');
-          }
-        }, 300);
+      // ตรวจสอบว่า modal โชว์จริงไหม
+      setTimeout(() => {
+        if (!verificationModal.classList.contains('show')) {
+          showNotification('เกิดข้อผิดพลาด: ไม่สามารถแสดงหน้าต่างยืนยันอีเมล', 'error');
+        }
+      }, 300);
     }
 
     async function verifyEmail() {
@@ -1224,28 +1233,25 @@
       loginBtn.addEventListener('click', login);
       registerBtn.addEventListener('click', register);
       verifyBtn.addEventListener('click', verifyEmail);
-      
+
       forgotPasswordLink.addEventListener('click', (e) => {
         e.preventDefault();
         openResetPasswordModal();
       });
-      
+
       resetPasswordBtn.addEventListener('click', resetPassword);
-      
+
       resendLink.addEventListener('click', async () => {
         try {
           showLoading('กำลังส่งรหัสยืนยันใหม่...');
           const email = userEmailSpan.textContent;
-          
           // API call สำหรับส่งรหัสยืนยันอีกครั้ง
           const res = await fetch(`${API_BASE_URL}/api/user-login/resend-verification`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: email })
           });
-          
           const data = await res.json();
-          
           if (res.ok && data.success) {
             showNotification('ส่งรหัสยืนยันใหม่ไปยังอีเมลของคุณแล้ว', 'success');
           } else {
@@ -1258,12 +1264,51 @@
           hideLoading();
         }
       });
-      
+
+      // เปลี่ยนอีเมล
+      document.getElementById('changeEmailBtn').addEventListener('click', function() {
+        document.getElementById('changeEmailForm').style.display = 'block';
+      });
+      document.getElementById('submitChangeEmailBtn').addEventListener('click', async function() {
+        const newEmail = document.getElementById('newEmailInput').value.trim();
+        if (!/^\S+@\S+\.\S+$/.test(newEmail)) {
+          showNotification('กรุณากรอกอีเมลใหม่ให้ถูกต้อง', 'error');
+          return;
+        }
+        showLoading('กำลังเปลี่ยนอีเมล...');
+        try {
+          // เรียก API เปลี่ยนอีเมล (ใช้ resend-verification แต่เปลี่ยนอีเมล)
+          const res = await fetch(`${API_BASE_URL}/api/user-login/resend-verification`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: newEmail })
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            userEmailSpan.textContent = newEmail;
+            showNotification('เปลี่ยนอีเมลสำเร็จและส่งรหัสยืนยันใหม่แล้ว', 'success');
+            document.getElementById('changeEmailForm').style.display = 'none';
+          } else {
+            showNotification(data.error || 'เกิดข้อผิดพลาดในการเปลี่ยนอีเมล', 'error');
+          }
+        } catch (e) {
+          showNotification('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์', 'error');
+        } finally {
+          hideLoading();
+        }
+      });
+
+      // กลับไปหน้าเข้าสู่ระบบ
+      document.getElementById('backToLoginBtn').addEventListener('click', function() {
+        verificationModal.classList.remove('show');
+        switchToLogin();
+      });
+
       closeResetPasswordModal.addEventListener('click', (e) => {
         e.preventDefault();
         closeResetPassword();
       });
-      
+
       closeVerificationModal.addEventListener('click', () => {
         verificationModal.classList.remove('show');
       });
