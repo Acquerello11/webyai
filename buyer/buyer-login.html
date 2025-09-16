@@ -15,6 +15,7 @@
       --bg2: #f8fafc;
       --danger: #e74c3c;
       --success: #2ecc71;
+      --warning: #f39c12;
       --text-main: #183a7a;
       --text-muted: #7b8fa6;
       --shadow: 0 4px 18px 0 rgba(24,58,122,0.10), 0 2px 8px rgba(44,62,80,0.06);
@@ -371,7 +372,7 @@
       cursor: pointer;
       transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.18s;
       margin-top: 14px;
-  box-shadow: 0 2px 16px var(--primary)22;
+      box-shadow: 0 2px 16px var(--primary)22;
       letter-spacing: 0.35px;
       text-shadow: 0 1px 2px var(--primary-dark)22;
     }
@@ -535,6 +536,10 @@
       border-left: 6px solid var(--danger);
     }
 
+    .notification.warning {
+      border-left: 6px solid var(--warning);
+    }
+
     .notification.show {
       opacity: 1;
       pointer-events: auto;
@@ -588,6 +593,53 @@
       z-index: 0;
     }
 
+    /* เพิ่มสไตล์สำหรับ loading spinner */
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      display: inline-block;
+      margin-right: 8px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* เพิ่มสไตล์สำหรับปุ่ม disabled */
+    .btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+    
+    /* เพิ่มสไตล์สำหรับข้อความช่วยเหลือ */
+    .form-hint {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      display: block;
+    }
+    
+    /* เพิ่มสไตล์สำหรับ password strength meter */
+    .password-strength {
+      height: 6px;
+      margin-top: 8px;
+      border-radius: 3px;
+      background: #eee;
+      overflow: hidden;
+    }
+    
+    .password-strength-bar {
+      height: 100%;
+      width: 0;
+      transition: width 0.3s, background 0.3s;
+    }
+    
+    /* เพิ่ม media query สำหรับหน้าจอขนาดเล็ก */
     @media (max-width: 1100px) {
       .login-container {
         flex-direction: column;
@@ -618,7 +670,7 @@
       }
 
       .login-container {
-  margin: 0;
+        margin: 0;
         border-radius: 0;
         box-shadow: none;
       }
@@ -653,6 +705,15 @@
       .quick-nav-btn {
         width: 100%;
         justify-content: center;
+      }
+      
+      .hero-illustration {
+        display: none;
+      }
+      
+      .form-control {
+        padding: 16px;
+        font-size: 16px; /* ป้องกันการ zoom บน iOS */
       }
     }
   </style>
@@ -723,6 +784,7 @@
               <input type="tel" id="phone" class="form-control" placeholder=" ">
               <label for="phone">เบอร์โทรศัพท์</label>
               <div class="error-message" id="phoneError"></div>
+              <span class="form-hint">รูปแบบ: 0812345678</span>
             </div>
             <div class="form-group">
               <input type="email" id="email" class="form-control" placeholder=" ">
@@ -732,10 +794,14 @@
             <div class="form-group">
               <div class="input-icon">
                 <input type="password" id="password" class="form-control" placeholder=" ">
-                <label for="password">รหัสผ่าน (6 ตัวขึ้นไป)</label>
+                <label for="password">รหัสผ่าน (8 ตัวขึ้นไป)</label>
                 <span class="password-toggle"><i class="fas fa-eye"></i></span>
               </div>
               <div class="error-message" id="passwordError"></div>
+              <div class="password-strength">
+                <div class="password-strength-bar" id="passwordStrengthBar"></div>
+              </div>
+              <span class="form-hint">รหัสผ่านต้องมีตัวเลขอย่างน้อย 1 ตัว</span>
             </div>
             <div class="form-group">
               <div class="input-icon">
@@ -791,15 +857,21 @@
         <i class="fas fa-key"></i>
       </div>
       <h2 class="verification-title">รีเซ็ตรหัสผ่าน</h2>
-  <p class="verification-text">กรอกอีเมล รหัสผ่านใหม่ และยืนยันรหัสผ่าน</p>
+      <p class="verification-text">กรอกอีเมล รหัสผ่านใหม่ และยืนยันรหัสผ่าน</p>
       <div class="form-group">
         <input type="email" id="resetEmail" class="form-control" placeholder="อีเมล" required>
       </div>
       <div class="form-group">
-        <input type="password" id="resetNewPassword" class="form-control" placeholder="รหัสผ่านใหม่ (6 ตัวขึ้นไป)" required>
+        <div class="input-icon">
+          <input type="password" id="resetNewPassword" class="form-control" placeholder="รหัสผ่านใหม่ (8 ตัวขึ้นไป)" required>
+          <span class="password-toggle"><i class="fas fa-eye"></i></span>
+        </div>
       </div>
       <div class="form-group">
-        <input type="password" id="resetConfirmPassword" class="form-control" placeholder="ยืนยันรหัสผ่านใหม่" required>
+        <div class="input-icon">
+          <input type="password" id="resetConfirmPassword" class="form-control" placeholder="ยืนยันรหัสผ่านใหม่" required>
+          <span class="password-toggle"><i class="fas fa-eye"></i></span>
+        </div>
       </div>
       <button class="btn" id="resetPasswordBtn">รีเซ็ตรหัสผ่าน</button>
       <div class="form-footer">
@@ -826,6 +898,7 @@
     const resetPasswordBtn = document.getElementById('resetPasswordBtn');
     const closeResetPasswordModal = document.getElementById('closeResetPasswordModal');
     const closeVerificationModal = document.getElementById('closeVerificationModal');
+    const passwordStrengthBar = document.getElementById('passwordStrengthBar');
     
     // ==================== Constants ====================
     const API_BASE_URL = 'http://localhost:3000';
@@ -857,10 +930,10 @@
       if (existing) existing.remove();
       
       const notification = document.createElement('div');
-  notification.className = `notification ${type}`;
+      notification.className = `notification ${type}`;
       notification.innerHTML = `
         <div class="notification-content">
-          <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+          <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'exclamation-circle'}"></i>
           ${message}
         </div>
       `;
@@ -902,6 +975,29 @@
       if (overlay) overlay.style.display = 'none';
     }
     
+    // ฟังก์ชันตรวจสอบความถูกต้องของอีเมล
+    function isValidEmail(email) {
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+    }
+    
+    // ฟังก์ชันตรวจสอบความแข็งแกร่งของรหัสผ่าน
+    function checkPasswordStrength(password) {
+      let strength = 0;
+      
+  if (password.length >= 8) strength += 40;
+      if (/[A-Z]/.test(password)) strength += 20;
+      if (/[0-9]/.test(password)) strength += 20;
+      if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+      
+      return Math.min(strength, 100);
+    }
+    
+    // ฟังก์ชันตรวจสอบเบอร์โทรศัพท์ไทย
+    function isValidThaiPhone(phone) {
+      return /^0[0-9]{9}$/.test(phone);
+    }
+    
     // ==================== Form Switching ====================
     function switchToLogin() {
       loginTab.classList.add('active');
@@ -937,19 +1033,17 @@
     
     // ==================== Email Verification ====================
     function showVerificationModal(email) {
-      userEmailSpan.textContent = email;
-      verificationModal.classList.add('show');
-      document.getElementById('changeEmailForm').style.display = 'none';
-      // Clear code inputs
-      codeInputs.forEach(input => input.value = '');
-      // Focus first input
-      setTimeout(() => codeInputs[0].focus(), 100);
-      // ตรวจสอบว่า modal โชว์จริงไหม
-      setTimeout(() => {
-        if (!verificationModal.classList.contains('show')) {
-          showNotification('เกิดข้อผิดพลาด: ไม่สามารถแสดงหน้าต่างยืนยันอีเมล', 'error');
-        }
-      }, 300);
+  userEmailSpan.textContent = email;
+  verificationModal.classList.add('show');
+  // เพิ่มการตั้งค่า display style เพื่อให้แน่ใจว่า modal แสดง
+  verificationModal.style.display = 'flex';
+  document.getElementById('changeEmailForm').style.display = 'none';
+  // Clear code inputs
+  codeInputs.forEach(input => input.value = '');
+  // Focus first input
+  setTimeout(() => codeInputs[0].focus(), 100);
+  // ล็อกการแสดง modal (สำหรับ debug)
+  console.log('Verification modal shown for email:', email);
     }
 
     async function verifyEmail() {
@@ -961,7 +1055,7 @@
         try {
           showLoading('กำลังยืนยันอีเมล...');
 
-          // ส่งรหัสยืนยันไปยังเซิร์ฟเวอร์ (key ต้องเป็น code)
+          // ส่งรหัสยืนยันไปยังเซิร์ฟเวอร์
           const res = await fetch(`${API_BASE_URL}/api/user-login/verify-email`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -979,7 +1073,8 @@
             localStorage.setItem('buyer_email', email);
             // Close modal
             verificationModal.classList.remove('show');
-            // ไม่ต้องสลับแท็บไปที่ล็อกอิน ให้ผู้ใช้กดสลับแท็บเอง
+            // สลับไปที่ฟอร์มล็อกอิน
+            switchToLogin();
           } else {
             showNotification(data.error || 'รหัสยืนยันไม่ถูกต้อง', 'error');
           }
@@ -1028,17 +1123,19 @@
       if (!password) {
         showError('loginPassword', 'กรุณากรอกรหัสผ่าน');
         valid = false;
-      } else if (password.length < 6) {
-        showError('loginPassword', 'รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัว');
+      } else if (password.length < 8) {
+        showError('loginPassword', 'รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัว');
         valid = false;
       }
 
       if (!valid) return;
 
       try {
-        showLoading('กำลังเข้าสู่ระบบ...');
+        // แสดงสถานะ loading บนปุ่ม
+        loginBtn.innerHTML = '<div class="spinner"></div> กำลังเข้าสู่ระบบ...';
+        loginBtn.disabled = true;
 
-        // API call สำหรับล็อกอิน (key ต้องเป็น login)
+        // API call สำหรับล็อกอิน
         const res = await fetch(`${API_BASE_URL}/api/user-login/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -1066,17 +1163,14 @@
         showNotification('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์', 'error');
         console.error('[ERROR] login', e);
       } finally {
-        hideLoading();
+        // คืนสถานะปุ่มเป็นปกติ
+        loginBtn.innerHTML = '<i class="fas fa-arrow-right login-btn-icon"></i> เข้าสู่ระบบ';
+        loginBtn.disabled = false;
       }
     }
     
     // ==================== Registration Functionality ====================
-    let isRegistering = false;
     async function register() {
-      if (verificationModal.classList.contains('show') || isRegistering) return;
-      isRegistering = true;
-      showLoading('กำลังสมัครสมาชิก...');
-      
       const fullName = document.getElementById('fullName').value.trim();
       const phone = document.getElementById('phone').value.trim();
       const email = document.getElementById('email').value.trim();
@@ -1086,41 +1180,48 @@
       // Clear errors
       hideError('fullName');
       hideError('phone');
-  hideError('email');
+      hideError('email');
       hideError('password');
       hideError('confirmPassword');
 
       let valid = true;
 
       // Validation
-  if (!fullName) {
+      if (!fullName) {
         showError('fullName', 'กรุณากรอกชื่อ-นามสกุล');
         valid = false;
+      } else if (fullName.length < 2) {
+        showError('fullName', 'ชื่อ-นามสกุลต้องมีความยาวอย่างน้อย 2 ตัวอักษร');
+        valid = false;
       }
+      
       if (!phone) {
         showError('phone', 'กรุณากรอกเบอร์โทรศัพท์');
         valid = false;
-      } else if (!/^[0-9]{10}$/.test(phone)) {
-        showError('phone', 'เบอร์โทรศัพท์ต้องเป็นตัวเลข 10 หลัก');
+      } else if (!isValidThaiPhone(phone)) {
+        showError('phone', 'เบอร์โทรศัพท์ต้องเป็นตัวเลข 10 หลักและขึ้นต้นด้วย 0');
         valid = false;
       }
+      
       if (!email) {
         showError('email', 'กรุณากรอกอีเมล');
         valid = false;
-      } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+      } else if (!isValidEmail(email)) {
         showError('email', 'รูปแบบอีเมลไม่ถูกต้อง');
         valid = false;
       }
+      
       if (!password) {
         showError('password', 'กรุณากรอกรหัสผ่าน');
         valid = false;
-      } else if (password.length < 6) {
-        showError('password', 'รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัว');
+      } else if (password.length < 8) {
+        showError('password', 'รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัว');
         valid = false;
       } else if (!/\d/.test(password)) {
         showError('password', 'รหัสผ่านต้องมีตัวเลขอย่างน้อย 1 ตัว');
         valid = false;
       }
+      
       if (!confirmPassword) {
         showError('confirmPassword', 'กรุณายืนยันรหัสผ่าน');
         valid = false;
@@ -1129,13 +1230,13 @@
         valid = false;
       }
       
-      if (!valid) {
-        isRegistering = false;
-        hideLoading();
-        return;
-      }
+      if (!valid) return;
       
       try {
+        // แสดงสถานะ loading บนปุ่ม
+        registerBtn.innerHTML = '<div class="spinner"></div> กำลังสมัครสมาชิก...';
+        registerBtn.disabled = true;
+
         // ส่งข้อมูลไปยัง API สำหรับสมัครสมาชิก
         const res = await fetch(`${API_BASE_URL}/api/user-login/register`, {
           method: 'POST',
@@ -1147,23 +1248,33 @@
             password: password
           })
         });
-        
-        const data = await res.json();
-        
-        if (res.ok && data.success) {
-          // แสดงโมดัลยืนยันอีเมล
-          showVerificationModal(email);
-          // ไม่ต้องสลับแท็บไปที่ล็อกอิน
-          showNotification('ส่งรหัสยืนยันไปยังอีเมลของคุณแล้ว', 'success');
+
+        // เพิ่มการตรวจสอบ response
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success) {
+            // แสดงโมดัลยืนยันอีเมล
+            showVerificationModal(email);
+            if (data.warning) {
+              showNotification(data.warning, 'warning');
+            } else {
+              showNotification('ส่งรหัสยืนยันไปยังอีเมลของคุณแล้ว', 'success');
+            }
+          } else {
+            showNotification(data.error || 'เกิดข้อผิดพลาดในการสมัครสมาชิก', 'error');
+          }
         } else {
-          showNotification(data.error || 'เกิดข้อผิดพลาดในการสมัครสมาชิก', 'error');
+          // หาก response ไม่ใช่ 200 OK
+          const errorData = await res.json().catch(() => ({}));
+          showNotification(errorData.error || `เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์ (สถานะ: ${res.status})`, 'error');
         }
       } catch (e) {
         showNotification('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์', 'error');
         console.error('[ERROR] register', e);
       } finally {
-        isRegistering = false;
-        hideLoading();
+        // คืนสถานะปุ่มเป็นปกติ
+        registerBtn.innerHTML = 'สมัครสมาชิก';
+        registerBtn.disabled = false;
       }
     }
     
@@ -1186,18 +1297,25 @@
         return;
       }
       
+      if (!isValidEmail(email)) {
+        showNotification('รูปแบบอีเมลไม่ถูกต้อง', 'error');
+        return;
+      }
+      
       if (newPassword !== confirmPassword) {
         showNotification('รหัสผ่านใหม่ไม่ตรงกัน', 'error');
         return;
       }
       
-      if (newPassword.length < 6) {
-        showNotification('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร', 'error');
+      if (newPassword.length < 8) {
+        showNotification('รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร', 'error');
         return;
       }
       
       try {
-        showLoading('กำลังรีเซ็ตรหัสผ่าน...');
+        // แสดงสถานะ loading บนปุ่ม
+        resetPasswordBtn.innerHTML = '<div class="spinner"></div> กำลังรีเซ็ตรหัสผ่าน...';
+        resetPasswordBtn.disabled = true;
         
         // API call สำหรับรีเซ็ตรหัสผ่าน
         const res = await fetch(`${API_BASE_URL}/api/user-login/reset-password`, {
@@ -1221,13 +1339,70 @@
         showNotification('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์', 'error');
         console.error('[ERROR] resetPassword', e);
       } finally {
-        hideLoading();
+        // คืนสถานะปุ่มเป็นปกติ
+        resetPasswordBtn.innerHTML = 'รีเซ็ตรหัสผ่าน';
+        resetPasswordBtn.disabled = false;
       }
     }
     
     // ==================== Event Listeners ====================
     document.addEventListener('DOMContentLoaded', () => {
+      // ตรวจสอบว่าผู้ใช้ล็อกอินอยู่แล้วหรือไม่
+      if (localStorage.getItem('buyer_email')) {
+        window.location.href = 'buyer-dashboard.html';
+        return;
+      }
+      
       setupPasswordToggles();
+
+      // Real-time validation สำหรับฟอร์ม
+      document.getElementById('email').addEventListener('blur', function() {
+        if (this.value && !isValidEmail(this.value)) {
+          showError('email', 'รูปแบบอีเมลไม่ถูกต้อง');
+        } else {
+          hideError('email');
+        }
+      });
+      
+      document.getElementById('phone').addEventListener('blur', function() {
+        if (this.value && !isValidThaiPhone(this.value)) {
+          showError('phone', 'เบอร์โทรศัพท์ต้องเป็นตัวเลข 10 หลักและขึ้นต้นด้วย 0');
+        } else {
+          hideError('phone');
+        }
+      });
+      
+      document.getElementById('password').addEventListener('input', function() {
+        const strength = checkPasswordStrength(this.value);
+        const strengthBar = document.getElementById('passwordStrengthBar');
+        
+        if (strengthBar) {
+          strengthBar.style.width = `${strength}%`;
+          
+          if (strength < 40) {
+            strengthBar.style.background = '#e74c3c';
+          } else if (strength < 70) {
+            strengthBar.style.background = '#f39c12';
+          } else {
+            strengthBar.style.background = '#2ecc71';
+          }
+        }
+        
+        if (this.value && !/\d/.test(this.value)) {
+          showError('password', 'รหัสผ่านต้องมีตัวเลขอย่างน้อย 1 ตัว');
+        } else {
+          hideError('password');
+        }
+      });
+      
+      document.getElementById('confirmPassword').addEventListener('blur', function() {
+        const password = document.getElementById('password').value;
+        if (this.value && this.value !== password) {
+          showError('confirmPassword', 'รหัสผ่านไม่ตรงกัน');
+        } else {
+          hideError('confirmPassword');
+        }
+      });
 
       // Button event listeners
       loginBtn.addEventListener('click', login);
@@ -1277,7 +1452,7 @@
         }
         showLoading('กำลังเปลี่ยนอีเมล...');
         try {
-          // เรียก API เปลี่ยนอีเมล (ใช้ resend-verification แต่เปลี่ยนอีเมล)
+          // เรียก API เปลี่ยนอีเมล
           const res = await fetch(`${API_BASE_URL}/api/user-login/resend-verification`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

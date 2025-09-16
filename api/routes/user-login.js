@@ -22,7 +22,8 @@ function validateInput({ user_name, phone, email, password }) {
   return true;
 }
 function validatePassword(password) {
-  return /^(?=.*\d).{8,}$/.test(password);
+  // Only a-z, A-Z, 0-9, at least 8 chars, at least 1 digit
+  return /^(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
 }
 function validateEmail(email) {
   return /^\S+@\S+\.\S+$/.test(email);
@@ -44,7 +45,7 @@ router.post('/register', sensitiveLimiter, async (req, res) => {
     return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบทุกช่อง' });
   }
   if (!validatePassword(password)) {
-    return res.status(400).json({ error: 'รหัสผ่านต้องมีอย่างน้อย 8 ตัว และมีตัวเลขอย่างน้อย 1 ตัว' });
+    return res.status(400).json({ error: 'รหัสผ่านต้องมีอย่างน้อย 8 ตัว ประกอบด้วย a-z, A-Z, 0-9 และมีตัวเลขอย่างน้อย 1 ตัว' });
   }
   if (!validateEmail(email)) {
     return res.status(400).json({ error: 'รูปแบบอีเมลไม่ถูกต้อง' });
@@ -75,11 +76,16 @@ router.post('/register', sensitiveLimiter, async (req, res) => {
         subject: 'ยืนยันอีเมล Alice Moist',
         html: `<p>รหัสยืนยัน 6 หลักของคุณคือ: <strong>${verificationCode}</strong></p>`
       });
+      // ตอบกลับว่าสำเร็จ
+      return res.json({ success: true });
     } catch (mailErr) {
-      // log error เฉพาะ mail
       console.error('Email send error:', mailErr);
+      // แม้ส่งอีเมลไม่สำเร็จ แต่ยังบันทึกผู้ใช้แล้ว จึงตอบกลับสำเร็จแต่แจ้งเตือน
+      return res.json({ 
+        success: true, 
+        warning: 'การส่งอีเมลยืนยันมีปัญหา แต่คุณสามารถขอส่งใหม่ได้ในหน้าถัดไป' 
+      });
     }
-    res.json({ success: true });
   } catch (err) {
     // log error สำคัญ
     console.error('Register error:', err);
